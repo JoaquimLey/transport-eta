@@ -1,4 +1,4 @@
-![AppIcon](../master/sample/src/main/res/mipmap-xxhdpi/ic_launcher.png) 
+![AppIcon](https://raw.githubusercontent.com/JoaquimLey/bus-eta/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png?token=AGmh_Pt2nHwIUsN-QmVfaL56Q0cnYrhWks5ZQYebwA%3D%3D) 
 
 # Bus Eta
 ![minSdkVersion](https://img.shields.io/badge/minSdkVersion-15-green.svg?style=true)
