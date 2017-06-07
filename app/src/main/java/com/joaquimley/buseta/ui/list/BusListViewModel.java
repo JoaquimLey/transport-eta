@@ -28,6 +28,10 @@ public class BusListViewModel extends ViewModel {
 	private MutableLiveData<BusEntity> selectedItem;
 	private LiveData<List<BusEntity>> busList;
 
+	public BusListViewModel() {
+		this(null);
+	}
+
 	public BusListViewModel(@Nullable BusRepository busRepository) {
 		if (this.busListRepository != null) {
 			// ViewModel is created per Activity, so instantiate once
@@ -79,11 +83,21 @@ public class BusListViewModel extends ViewModel {
 					@Override
 					public LiveData<List<BusEntity>> apply(Boolean isDbCreated) {
 						if (Boolean.TRUE.equals(isDbCreated)) {
+							onDatabaseCreated();
 							return busListRepository.loadList();
 						}
 						return null;
 					}
 				});
+	}
+
+	// FIXME: 07/06/2017 This is wrong, use dagger to inject dependency instances
+	private void onDatabaseCreated() {
+		if (busListRepository == null) {
+			//noinspection ConstantConditions
+			busListRepository = BusRepository.getInstance(RemoteRepository.getInstance(),
+					DatabaseCreator.getInstance().getDatabase().busDao());
+		}
 	}
 
 	/**
@@ -106,6 +120,9 @@ public class BusListViewModel extends ViewModel {
 		@Override
 		public <T extends ViewModel> T create(Class<T> modelClass) {
 			//noinspection unchecked
+			if (mBusRepository == null) {
+				return (T) new BusListViewModel(null);
+			}
 			return (T) new BusListViewModel(mBusRepository);
 		}
 	}

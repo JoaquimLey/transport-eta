@@ -94,6 +94,15 @@ public class BusListActivity extends AppCompatActivity implements LifecycleRegis
 				}
 			}
 		});
+
+		viewModel.getSelectedItem().observe(this, new Observer<BusEntity>() {
+			@Override
+			public void onChanged(@Nullable BusEntity busEntity) {
+				if (busEntity != null) {
+					hideProgress();
+				}
+			}
+		});
 	}
 
 	private void showBusListInUi(List<BusEntity> busEntities) {
