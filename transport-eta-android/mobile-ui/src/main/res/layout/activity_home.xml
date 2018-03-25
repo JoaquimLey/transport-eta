@@ -2,33 +2,78 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/home_container"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/bottom_navigation_view_height"/>
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edit_text"
+                android:layout_width="wrap_content"
+                android:inputType="number"
+                android:layout_height="wrap_content"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"/>
+
+        <Button
+            android:id="@+id/button"
+            style="@style/ButtonRoundStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>
+
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/home_container"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginBottom="@dimen/bottom_navigation_view_height"/>-->
 
     <!--<android.support.design.widget.BottomNavigationView-->
-        <!--android:id="@+id/navigation"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom"-->
-        <!--android:background="@color/colorPrimaryDark"-->
-        <!--android:elevation="@dimen/bottom_navigation_view_elevation"-->
-        <!--app:itemIconTint="@drawable/selector_navigation_view_buttons"-->
-        <!--app:itemTextColor="@drawable/selector_navigation_view_buttons"-->
-        <!--app:menu="@menu/navigation"-->
-        <!--tools:targetApi="lollipop"/>-->
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp"/>
-
-</android.support.design.widget.CoordinatorLayout>
+    <!--android:id="@+id/navigation"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom"-->
+    <!--android:background="@color/colorPrimaryDark"-->
+    <!--android:elevation="@dimen/bottom_navigation_view_elevation"-->
+    <!--app:itemIconTint="@drawable/selector_navigation_view_buttons"-->
+    <!--app:itemTextColor="@drawable/selector_navigation_view_buttons"-->
+    <!--app:menu="@menu/navigation"-->
+    <!--tools:targetApi="lollipop"/>-->

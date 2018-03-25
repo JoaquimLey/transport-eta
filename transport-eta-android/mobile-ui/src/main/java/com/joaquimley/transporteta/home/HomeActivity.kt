@@ -7,9 +7,10 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import com.joaquimley.transporteta.App
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.HomeViewModel
-import com.joaquimley.transporteta.sms.SmsController
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_home.*
 
 const val SMS_PERMISSION_CODE = 1337
@@ -21,13 +22,19 @@ class HomeActivity : AppCompatActivity() /*, BottomNavigationView.OnNavigationIt
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        setupViewModel()
         if (hasReadSmsPermission().not()) {
             requestReadAndSendSmsPermission()
         }
 
-        setupViewModel()
-        val smsController = SmsController()
-        fab.setOnClickListener { smsController.requestEta(3113) }
+        button.setOnClickListener {
+            App.instance.smsController.requestEta(edit_text.text.toString().toInt())
+            edit_text.text.clear()
+        }
+
+        App.instance.smsController.observeIncomingSms().subscribeOn(AndroidSchedulers.mainThread()).subscribe {
+            text.text = it.message
+        }
     }
 
     private fun setupViewModel() {

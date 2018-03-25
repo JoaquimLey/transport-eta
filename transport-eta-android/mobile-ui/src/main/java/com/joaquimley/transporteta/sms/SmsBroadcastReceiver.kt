@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
-import android.telephony.SmsManager
-import android.util.Log
 import android.widget.Toast
 
 /**
@@ -15,27 +13,17 @@ import android.widget.Toast
 class SmsBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) {
+        if (intent.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
             var smsBody = ""
+            var smsSender = ""
             for (smsMessage in Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
-                smsBody += smsMessage.getMessageBody();
+                smsSender = smsMessage.displayOriginatingAddress
+                smsBody += smsMessage.messageBody
             }
 
-            if (smsBody.startsWith(SMS_CONDITION)) {
+            if (smsSender == SMS_SERVICE_NUMBER && smsBody.startsWith(SMS_CONDITION)) {
                 Toast.makeText(context, "BroadcastReceiver caught conditional SMS: " + smsBody, Toast.LENGTH_LONG).show();
             }
         }
-    }
-}
-
-
-object SmsHelper {
-
-
-
-
-
-    fun sendDebugSms(number: String, smsBody: String) {
-        SmsManager.getDefault().sendTextMessage(number, null, smsBody, null, null)
     }
 }

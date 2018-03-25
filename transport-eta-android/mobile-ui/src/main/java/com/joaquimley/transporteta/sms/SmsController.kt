@@ -5,13 +5,13 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 const val SMS_CONDITION = "SMS@Carris"
-const val SERVICE_NUMBER = "3599"
+const val SMS_SERVICE_NUMBER = "3599"
 
 fun String.isValidPhoneNumber(phoneNumber: String): Boolean {
     return android.util.Patterns.PHONE.matcher(phoneNumber).matches()
 }
 
-class SmsController() {
+class SmsController {
 
     val serviceSms: PublishSubject<SmsModel> = PublishSubject.create()
 
@@ -20,7 +20,7 @@ class SmsController() {
     }
 
     fun requestEta(busStopCode: Int) {
-        SmsManager.getDefault().sendTextMessage(SERVICE_NUMBER, null, "C $busStopCode", null, null)
+        SmsManager.getDefault().sendTextMessage(SMS_SERVICE_NUMBER, null, "C $busStopCode", null, null)
     }
 }
 
