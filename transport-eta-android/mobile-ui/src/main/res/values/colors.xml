@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!-- Main Theme -->
+    <color name="colorPrimary">#4F629F</color>
+    <color name="colorPrimaryDark">#3C4D7D</color>
+    <color name="colorPrimaryLight">#A6AFCB</color>
+
+    <color name="colorAccent">@color/colorPink</color>
+    <color name="colorAccentDark">@color/colorDarkPink</color>
+    <color name="colorAccentDisabled">@color/colorPink</color>
+
+    <color name="colorRipple">@color/colorPrimary</color>
+    <color name="colorRippleDisabled">@color/colorPrimaryLight</color>
+
+    <color name="colorTextPrimary">@color/colorDarkBrown</color>
+    <color name="colorTextSecondary">@color/colorGrey</color>
+    <color name="colorDivider">@color/colorLightGrey</color>
+
+    <!-- Common colors -->
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorCream">#C8CDD8</color>
+    <color name="colorPink">#FF4081</color>
+    <color name="colorGrey">#757575</color>
+    <color name="colorBlack">#000000</color>
+
+    <color name="colorLightGrey">#BDBDBD</color>
+    <color name="colorLightBlue">#919AB1</color>
+    <color name="colorLightPink">#efd5de</color>
+
+    <color name="colorDarkGrey">#323232</color>
+    <color name="colorDarkBrown">#212121</color>
+    <color name="colorDarkPink">#c13060</color>
+
+    <!-- Button Round -->
+    <color name="colorRoundButtonText">@color/colorBlack</color>
+
 </resources>

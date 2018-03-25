@@ -1,11 +1,24 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="ButtonRoundStyle" parent="android:style/Widget.Material.Button">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">@drawable/selector_button_round</item>
+        <item name="android:textSize">@dimen/button_round_text_size</item>
+        <item name="android:minHeight">@dimen/button_round_min_height</item>
+        <item name="android:minWidth">@dimen/button_round_min_width</item>
+        <item name="android:paddingLeft">@dimen/button_round_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/button_round_horizontal_padding</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/colorRoundButtonText</item>
     </style>
 
+
+    <style name="CardItemListStyle" parent="CardView" >
+        <item name="cardCornerRadius">@dimen/card_item_radius</item>
+        <item name="cardElevation">@dimen/card_item_elevation</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardPreventCornerOverlap">true</item>
+    </style>
 </resources>

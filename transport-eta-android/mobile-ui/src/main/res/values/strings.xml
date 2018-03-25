@@ -1,6 +1,66 @@
 <resources>
     <string name="app_name">Transport ETA</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+
+    <!-- Navigation -->
+    <string name="nav_title_home">Home</string>
+    <string name="nav_title_dashboard">Dashboard</string>
+    <string name="nav_title_notifications">Notifications</string>
+
+    <!-- Actions -->
+    <string name="action_settings">Settings</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_try_again">Try again</string>
+    <string name="action_yes">Yes</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_ok">OK</string>
+    <string name="action_search">Search</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_or_register">Sign in or register</string>
+    <string name="action_log_out">Log out</string>
+
+    <!-- Permissions -->
+    <string name="permission_rationale_contacts">Contacts permissions are needed for providing email completions.</string>
+
+    <!-- Image descriptions -->
+    <string name="fav_button_content_description">Favourite Button</string>
+    <string name="favourite_image_content_description">Favourite Image</string>
+
+    <!-- Menu labels -->
+    <string name="menu_search_placeholder">@string/action_search</string>
+    <string name="menu_profile_placeholder">Profile</string>
+
+    <!-- Errors -->
+    <string name="error_sms_request_pending">Still processing last request…</string>
+    <string name="error_google_play_services">Google Play Services error.</string>
+    <string name="error_authentication_failed">Authentication failed: %s</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+
+    <!-- Empty screen -->
+    <string name="empty_message_billy">Billy sad, billy has no favorites</string>
+    <string name="empty_result_message">Ops, no items to display.</string>
+    <string name="empty_button_try_again">@string/action_try_again</string>
+
+
+    <!-- Home -->
+    <string name="home_main_title">Home</string>
+
+    <!-- Favourites Fragment -->
+    <string name="station_code_placeholder">Station: %s</string>
+
+    <!-- Login -->
+    <string name="login_button_sign_in">@string/action_sign_in</string>
+    <string name="login_button_sign_in_or_register">Sign in or register</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+
+    <!-- Logout dialog -->
+    <string name="logout_dialog_title">@string/action_log_out</string>
+    <string name="logout_dialog_message">Are you sure you wish to end your current session?</string>
+
+    <!-- Request sms dialog -->
+    <string name="permission_alert_dialog_title">SMS permission</string>
+    <string name="permission_dialog_message" formatted="false">%s will now request send/read SMS permission on your device.\n\nThis is required in order to use %s services.</string>
 </resources>

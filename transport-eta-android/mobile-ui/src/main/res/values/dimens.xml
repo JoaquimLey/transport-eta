@@ -1,5 +1,24 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!-- Common -->
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="app_bar_height">220dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Bottom Navigation View -->
+    <dimen name="bottom_navigation_view_elevation">8dp</dimen>
+    <dimen name="bottom_navigation_view_height">56dp</dimen>
+
+    <!-- Button Round -->
+    <dimen name="button_round_radius">48dp</dimen>
+    <dimen name="button_round_text_size">20sp</dimen>
+    <dimen name="button_round_min_height">55dp</dimen>
+    <dimen name="button_round_min_width">225dp</dimen>
+    <dimen name="button_round_horizontal_padding">24dp</dimen>
+
+    <!-- Item Lit -->
+    <dimen name="card_item_radius">8dp</dimen>
+    <dimen name="card_item_elevation">8dp</dimen>
+
 </resources>
