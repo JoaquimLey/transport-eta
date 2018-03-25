@@ -10,7 +10,7 @@ import android.widget.Toast
  * A broadcast receiver who listens for incoming SMS
  */
 
-class SmsBroadcastReceiver : BroadcastReceiver() {
+class SmsBroadcastReceiver() : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {

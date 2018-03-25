@@ -13,8 +13,6 @@ import com.joaquimley.transporteta.presentation.HomeViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_home.*
 
-const val SMS_PERMISSION_CODE = 1337
-
 class HomeActivity : AppCompatActivity() /*, BottomNavigationView.OnNavigationItemSelectedListener*/ {
 
     lateinit var viewModel: HomeViewModel
@@ -55,6 +53,10 @@ class HomeActivity : AppCompatActivity() /*, BottomNavigationView.OnNavigationIt
     private fun requestReadAndSendSmsPermission() {
         ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS), SMS_PERMISSION_CODE)
+    }
+
+    companion object {
+        const val SMS_PERMISSION_CODE = 1337
     }
 }
 

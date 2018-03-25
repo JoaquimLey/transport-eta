@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.provider.Telephony
-import android.widget.Toast
 import com.joaquimley.transporteta.sms.SMS_CONDITION
 import com.joaquimley.transporteta.sms.SMS_SERVICE_NUMBER
 import com.joaquimley.transporteta.sms.SmsController
@@ -32,7 +31,6 @@ class App : Application() {
 
                 if (smsSender == SMS_SERVICE_NUMBER && smsBody.startsWith(SMS_CONDITION)) {
                     smsController.serviceSms.onNext(SmsModel(smsBody))
-//                    Toast.makeText(context, "BroadcastReceiver caught conditional SMS: " + smsBody, Toast.LENGTH_LONG).show();
                 }
             }
         }
