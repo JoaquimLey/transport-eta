@@ -5,10 +5,12 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import com.joaquimley.transporteta.App
 import com.joaquimley.transporteta.R
+import com.joaquimley.transporteta.home.favorite.FavouritesFragment
 import com.joaquimley.transporteta.presentation.HomeViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_home.*
@@ -25,14 +27,24 @@ class HomeActivity : AppCompatActivity() /*, BottomNavigationView.OnNavigationIt
             requestReadAndSendSmsPermission()
         }
 
-        button.setOnClickListener {
-            App.instance.smsController.requestEta(edit_text.text.toString().toInt())
-            edit_text.text.clear()
-        }
+//        button.setOnClickListener {
+//            App.instance.smsController.requestEta(edit_text.text.toString().toInt())
+//            edit_text.text.clear()
+//        }
+//
+//        App.instance.smsController.observeIncomingSms().subscribeOn(AndroidSchedulers.mainThread()).subscribe {
+//            text.text = it.message
+//        }
 
-        App.instance.smsController.observeIncomingSms().subscribeOn(AndroidSchedulers.mainThread()).subscribe {
-            text.text = it.message
-        }
+        changeFragment(FavouritesFragment.newInstance())
+    }
+
+    private fun changeFragment(fragment: Fragment) {
+        supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .replace(R.id.fragment_container, fragment)
+                .commit()
     }
 
     private fun setupViewModel() {
