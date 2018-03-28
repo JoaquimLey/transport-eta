@@ -76,6 +76,7 @@ dependencies {
     implementation deps.support.constraint
     implementation deps.support.design
     // Utils
+    implementation deps.kaction
     implementation deps.timber
     implementation deps.rx_android
     implementation deps.kotterknife
