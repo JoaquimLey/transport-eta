@@ -14,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.Toast
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.model.FavouriteView
 import com.joaquimley.transporteta.model.data.ResourceState
@@ -34,10 +33,8 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
 
     @Inject
     lateinit var viewModelFactory: FavouritesViewModelFactory
-
-    private lateinit var viewModel: FavouritesViewModel
-
-    lateinit var adapter: FavouritesAdapter
+    private lateinit var viewModel: FavoritesViewModel
+    private lateinit var adapter: FavouritesAdapter
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -59,7 +56,7 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
     }
 
     private fun showAddFavoriteDialog() {
-        Toast.makeText(context, "Hi adding a new favorite dialog", Toast.LENGTH_SHORT).show()
+        viewModel.onEtaRequested(FavouriteView(System.currentTimeMillis().toInt(), ""))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -129,7 +126,7 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
 
 
     private fun initViewModel() {
-        viewModel = ViewModelProviders.of(activity as AppCompatActivity, viewModelFactory).get(FavouritesViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity as AppCompatActivity, viewModelFactory).get(FavoritesViewModel::class.java)
     }
 
     private fun setupRecyclerView() {

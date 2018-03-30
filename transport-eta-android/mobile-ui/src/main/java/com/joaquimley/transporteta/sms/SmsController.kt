@@ -1,6 +1,7 @@
 package com.joaquimley.transporteta.sms
 
 import android.telephony.SmsManager
+import android.util.Log
 import com.joaquimley.transporteta.sms.model.SmsModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,13 +16,15 @@ class SmsController @Inject constructor(private val smsBroadcastReceiver: SmsBro
 
     val serviceSms: PublishSubject<SmsModel> = PublishSubject.create()
 
+    var busStopCode: Int = 0
     private val disposable: Disposable?
 
     init {
+        // TODO: There might be an issue with race condition (busStopCode)
         disposable = smsBroadcastReceiver.broadcastServiceSms
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { serviceSms.onNext(it) }
+                .subscribe { serviceSms.onNext(SmsModel(busStopCode, it)) }
     }
 
     fun observeIncomingSms(): Observable<SmsModel> {
@@ -29,7 +32,9 @@ class SmsController @Inject constructor(private val smsBroadcastReceiver: SmsBro
     }
 
     fun requestEta(busStopCode: Int) {
+        this.busStopCode = busStopCode
         SmsManager.getDefault().sendTextMessage(smsBroadcastReceiver.serviceNumber, null, "C $busStopCode", null, null)
+        Log.e("SmsController", "requestEta $busStopCode")
     }
 
     fun dispose() {

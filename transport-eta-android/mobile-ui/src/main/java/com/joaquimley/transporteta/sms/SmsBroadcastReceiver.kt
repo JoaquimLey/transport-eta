@@ -17,7 +17,7 @@ import javax.inject.Singleton
 class SmsBroadcastReceiver @Inject constructor(val serviceNumber: String, private val serviceSmsCondition: String)
     : BroadcastReceiver() {
 
-    val broadcastServiceSms: PublishSubject<SmsModel> = PublishSubject.create()
+    val broadcastServiceSms: PublishSubject<String> = PublishSubject.create()
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
@@ -29,7 +29,7 @@ class SmsBroadcastReceiver @Inject constructor(val serviceNumber: String, privat
             }
 
             if (smsSender == serviceNumber && smsBody.startsWith(serviceSmsCondition)) {
-                broadcastServiceSms.onNext(SmsModel(smsBody))
+                broadcastServiceSms.onNext(smsBody)
             }
         }
     }
