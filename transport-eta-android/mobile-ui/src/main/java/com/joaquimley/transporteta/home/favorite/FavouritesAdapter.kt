@@ -13,6 +13,7 @@ import com.joaquimley.transporteta.model.FavouriteView
 import kotterknife.bindView
 
 class FavouritesAdapter(val listener: Listener? = null) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     val dataSet: MutableList<FavouriteView?> = emptyList<FavouriteView?>().toMutableList()
 
     init {

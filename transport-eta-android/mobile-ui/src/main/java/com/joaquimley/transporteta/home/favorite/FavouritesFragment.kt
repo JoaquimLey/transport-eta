@@ -18,8 +18,10 @@ import android.widget.Toast
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.model.FavouriteView
 import com.joaquimley.transporteta.model.data.ResourceState
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_favourites.*
 import kotterknife.bindView
+import javax.inject.Inject
 
 /**
  * Created by joaquimley on 24/03/2018.
@@ -29,12 +31,16 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
     private val recyclerView: RecyclerView by bindView(R.id.recycler_view)
     private val contentLoadingView: ProgressBar by bindView(R.id.progress)
     private val swipeRefreshView: SwipeRefreshLayout by bindView(R.id.swipe_refresh)
+
+    @Inject
+    lateinit var viewModelFactory: FavouritesViewModelFactory
+
     private lateinit var viewModel: FavouritesViewModel
 
     lateinit var adapter: FavouritesAdapter
 
     override fun onAttach(context: Context?) {
-//        AndroidSupportInjection.inject(this)
+        AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 
@@ -123,7 +129,7 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
 
 
     private fun initViewModel() {
-        viewModel = ViewModelProviders.of(activity as AppCompatActivity).get(FavouritesViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity as AppCompatActivity, viewModelFactory).get(FavouritesViewModel::class.java)
     }
 
     private fun setupRecyclerView() {

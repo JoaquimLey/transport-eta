@@ -1,31 +1,42 @@
 package com.joaquimley.transporteta.sms
 
 import android.telephony.SmsManager
+import com.joaquimley.transporteta.sms.model.SmsModel
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
+import javax.inject.Singleton
 
-const val SMS_CONDITION = "SMS@Carris"
-const val SMS_SERVICE_NUMBER = "3599"
-
-fun String.isValidPhoneNumber(phoneNumber: String): Boolean {
-    return android.util.Patterns.PHONE.matcher(phoneNumber).matches()
-}
-
-class SmsController {
+@Singleton
+class SmsController @Inject constructor(private val smsBroadcastReceiver: SmsBroadcastReceiver) {
 
     val serviceSms: PublishSubject<SmsModel> = PublishSubject.create()
+
+    private val disposable: Disposable?
+
+    init {
+        disposable = smsBroadcastReceiver.broadcastServiceSms
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { serviceSms.onNext(it) }
+    }
 
     fun observeIncomingSms(): Observable<SmsModel> {
         return serviceSms
     }
 
     fun requestEta(busStopCode: Int) {
-        SmsManager.getDefault().sendTextMessage(SMS_SERVICE_NUMBER, null, "C $busStopCode", null, null)
+        SmsManager.getDefault().sendTextMessage(smsBroadcastReceiver.serviceNumber, null, "C $busStopCode", null, null)
+    }
+
+    fun dispose() {
+        disposable?.dispose()
     }
 }
 
-
-class SmsModel(val message: String)
 
 /**
 

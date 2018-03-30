@@ -4,13 +4,20 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
-import android.widget.Toast
+import com.joaquimley.transporteta.sms.model.SmsModel
+import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * A broadcast receiver who listens for incoming SMS
  */
 
-class SmsBroadcastReceiver() : BroadcastReceiver() {
+@Singleton
+class SmsBroadcastReceiver @Inject constructor(val serviceNumber: String, private val serviceSmsCondition: String)
+    : BroadcastReceiver() {
+
+    val broadcastServiceSms: PublishSubject<SmsModel> = PublishSubject.create()
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
@@ -21,8 +28,8 @@ class SmsBroadcastReceiver() : BroadcastReceiver() {
                 smsBody += smsMessage.messageBody
             }
 
-            if (smsSender == SMS_SERVICE_NUMBER && smsBody.startsWith(SMS_CONDITION)) {
-                Toast.makeText(context, "BroadcastReceiver caught conditional SMS: " + smsBody, Toast.LENGTH_LONG).show();
+            if (smsSender == serviceNumber && smsBody.startsWith(serviceSmsCondition)) {
+                broadcastServiceSms.onNext(SmsModel(smsBody))
             }
         }
     }
