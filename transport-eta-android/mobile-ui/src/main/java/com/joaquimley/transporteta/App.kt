@@ -1,48 +1,39 @@
 package com.joaquimley.transporteta
 
+import android.app.Activity
 import android.app.Application
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.provider.Telephony
-import com.joaquimley.transporteta.sms.SMS_CONDITION
-import com.joaquimley.transporteta.sms.SMS_SERVICE_NUMBER
-import com.joaquimley.transporteta.sms.SmsController
-import com.joaquimley.transporteta.sms.SmsModel
+import com.joaquimley.transporteta.di.component.DaggerAppComponent
+import com.joaquimley.transporteta.sms.SmsBroadcastReceiver
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import javax.inject.Inject
 
 
 /**
  * Created by joaquimley on 25/03/2018.
  */
-class App : Application() {
+class App : Application(), HasActivityInjector {
 
-    val smsController = SmsController()
-
-    private val mMessageReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
-                var smsBody = ""
-                var smsSender = ""
-                for (smsMessage in Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
-                    smsSender = smsMessage.displayOriginatingAddress
-                    smsBody += smsMessage.messageBody
-                }
-
-                if (smsSender == SMS_SERVICE_NUMBER && smsBody.startsWith(SMS_CONDITION)) {
-                    smsController.serviceSms.onNext(SmsModel(smsBody))
-                }
-            }
-        }
-    }
+    @Inject
+    lateinit var smsBroadcastReceiver: SmsBroadcastReceiver
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
-        registerReceiver(mMessageReceiver, IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION))
+        DaggerAppComponent
+                .builder()
+                .application(this)
+                .build()
+                .inject(this)
+        registerReceiver(smsBroadcastReceiver, IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION))
     }
 
-    companion object {
-        lateinit var instance: App
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+
+    override fun activityInjector(): AndroidInjector<Activity> {
+        return dispatchingAndroidInjector
     }
 }

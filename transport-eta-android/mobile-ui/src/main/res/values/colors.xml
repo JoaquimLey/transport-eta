@@ -32,6 +32,6 @@
     <color name="colorDarkPink">#c13060</color>
 
     <!-- Button Round -->
-    <color name="colorRoundButtonText">@color/colorBlack</color>
+    <color name="colorRoundButtonText">@color/cardview_light_background</color>
 
 </resources>
