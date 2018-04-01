@@ -15,7 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.joaquimley.transporteta.R
-import com.joaquimley.transporteta.model.FavouriteView
+import com.joaquimley.transporteta.model.FavoriteView
 import com.joaquimley.transporteta.model.data.ResourceState
 import com.joaquimley.transporteta.util.setVisible
 import dagger.android.support.AndroidSupportInjection
@@ -33,7 +33,7 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
     private val swipeRefreshView: SwipeRefreshLayout by bindView(R.id.swipe_refresh)
 
     @Inject
-    lateinit var viewModelFactory: FavouritesViewModelFactory
+    lateinit var viewModelFactory: FavoritesViewModelFactory
     private lateinit var viewModel: FavoritesViewModel
     private lateinit var adapter: FavouritesAdapter
 
@@ -57,7 +57,7 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
     }
 
     private fun showAddFavoriteDialog() {
-        viewModel.onEtaRequested(FavouriteView(System.currentTimeMillis().toInt(), ""))
+        viewModel.onEtaRequested(FavoriteView(System.currentTimeMillis().toInt(), ""))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -73,11 +73,11 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
                 })
     }
 
-    override fun onItemClicked(favourite: FavouriteView) {
+    override fun onItemClicked(favourite: FavoriteView) {
         viewModel.onEtaRequested(favourite)
     }
 
-    private fun handleDataState(resourceState: ResourceState, data: List<FavouriteView>?,
+    private fun handleDataState(resourceState: ResourceState, data: List<FavoriteView>?,
                                 message: String?) {
         when (resourceState) {
             ResourceState.LOADING -> setupScreenForLoadingState(true)
@@ -101,15 +101,15 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
         } else {
             swipeRefreshView.isRefreshing = false
             contentLoadingView.visibility = View.GONE
-            adapter.removeLoadingView()
+//            adapter.removeLoadingView()
         }
     }
 
-    private fun setupScreenForSuccess(favouriteViewList: List<FavouriteView>?) {
+    private fun setupScreenForSuccess(favoriteViewList: List<FavoriteView>?) {
         setupScreenForLoadingState(false)
         setupScreenEmptyState(false)
-        if (favouriteViewList != null) {
-            adapter.set(favouriteViewList)
+        if (favoriteViewList != null) {
+            adapter.submitList(favoriteViewList)
         }
     }
 
@@ -133,7 +133,7 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
     private fun setupRecyclerView() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = FavouritesAdapter(this)
+        adapter = FavouritesAdapter({viewModel.onEtaRequested(it)})
         recyclerView.adapter = adapter
     }
 

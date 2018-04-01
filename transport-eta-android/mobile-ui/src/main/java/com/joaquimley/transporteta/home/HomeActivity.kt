@@ -45,7 +45,6 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector/*, BottomNa
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
     }
 
-
     /**
      * Runtime permission shenanigans
      */
