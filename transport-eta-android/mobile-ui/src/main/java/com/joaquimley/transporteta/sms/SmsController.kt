@@ -45,6 +45,16 @@ class SmsController @Inject constructor(private val smsBroadcastReceiver: SmsBro
 
 /**
 
+---------------------------------
+Send SMS to 3599 with the format:
+---------------------------------
+
+C (SPACE) Bus_stop_code
+
+---------------------
+Sms response example:
+---------------------
+
 SMS@Carris
 759 ORIENTE
 ::14:52 [02m]::
@@ -55,8 +65,11 @@ SMS@Carris
 759 ORIENTE
 ::15:18 [28m]::
 
+----------------
+
 Para consultar tempos de espera (em minutos), relativamente a todos os veículos que passam numa determinada paragem:
 Deverá digitar C (espaço) Código da Paragem e enviar para o 3599 (custo de mensagem escrita normal);
+
 Para consultar tempos de espera dos próximos três veículos de uma carreira, numa determinada paragem:
 Deverá digitar C (espaço) Código da Paragem (espaço) Nº da Carreira e enviar para o 3599 (custo de mensagem escrita normal)
 
