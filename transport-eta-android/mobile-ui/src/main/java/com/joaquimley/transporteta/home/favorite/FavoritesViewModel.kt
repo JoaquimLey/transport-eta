@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
-import com.joaquimley.transporteta.model.FavouriteView
+import com.joaquimley.transporteta.model.FavoriteView
 import com.joaquimley.transporteta.model.data.Resource
 import com.joaquimley.transporteta.model.data.ResourceState
 import com.joaquimley.transporteta.sms.SmsController
@@ -14,25 +14,25 @@ import com.joaquimley.transporteta.sms.SmsController
  */
 class FavoritesViewModel(val smsController: SmsController) : ViewModel() {
 
-    val favouritesLiveData = MutableLiveData<Resource<List<FavouriteView>>>()
+    val favouritesLiveData = MutableLiveData<Resource<List<FavoriteView>>>()
 
     init {
         smsController.serviceSms.subscribe {
             Log.e("FavoritesViewModel", "SmsController received sms $it")
 
-            // TODO: Make it more 🎨
-            val currentValue = ArrayList<FavouriteView>()
-            currentValue.add(FavouriteView(it.code, it.message))
+            // TODO: remove mocked up shenenigans Make it more 🎨
+            val currentValue = ArrayList<FavoriteView>()
+            currentValue.add(FavoriteView(it.code, it.message))
 
 //            val currentValue = favouritesLiveData.value?.data?.toMutableList()
-//                    ?: emptyList<FavouriteView>()
-//            currentValue.toMutableList().add(FavouriteView(it.code, it.message))
+//                    ?: emptyList<FavoriteView>()
+//            currentValue.toMutableList().add(FavoriteView(it.code, it.message))
 
             favouritesLiveData.setValue(Resource(ResourceState.SUCCESS, currentValue))
         }
     }
 
-    fun getFavourites(): LiveData<Resource<List<FavouriteView>>> {
+    fun getFavourites(): LiveData<Resource<List<FavoriteView>>> {
         return favouritesLiveData
     }
 
@@ -41,7 +41,7 @@ class FavoritesViewModel(val smsController: SmsController) : ViewModel() {
 
     }
 
-    fun onEtaRequested(favourite: FavouriteView) {
+    fun onEtaRequested(favourite: FavoriteView) {
         requestEta(favourite.code)
     }
 

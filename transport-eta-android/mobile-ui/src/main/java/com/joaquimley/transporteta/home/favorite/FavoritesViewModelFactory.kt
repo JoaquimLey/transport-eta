@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.joaquimley.transporteta.sms.SmsController
 
-class FavouritesViewModelFactory(val smsController: SmsController): ViewModelProvider.Factory {
+class FavoritesViewModelFactory(private val smsController: SmsController): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(FavoritesViewModel::class.java)) {
             return FavoritesViewModel(smsController) as T
