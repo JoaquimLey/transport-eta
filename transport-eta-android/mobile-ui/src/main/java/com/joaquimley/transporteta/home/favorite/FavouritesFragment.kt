@@ -17,6 +17,7 @@ import android.widget.ProgressBar
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.model.FavouriteView
 import com.joaquimley.transporteta.model.data.ResourceState
+import com.joaquimley.transporteta.util.setVisible
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_favourites.*
 import kotterknife.bindView
@@ -88,7 +89,7 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
 
     private fun setupScreenEmptyState(isEmpty: Boolean) {
         // TODO show emptyView.setVisibility(isEmpty)
-        recyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
+        recyclerView.setVisible(!isEmpty)
     }
 
     private fun setupScreenForLoadingState(isLoading: Boolean) {
