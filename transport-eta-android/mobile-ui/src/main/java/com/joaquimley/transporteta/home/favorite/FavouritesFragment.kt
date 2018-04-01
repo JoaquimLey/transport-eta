@@ -89,7 +89,7 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
 
     private fun setupScreenEmptyState(isEmpty: Boolean) {
         // TODO show emptyView.setVisibility(isEmpty)
-        recyclerView.setVisible(isEmpty)
+        recyclerView.setVisible(!isEmpty)
     }
 
     private fun setupScreenForLoadingState(isLoading: Boolean) {
