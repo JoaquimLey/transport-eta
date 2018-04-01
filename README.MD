@@ -6,14 +6,14 @@
   
 ## Coming from the Blogpost?
 - Read the [Medium blog post](https://medium.com/@JoaquimLey/android-architecture-components-now-with-100-more-mvvm-11629a630125)
-- See the code on the [blogpost branch](https://github.com/JoaquimLey/bus-eta/tree/blogpost) 
-- 
- # Transport ETA
+- See the code on the [blogpost branch](https://github.com/JoaquimLey/bus-eta/tree/blogpost)
+
+# Transport ETA
   
-###   An utility app built from the groundup on [twitch stream](https://twtich.tv/joaquimley).
+###   An utility app built from the ground-up on my twitch channel: [twitch.tv/joaquimley](http:twitch.tv/joaquimley)
 Uses an SMS based service or the web to request a more precise ETA of a publc-transport (Bus, Boat etc.) to a specific station, currently implementing for Lisbon 🇵🇹, but the idea is to scale up to any other cities around the world that provide the same kind of service(s).
 
-Don't forget to follow and watch the stream: [twitch.tv/joaquimley](http:twitch.tv/joaquimley)
+Don't forget to follow and watch the stream
 
 #### Some of the cool stuff I'll be integrating in this project:
 - Multi module Clean architecture
@@ -24,10 +24,10 @@ Don't forget to follow and watch the stream: [twitch.tv/joaquimley](http:twitch.
 - Tests  🙌
 
 
-## Why 🤔
+### Why 🤔
 Since I always like to work on some pet-projects I decided to document them on a live coding stream, this way I'll force myself into actually finishing and maybe get some feedback from the community. With others is easier to learn 📖.
 
-### Changelog
+## Changelog
 
 - Ep.1:  https://github.com/JoaquimLey/transport-eta/tree/4642c5fd6af9de3b258b179d0a7a8c69195fa293
 
@@ -58,7 +58,8 @@ Follow me on:
 Personal website:
 
 -   [www.joaquimley.com](http://www.joaquimley.com/)
-  
+
+---------------------
 #### Contributing  
 Contributions are always welcome! Follow the "fork-and-pull" Git workflow.  
   
@@ -68,19 +69,19 @@ Fell free to open a new issue. Follow the [ISSUE_TEMPLATE.MD](../master/ISSUE_TE
 **Prevent** code-style related changes (at least run Ctrl+⌥+O, ⌥+⌘+L) before commiting.  
   
   
-### License  
-  
-   Copyright © 2018 Joaquim Ley  
-  
-   Licensed under the Apache License, Version 2.0 (the "License");  
-   you may not use this file except in compliance with the License.  
-   You may obtain a copy of the License at  
-  
-   http://www.apache.org/licenses/LICENSE-2.0  
-  
-   Unless required by applicable law or agreed to in writing, software  
-   distributed under the License is distributed on an "AS IS" BASIS,  
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or   
-   implied.  
-   See the License for the specific language governing permissions and  
-   limitations under the License.
+### License
+
+	Copyright © 2018 Joaquim Ley
+
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+	implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
