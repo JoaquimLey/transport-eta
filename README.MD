@@ -1,8 +1,7 @@
 
 ![AppIcon](https://raw.githubusercontent.com/JoaquimLey/bus-eta/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png?token=AGmh_Pt2nHwIUsN-QmVfaL56Q0cnYrhWks5ZQYebwA%3D%3D)   
   
-![minSdkVersion](https://img.shields.io/badge/minSdkVersion-15-green.svg?style=true)  
-![compileSdkVersion](https://img.shields.io/badge/compileSdkVersion-25-green.svg?style=true)  
+![minSdkVersion](https://img.shields.io/badge/minSdkVersion-15-green.svg?style=true) ![compileSdkVersion](https://img.shields.io/badge/compileSdkVersion-25-green.svg?style=true)
   
 ## Coming from the Blogpost?
 - Read the [Medium blog post](https://medium.com/@JoaquimLey/android-architecture-components-now-with-100-more-mvvm-11629a630125)
