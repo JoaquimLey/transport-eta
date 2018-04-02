@@ -26,7 +26,7 @@ Don't forget to follow and watch the stream
 ### Why 🤔
 Since I always like to work on some pet-projects I decided to document them on a live coding stream, this way I'll force myself into actually finishing and maybe get some feedback from the community. With others is easier to learn 📖.
 
-## Changelog
+## Stream log
 
 - Ep.1:  https://github.com/JoaquimLey/transport-eta/tree/4642c5fd6af9de3b258b179d0a7a8c69195fa293
 
