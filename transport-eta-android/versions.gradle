@@ -33,7 +33,7 @@ versions.lottie = "2.2.5"
 versions.kotterknife = "0.1.0-SNAPSHOT"
 versions.rxjava2 = "2.1.3"
 versions.rx_android = "2.0.1"
-versions.kotlin = "1.1.4-2"
+versions.kotlin = "1.1.4-3"
 versions.kotlin_rx = "2.1.0"
 versions.kotlin_mockito = "1.5.0"
 versions.atsl_runner = "1.0.1"
@@ -148,7 +148,7 @@ ext.build_versions = build_versions
 
 // TODO research a way to 'inject' methods into .gradle files to prevent config duplication
 
-def addRepos(RepositoryHandler handler) {
+static def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // KotterKnife
