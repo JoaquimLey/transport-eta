@@ -28,6 +28,8 @@ Since I always like to work on some pet-projects I decided to document them on a
 
 ## Stream log
 
+#### Come and say Hi 👋 and join me on stream [twitch.tv/joaquimley](http:twitch.tv/joaquimley) and watch (& help) me as I develop and make mistakes on this project
+
 - Ep.1:  https://github.com/JoaquimLey/transport-eta/tree/4642c5fd6af9de3b258b179d0a7a8c69195fa293
 
 - Ep.2: https://github.com/JoaquimLey/transport-eta/tree/682d72b28288761e47191c456b5e8a5d01c32c6c
