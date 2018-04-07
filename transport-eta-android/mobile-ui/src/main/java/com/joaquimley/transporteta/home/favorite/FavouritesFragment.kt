@@ -26,7 +26,7 @@ import javax.inject.Inject
 /**
  * Created by joaquimley on 24/03/2018.
  */
-class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
+class FavouritesFragment : Fragment() {
 
     private val recyclerView: RecyclerView by bindView(R.id.recycler_view)
     private val contentLoadingView: ProgressBar by bindView(R.id.progress)
@@ -71,10 +71,6 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
                 Observer {
                     if (it != null) handleDataState(it.status, it.data, it.message)
                 })
-    }
-
-    override fun onItemClicked(favourite: FavoriteView) {
-        viewModel.onEtaRequested(favourite)
     }
 
     private fun handleDataState(resourceState: ResourceState, data: List<FavoriteView>?,

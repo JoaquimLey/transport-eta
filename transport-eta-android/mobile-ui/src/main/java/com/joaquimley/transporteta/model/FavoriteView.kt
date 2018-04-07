@@ -1,6 +1,11 @@
 package com.joaquimley.transporteta.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
  * Created by joaquimley on 28/03/2018.
  */
-data class FavoriteView(val code: Int = -1, val latestEta: String = "", val originalText: String = "")
+
+@Parcelize
+data class FavoriteView(val code: Int = -1, val latestEta: String = "", val originalText: String = ""): Parcelable
