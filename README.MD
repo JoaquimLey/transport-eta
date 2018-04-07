@@ -3,7 +3,7 @@
   
 ![minSdkVersion](https://img.shields.io/badge/minSdkVersion-15-green.svg?style=true) ![compileSdkVersion](https://img.shields.io/badge/compileSdkVersion-25-green.svg?style=true)
   
-## Coming from the Blogpost?
+## Infor about the Article
 - Read the [Medium blog post](https://medium.com/@JoaquimLey/android-architecture-components-now-with-100-more-mvvm-11629a630125)
 - See the code on the [blogpost branch](https://github.com/JoaquimLey/bus-eta/tree/blogpost)
 
@@ -18,8 +18,8 @@ Don't forget to follow and watch the stream
 - Multi module Clean architecture
 - Rx
 - Kotlin
-- Android Architecutre Components
-- Firebase: Cloud functions, Firestore
+- Android Architecture Components
+- Firebase Suite (I'll integrate as much services as possible)
 - Tests  🙌
 
 
