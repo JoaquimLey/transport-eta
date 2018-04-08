@@ -28,4 +28,7 @@ class HomeActivityTest {
     fun whenActivityIsStartedFavoritesFragmentIsShown() {
         onView(withText("Favorites")).check(matches(isDisplayed()))
     }
+
+    // Check this article for permissions test
+    // https://blog.egorand.me/testing-runtime-permissions-lessons-learned/
 }
