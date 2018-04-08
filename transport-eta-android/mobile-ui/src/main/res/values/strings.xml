@@ -13,6 +13,8 @@
     <string name="action_yes">Yes</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_ok">OK</string>
+    <string name="action_create">Create</string>
+    <string name="action_discard">Discard</string>
     <string name="action_search">Search</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_or_register">Sign in or register</string>
@@ -47,8 +49,14 @@
     <!-- Home -->
     <string name="home_main_title">Home</string>
 
-    <!-- Favourites Fragment -->
+    <!-- Favorites Fragment -->
+    <string name="favorites_fragment_title">Favorites</string>
     <string name="station_code_placeholder">Station: %s</string>
+
+    <!-- Create Favorite -->
+    <string name="create_favorite_title">Create favorite</string>
+    <string name="create_favorite_code_hint">Bus station code *</string>
+    <string name="create_favorite_title_hint">Bus station title</string>
 
     <!-- Login -->
     <string name="login_button_sign_in">@string/action_sign_in</string>
@@ -63,4 +71,5 @@
     <!-- Request sms dialog -->
     <string name="permission_alert_dialog_title">SMS permission</string>
     <string name="permission_dialog_message" formatted="false">%s will now request send/read SMS permission on your device.\n\nThis is required in order to use %s services.</string>
+
 </resources>

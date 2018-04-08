@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import com.joaquimley.transporteta.R
-import com.joaquimley.transporteta.home.favorite.FavouritesFragment
+import com.joaquimley.transporteta.home.favorite.FavoritesFragment
 import com.joaquimley.transporteta.presentation.HomeViewModel
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector/*, BottomNavigationView.OnNavigationItemSelectedListener*/ {
 
     lateinit var viewModel: HomeViewModel
-    private val favouritesFragment = FavouritesFragment.newInstance()
+    private val favouritesFragment = FavoritesFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -71,7 +71,7 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector/*, BottomNa
 }
 
 
-//    private val favouritesFragment = FavouritesFragment.newInstance("")
+//    private val favouritesFragment = FavoritesFragment.newInstance("")
 //    lateinit var viewModel: HomeViewModel
 //
 //    override fun onCreate(savedInstanceState: Bundle?) {

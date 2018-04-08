@@ -3,7 +3,6 @@ package com.joaquimley.transporteta.home.favorite
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.util.Log
 import com.joaquimley.transporteta.model.FavoriteView
 import com.joaquimley.transporteta.model.data.Resource
 import com.joaquimley.transporteta.model.data.ResourceState
@@ -12,14 +11,18 @@ import com.joaquimley.transporteta.sms.SmsController
 /**
  * Created by joaquimley on 28/03/2018.
  */
-class FavoritesViewModel(val smsController: SmsController) : ViewModel() {
+class FavoritesViewModel(private val smsController: SmsController) : ViewModel() {
 
-    val favouritesLiveData = MutableLiveData<Resource<List<FavoriteView>>>()
+    private val favouritesLiveData = MutableLiveData<Resource<List<FavoriteView>>>()
 
     init {
-        smsController.serviceSms.subscribe {
-            Log.e("FavoritesViewModel", "SmsController received sms $it")
+        getSms()
+    }
 
+    private fun getSms() {
+        smsController.observeIncomingSms().subscribe ({
+//            Log.e("FavoritesViewModel", "SmsController received sms $it")
+            favouritesLiveData.postValue(Resource(ResourceState.LOADING))
             // TODO: remove mocked up shenenigans Make it more 🎨
             val currentValue = ArrayList<FavoriteView>()
             currentValue.add(FavoriteView(it.code, it.message))
@@ -27,9 +30,9 @@ class FavoritesViewModel(val smsController: SmsController) : ViewModel() {
 //            val currentValue = favouritesLiveData.value?.data?.toMutableList()
 //                    ?: emptyList<FavoriteView>()
 //            currentValue.toMutableList().add(FavoriteView(it.code, it.message))
+            favouritesLiveData.postValue(Resource(ResourceState.SUCCESS, currentValue))
 
-            favouritesLiveData.setValue(Resource(ResourceState.SUCCESS, currentValue))
-        }
+        }, {favouritesLiveData.postValue(Resource(ResourceState.ERROR, null, it.message)) })
     }
 
     fun getFavourites(): LiveData<Resource<List<FavoriteView>>> {
@@ -47,6 +50,7 @@ class FavoritesViewModel(val smsController: SmsController) : ViewModel() {
 
 
     private fun requestEta(code: Int) {
+        favouritesLiveData.postValue(Resource(ResourceState.LOADING))
         smsController.requestEta(code)
     }
 

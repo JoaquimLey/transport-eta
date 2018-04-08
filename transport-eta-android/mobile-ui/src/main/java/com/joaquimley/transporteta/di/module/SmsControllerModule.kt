@@ -1,8 +1,10 @@
 package com.joaquimley.transporteta.di.module
 
 import com.joaquimley.transporteta.di.qualifier.SmsServiceInfo
-import com.joaquimley.transporteta.sms.SmsBroadcastReceiver
+import com.joaquimley.transporteta.sms.SmsBroadcastReceiverImpl
 import com.joaquimley.transporteta.sms.SmsController
+import com.joaquimley.transporteta.sms.SmsControllerImpl
+import com.joaquimley.transporteta.sms.SmsBroadcastReceiver
 import com.joaquimley.transporteta.ui.injection.scope.PerApplication
 import dagger.Module
 import dagger.Provides
@@ -32,13 +34,13 @@ class SmsControllerModule {
     @PerApplication
     internal fun provideSmsBroadcastReceiver(@SmsServiceInfo.ServiceNumber serviceNumber: String,
                                              @SmsServiceInfo.ServiceBodyCode serviceSmsCondition: String): SmsBroadcastReceiver {
-        return SmsBroadcastReceiver(serviceNumber, serviceSmsCondition)
+        return SmsBroadcastReceiverImpl(serviceNumber, serviceSmsCondition)
     }
 
     @Provides
     @PerApplication
     internal fun provideSmsController(smsBroadcastReceiver: SmsBroadcastReceiver): SmsController {
-        return SmsController(smsBroadcastReceiver)
+        return SmsControllerImpl(smsBroadcastReceiver)
     }
 
 }
