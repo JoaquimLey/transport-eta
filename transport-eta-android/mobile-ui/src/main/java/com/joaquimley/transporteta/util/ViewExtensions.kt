@@ -13,3 +13,7 @@ fun ImageView.load(resourceId: Int) {
             .load(resourceId)
             .into(this)
 }
+
+//private fun android.support.v7.app.AlertDialog.setButton(whichButton: Int, @StringRes stringResource: Int, function: () -> Unit) {
+//   setButton(whichButton, context.getString(stringResource), function)
+//}

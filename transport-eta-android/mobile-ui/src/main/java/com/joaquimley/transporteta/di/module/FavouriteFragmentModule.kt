@@ -10,7 +10,6 @@ import dagger.Provides
 class FavouriteFragmentModule {
 
     @Provides
-    @PerFragment
     fun provideFavouritesViewModelFactory(smsController: SmsController): FavoritesViewModelFactory {
         return FavoritesViewModelFactory(smsController)
     }

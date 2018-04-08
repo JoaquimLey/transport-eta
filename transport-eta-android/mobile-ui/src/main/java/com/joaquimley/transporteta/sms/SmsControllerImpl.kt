@@ -25,7 +25,8 @@ class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: Sm
         disposable = smsBroadcastReceiver.observeServiceSms()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ serviceSms.onNext(SmsModel(busStopCode, it)) }, { throwable -> })
+                .subscribe({ serviceSms.onNext(SmsModel(busStopCode, it)) },
+                        { Log.e("SmsController", "Failed smsBroadcastReceiver.observeServiceSms(): ${it.message}")})
     }
 
     override fun observeIncomingSms(): Observable<SmsModel> {

@@ -13,7 +13,7 @@ import com.joaquimley.transporteta.model.FavoriteView
 import com.joaquimley.transporteta.util.load
 import kotterknife.bindView
 
-class FavouritesAdapter(private val clickListener: (FavoriteView) -> Unit)
+class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
     : ListAdapter<FavoriteView, RecyclerView.ViewHolder>(FavoriteViewDiffCallback()) {
 
     fun isEmpty() = itemCount == 0

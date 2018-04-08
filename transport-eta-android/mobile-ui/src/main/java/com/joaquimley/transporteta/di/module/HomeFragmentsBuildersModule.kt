@@ -1,6 +1,6 @@
 package com.joaquimley.transporteta.di.module
 
-import com.joaquimley.transporteta.home.favorite.FavouritesFragment
+import com.joaquimley.transporteta.home.favorite.FavoritesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,5 +8,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class HomeFragmentsBuildersModule {
 
     @ContributesAndroidInjector(modules = arrayOf(FavouriteFragmentModule::class))
-    abstract fun contributeFavouritesFragment(): FavouritesFragment
+    abstract fun contributeFavouritesFragment(): FavoritesFragment
 }

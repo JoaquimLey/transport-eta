@@ -30,9 +30,9 @@ class FavoritesViewModel(private val smsController: SmsController) : ViewModel()
 //            val currentValue = favouritesLiveData.value?.data?.toMutableList()
 //                    ?: emptyList<FavoriteView>()
 //            currentValue.toMutableList().add(FavoriteView(it.code, it.message))
-
             favouritesLiveData.postValue(Resource(ResourceState.SUCCESS, currentValue))
-        }, {throwable -> })
+
+        }, {favouritesLiveData.postValue(Resource(ResourceState.ERROR, null, it.message)) })
     }
 
     fun getFavourites(): LiveData<Resource<List<FavoriteView>>> {
