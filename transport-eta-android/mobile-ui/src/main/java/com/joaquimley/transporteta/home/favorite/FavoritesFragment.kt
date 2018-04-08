@@ -13,7 +13,9 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -62,30 +64,47 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun showAddFavoriteDialog() {
-        val currentContext = context
-        if (currentContext != null) {
-            val builder = AlertDialog.Builder(currentContext)
+        if (activity != null) {
+            val builder = AlertDialog.Builder(activity!!)
             builder.setTitle(R.string.create_favorite_title)
             builder.setView(R.layout.dialog_create_favorite)
+            builder.setPositiveButton(getString(R.string.action_create), null)
+            builder.setNegativeButton(getString(R.string.action_discard), null)
             val dialog = builder.create()
+
+            dialog.show()
             val busStopCodeInputLayout: TextInputLayout? = dialog.findViewById(R.id.favorite_code_text_input_layout)
-            val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
             val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
 
+            val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
+            busStopCodeEditText?.addTextChangedListener(object: TextWatcher{
+                override fun afterTextChanged(s: Editable?) {
+                    if(!TextUtils.isEmpty(s)) {
+                        busStopCodeInputLayout?.error = null
+                    }
+                }
 
-            dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_create)) { dialog, which ->
-                if(TextUtils.isEmpty(busStopCodeEditText?.text)) {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                     // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+
+            })
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                if (TextUtils.isEmpty(busStopCodeEditText?.text)) {
                     busStopCodeInputLayout?.error = "Please input bus stop code"
                 }
             }
 
-            dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_discard)) { dialog, which ->
-                // track discard action
+            context?.let { ContextCompat.getColor(it, R.color.colorLightGrey) }?.let { dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(it) }
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
+                dialog.dismiss()
             }
-
-            dialog.show()
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(currentContext, R.color.colorLightGrey))
-
 
         }
     }
