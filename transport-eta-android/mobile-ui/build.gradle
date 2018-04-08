@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 android {
 
@@ -47,6 +47,10 @@ kapt {
     correctErrorTypes = true
 }
 
+androidExtensions {
+    experimental = true
+}
+
 configurations.all {
     resolutionStrategy {
         force deps.kotlin.stdlib
@@ -59,9 +63,10 @@ dependencies {
     implementation deps.javax.inject
     //Rx
     implementation deps.rxjava2
+    implementation deps.rx_android
     // Kotlin
-    implementation deps.kotlin.stdlib
     implementation deps.kotlin.rx
+    implementation deps.kotlin.stdlib
     // Dagger
     implementation deps.dagger.runtime
     implementation deps.dagger.android
@@ -69,42 +74,41 @@ dependencies {
     kapt deps.dagger.compiler
     kapt deps.dagger.android_support_compiler
     // Support
-    implementation deps.support.annotations
     implementation deps.support.v4
-    implementation deps.support.app_compat
-    implementation deps.support.cardview
-    implementation deps.support.recyclerview
-    implementation deps.support.constraint
     implementation deps.support.design
+    implementation deps.support.cardview
+    implementation deps.support.constraint
+    implementation deps.support.app_compat
+    implementation deps.support.annotations
+    implementation deps.support.recyclerview
     // Utils
-    implementation deps.kaction
-    implementation deps.timber
-    implementation deps.rx_android
-    implementation deps.kotterknife
-    implementation deps.lottie
     implementation deps.glide
+    implementation deps.lottie
+    implementation deps.kotterknife
     // ACC
-    implementation deps.lifecycle.extensions
     kapt deps.lifecycle.compiler
-    // Testing
+    implementation deps.lifecycle.extensions
+
+    // Unit Testing
     kaptTest deps.dagger.compiler
     kaptAndroidTest deps.dagger.compiler
     testImplementation deps.junit
+    testImplementation deps.hamcrest
     testImplementation deps.kotlin.test
     testImplementation deps.kotlin.mockito
     testImplementation deps.mockito.core
-    testImplementation deps.mockito.android
+    testImplementation deps.arch_core.testing
     // Instrumentation testing
-    androidTestImplementation(deps.espresso.core) {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    androidTestImplementation(deps.espresso.intents) {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
     androidTestImplementation(deps.atsl.runner) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     androidTestImplementation(deps.atsl.rules) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(deps.espresso.core) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(deps.espresso.intents) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     androidTestImplementation(deps.espresso.contrib) {

@@ -4,11 +4,18 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.TextInputEditText
+import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +33,7 @@ import javax.inject.Inject
 /**
  * Created by joaquimley on 24/03/2018.
  */
-class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
+class FavoritesFragment : Fragment() {
 
     private val recyclerView: RecyclerView by bindView(R.id.recycler_view)
     private val contentLoadingView: ProgressBar by bindView(R.id.progress)
@@ -35,7 +42,7 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
     @Inject
     lateinit var viewModelFactory: FavoritesViewModelFactory
     private lateinit var viewModel: FavoritesViewModel
-    private lateinit var adapter: FavouritesAdapter
+    private lateinit var adapter: FavoritesAdapter
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -57,7 +64,49 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
     }
 
     private fun showAddFavoriteDialog() {
-        viewModel.onEtaRequested(FavoriteView(System.currentTimeMillis().toInt(), ""))
+        if (activity != null) {
+            val builder = AlertDialog.Builder(activity!!)
+            builder.setTitle(R.string.create_favorite_title)
+            builder.setView(R.layout.dialog_create_favorite)
+            builder.setPositiveButton(getString(R.string.action_create), null)
+            builder.setNegativeButton(getString(R.string.action_discard), null)
+            val dialog = builder.create()
+
+            dialog.show()
+            val busStopCodeInputLayout: TextInputLayout? = dialog.findViewById(R.id.favorite_code_text_input_layout)
+            val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
+
+            val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
+            busStopCodeEditText?.addTextChangedListener(object: TextWatcher{
+                override fun afterTextChanged(s: Editable?) {
+                    if(!TextUtils.isEmpty(s)) {
+                        busStopCodeInputLayout?.error = null
+                    }
+                }
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                     // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+
+            })
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                if (TextUtils.isEmpty(busStopCodeEditText?.text)) {
+                    busStopCodeInputLayout?.error = "Please input bus stop code"
+                }
+            }
+
+            context?.let { ContextCompat.getColor(it, R.color.colorLightGrey) }?.let { dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(it) }
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
+                dialog.dismiss()
+            }
+
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -71,10 +120,6 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
                 Observer {
                     if (it != null) handleDataState(it.status, it.data, it.message)
                 })
-    }
-
-    override fun onItemClicked(favourite: FavoriteView) {
-        viewModel.onEtaRequested(favourite)
     }
 
     private fun handleDataState(resourceState: ResourceState, data: List<FavoriteView>?,
@@ -133,7 +178,7 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
     private fun setupRecyclerView() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = FavouritesAdapter({viewModel.onEtaRequested(it)})
+        adapter = FavoritesAdapter({ viewModel.onEtaRequested(it) })
         recyclerView.adapter = adapter
     }
 
@@ -144,14 +189,15 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.Listener {
 
     companion object {
 
-        fun newInstance(): FavouritesFragment {
-            val fragment = FavouritesFragment()
+        fun newInstance(): FavoritesFragment {
+            val fragment = FavoritesFragment()
 //            val args = Bundle()
 //            fragment.arguments = args
             return fragment
         }
     }
 }
+
 
 /*
 
