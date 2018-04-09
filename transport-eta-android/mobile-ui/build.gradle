@@ -10,21 +10,16 @@ android {
         applicationId "com.joaquimley.transporteta"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode app_version.versionCode
+        versionName app_version.versionName
         vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
             testCoverageEnabled true
         }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     packagingOptions {
@@ -40,7 +35,6 @@ android {
         abortOnError false
         ignoreWarnings true
     }
-
 }
 
 kapt {
@@ -61,7 +55,7 @@ dependencies {
     // Javax
     compileOnly deps.javax.annotation
     implementation deps.javax.inject
-    //Rx
+    // Rx
     implementation deps.rxjava2
     implementation deps.rx_android
     // Kotlin
@@ -77,18 +71,18 @@ dependencies {
     implementation deps.support.v4
     implementation deps.support.design
     implementation deps.support.cardview
-    implementation deps.support.constraint
     implementation deps.support.app_compat
+    implementation deps.support.constraint
     implementation deps.support.annotations
     implementation deps.support.recyclerview
     // Utils
     implementation deps.glide
+    implementation deps.timber
     implementation deps.lottie
     implementation deps.kotterknife
     // ACC
     kapt deps.lifecycle.compiler
     implementation deps.lifecycle.extensions
-
     // Unit Testing
     kaptTest deps.dagger.compiler
     kaptAndroidTest deps.dagger.compiler
