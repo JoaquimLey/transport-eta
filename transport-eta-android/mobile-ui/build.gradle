@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-
     compileSdkVersion build_versions.target_sdk
     defaultConfig {
         applicationId "com.joaquimley.transporteta"
@@ -13,13 +12,38 @@ android {
         versionCode app_version.versionCode
         versionName app_version.versionName
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.joaquimley.transporteta.ui.test.TestRunner"
     }
 
     buildTypes {
         debug {
             testCoverageEnabled true
         }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        flavorDimensions "city", "enviroment"
+
+        lx {
+            dimension "city"
+        }
+
+        dev {
+//            applicationIdSuffix ".dev"
+            dimension "enviroment"
+        }
+
+        mock {
+//            applicationIdSuffix ".mock"
+            dimension "enviroment"
+        }
+
+
     }
 
     packagingOptions {
@@ -52,9 +76,13 @@ configurations.all {
 }
 
 dependencies {
+
+    // Modules
+    implementation project(':sms')
+
     // Javax
-    compileOnly deps.javax.annotation
     implementation deps.javax.inject
+    compileOnly deps.javax.annotation
     // Rx
     implementation deps.rxjava2
     implementation deps.rx_android
@@ -89,10 +117,10 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.hamcrest
     testImplementation deps.kotlin.test
-    testImplementation deps.kotlin.mockito
     testImplementation deps.mockito.core
     testImplementation deps.arch_core.testing
     // Instrumentation testing
+    androidTestImplementation deps.kotlin.mockito
     androidTestImplementation(deps.atsl.runner) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
