@@ -1,4 +1,4 @@
-package com.joaquimley.transporteta.ui.sms
+package com.joaquimley.transporteta
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -20,6 +20,6 @@ class SmsControllerTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.joaquimley.transporteta", appContext.packageName)
+        assertEquals("com.joaquimley.transporteta.sms.test", appContext.packageName)
     }
 }

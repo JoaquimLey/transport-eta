@@ -18,16 +18,16 @@ android {
         exclude 'META-INF/LICENSE'
     }
 
-//    lintOptions {
-//        quiet true
-//        abortOnError false
-//        ignoreWarnings true
-//        disable 'InvalidPackage'            //Some libraries have issues with this.
-//        disable 'OldTargetApi'
-//        // Lint gives this warning but SDK 20 would be Android L Beta.
-//        disable 'IconDensities'             //For testing purpose. This is safe to remove.
-//        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
-//    }
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'
+        // Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
 
 }
 
@@ -52,4 +52,27 @@ dependencies {
     testImplementation deps.assertj
     testImplementation deps.robolectric
     testImplementation deps.arch_core.testing
+    // Instrumentation testing
+    androidTestImplementation deps.kotlin.mockito
+    androidTestImplementation(deps.atsl.runner) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(deps.atsl.rules) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(deps.espresso.core) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(deps.espresso.intents) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(deps.espresso.contrib) {
+        exclude module: 'appcompat'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'design'
+    }
 }
