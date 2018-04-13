@@ -109,7 +109,6 @@ dependencies {
     implementation deps.glide
     implementation deps.timber
     implementation deps.lottie
-    implementation deps.kotterknife
     // ACC
     kapt deps.lifecycle.compiler
     implementation deps.lifecycle.extensions

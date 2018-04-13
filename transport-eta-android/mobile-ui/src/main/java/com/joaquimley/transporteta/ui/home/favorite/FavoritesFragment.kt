@@ -8,11 +8,9 @@ import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -20,24 +18,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.ui.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.ui.util.setVisible
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_favourites.*
-import kotterknife.bindView
 import javax.inject.Inject
 
 /**
  * Created by joaquimley on 24/03/2018.
  */
 class FavoritesFragment : Fragment() {
-
-    private val recyclerView: RecyclerView by bindView(R.id.recycler_view)
-    private val contentLoadingView: ProgressBar by bindView(R.id.progress)
-    private val swipeRefreshView: SwipeRefreshLayout by bindView(R.id.swipe_refresh)
 
     @Inject lateinit var viewModelFactory: FavoritesViewModelFactory
     private lateinit var viewModel: FavoritesViewModel
@@ -133,18 +125,18 @@ class FavoritesFragment : Fragment() {
 
     private fun setupScreenEmptyState(isEmpty: Boolean) {
         // TODO show emptyView.setVisibility(isEmpty)
-        recyclerView.setVisible(!isEmpty)
+        recycler_view.setVisible(!isEmpty)
     }
 
     private fun setupScreenForLoadingState(isLoading: Boolean) {
         setupScreenEmptyState(false)
         if (isLoading) {
-            if (swipeRefreshView.isRefreshing.not() && adapter.isEmpty()) {
-                contentLoadingView.visibility = View.VISIBLE
+            if (swipe_refresh.isRefreshing.not() && adapter.isEmpty()) {
+                progress.visibility = View.VISIBLE
             }
         } else {
-            swipeRefreshView.isRefreshing = false
-            contentLoadingView.visibility = View.GONE
+            swipe_refresh.isRefreshing = false
+            progress.visibility = View.GONE
 //            adapter.removeLoadingView()
         }
     }
@@ -175,15 +167,15 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recycler_view.setHasFixedSize(true)
+        recycler_view.layoutManager = LinearLayoutManager(context)
         adapter = FavoritesAdapter({ viewModel.onEtaRequested(it) })
-        recyclerView.adapter = adapter
+        recycler_view.adapter = adapter
     }
 
     private fun setupListeners() {
         // TODO emptyView.setListener(emptyListener)
-        swipeRefreshView.setOnRefreshListener({ viewModel.retry() })
+        swipe_refresh.setOnRefreshListener({ viewModel.retry() })
     }
 
     companion object {
