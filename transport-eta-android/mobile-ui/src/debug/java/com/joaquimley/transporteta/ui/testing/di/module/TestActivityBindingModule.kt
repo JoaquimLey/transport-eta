@@ -1,4 +1,4 @@
-package com.joaquimley.transporteta.ui.di.component
+package com.joaquimley.transporteta.ui.testing.di.module
 
 import com.joaquimley.transporteta.ui.di.module.HomeFragmentsBuildersModule
 import com.joaquimley.transporteta.ui.injection.scope.PerActivity
