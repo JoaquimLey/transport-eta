@@ -2,14 +2,12 @@ package com.joaquimley.transporteta.ui.di.module
 
 import android.app.Application
 import android.content.Context
-import com.joaquimley.transporteta.ui.injection.scope.PerApplication
 import com.joaquimley.transporteta.sms.SmsBroadcastReceiver
-import com.joaquimley.transporteta.sms.SmsBroadcastReceiverImpl
 import com.joaquimley.transporteta.sms.SmsController
-import com.joaquimley.transporteta.sms.SmsControllerImpl
+import com.joaquimley.transporteta.ui.injection.scope.PerApplication
+import com.nhaarman.mockito_kotlin.mock
 import dagger.Module
 import dagger.Provides
-import org.mockito.Mockito
 
 @Module
 class TestAppModule {
@@ -23,14 +21,13 @@ class TestAppModule {
     @Provides
     @PerApplication
     fun provideSmsController(): SmsController {
-        return Mockito.mock(SmsControllerImpl::class.java)
+        return mock()
     }
 
 
     @Provides
     @PerApplication
     internal fun provideSmsBroadcastReceiver(): SmsBroadcastReceiver {
-        return Mockito.mock(SmsBroadcastReceiverImpl::class.java)
+        return mock()
     }
-
 }

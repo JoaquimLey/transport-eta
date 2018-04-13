@@ -1,9 +1,8 @@
-package com.joaquimley.transporteta.ui.test.factory
+package com.joaquimley.transporteta.ui.testing.factory
 
 import android.support.annotation.RestrictTo
 import com.joaquimley.transporteta.ui.model.FavoriteView
-import com.joaquimley.transporteta.ui.test.factory.ui.DataFactory
-import java.util.*
+import com.joaquimley.transporteta.ui.testing.factory.ui.DataFactory
 import kotlin.collections.ArrayList
 
 @RestrictTo(RestrictTo.Scope.TESTS)

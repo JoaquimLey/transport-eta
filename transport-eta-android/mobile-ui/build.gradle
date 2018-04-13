@@ -13,37 +13,8 @@ android {
         versionName app_version.versionName
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "com.joaquimley.transporteta.ui.test.TestRunner"
-    }
 
-    buildTypes {
-        debug {
-            testCoverageEnabled true
-        }
-
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    productFlavors {
-        flavorDimensions "city", "enviroment"
-
-        lx {
-            dimension "city"
-        }
-
-        dev {
-//            applicationIdSuffix ".dev"
-            dimension "enviroment"
-        }
-
-        mock {
-//            applicationIdSuffix ".mock"
-            dimension "enviroment"
-        }
-
-
+        missingDimensionStrategy 'environment', 'mock', 'prod'
     }
 
     packagingOptions {
@@ -59,6 +30,38 @@ android {
         abortOnError false
         ignoreWarnings true
     }
+
+    buildTypes {
+        debug {
+            versionNameSuffix "-dev"
+            applicationIdSuffix ".debug"
+            debuggable true
+            testCoverageEnabled true
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+//    productFlavors {
+//        flavorDimensions "city", "environment"
+//
+//        lx {
+//           dimension "city"
+//        }
+//
+//        dev {
+//            applicationIdSuffix ".dev"
+//            dimension "environment"
+//        }
+//
+//        mock {
+//            applicationIdSuffix ".mock"
+//            dimension "environment"
+//        }
+//    }
 }
 
 kapt {
@@ -76,7 +79,6 @@ configurations.all {
 }
 
 dependencies {
-
     // Modules
     implementation project(':sms')
 

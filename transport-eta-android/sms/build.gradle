@@ -29,6 +29,41 @@ android {
         disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
     }
 
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        flavorDimensions "environment"
+
+        prod {
+            dimension "environment"
+        }
+
+        mock {
+            dimension "environment"
+        }
+    }
+
+    /**
+     * Prevent shipping the mock flavor with release  variant
+     * read more at: https://developer.android.com/studio/build/build-variants.html
+     */
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        // To check for a certain build type, use variant.buildType.name == "<buildType>"
+        if (names.contains("mock") && variant.buildType.name == "release") {
+            // Gradle ignores any variants that satisfy the conditions above.
+            setIgnore(true)
+        }
+    }
 }
 
 androidExtensions {

@@ -1,4 +1,4 @@
-package com.joaquimley.transporteta.ui.test.factory.ui
+package com.joaquimley.transporteta.ui.testing.factory.ui
 
 import java.util.concurrent.ThreadLocalRandom
 

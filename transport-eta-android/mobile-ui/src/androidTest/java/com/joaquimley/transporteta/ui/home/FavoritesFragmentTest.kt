@@ -10,8 +10,8 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
-import com.joaquimley.transporteta.ui.test.TestFragmentActivity
-import com.joaquimley.transporteta.ui.test.factory.FavoriteViewTestFactory
+import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
+import com.joaquimley.transporteta.ui.testing.factory.FavoriteViewTestFactory
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,13 +22,13 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FavoritesFragmentTest {
 
-    @get:Rule val activityRule = ActivityTestRule(HomeActivity::class.java)
+    @get:Rule val activityRule = ActivityTestRule(TestFragmentActivity::class.java, true, true)
     private lateinit var favoritesFragment: FavoritesFragment
 
     @Before
     fun setup() {
         favoritesFragment = FavoritesFragment.newInstance()
-//        activityRule.activity.addFragment(favoritesFragment)
+        activityRule.activity.addFragment(favoritesFragment)
     }
 
     @Test

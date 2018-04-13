@@ -1,4 +1,4 @@
-package com.joaquimley.transporteta.ui.test
+package com.joaquimley.transporteta.ui.testing
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
