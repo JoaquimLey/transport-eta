@@ -3,7 +3,7 @@
   
 ![minSdkVersion](https://img.shields.io/badge/minSdkVersion-15-green.svg?style=true) ![compileSdkVersion](https://img.shields.io/badge/compileSdkVersion-25-green.svg?style=true)
   
-## Coming from the Blogpost?
+## Info about the Article
 - Read the [Medium blog post](https://medium.com/@JoaquimLey/android-architecture-components-now-with-100-more-mvvm-11629a630125)
 - See the code on the [blogpost branch](https://github.com/JoaquimLey/bus-eta/tree/blogpost)
 
@@ -18,8 +18,8 @@ Don't forget to follow and watch the stream
 - Multi module Clean architecture
 - Rx
 - Kotlin
-- Android Architecutre Components
-- Firebase: Cloud functions, Firestore
+- Android Architecture Components
+- Firebase Suite (I'll integrate as much services as possible)
 - Tests  🙌
 
 
@@ -27,6 +27,8 @@ Don't forget to follow and watch the stream
 Since I always like to work on some pet-projects I decided to document them on a live coding stream, this way I'll force myself into actually finishing and maybe get some feedback from the community. With others is easier to learn 📖.
 
 ## Stream log
+
+#### Come and say Hi 👋 and join me on stream [twitch.tv/joaquimley](http:twitch.tv/joaquimley) and watch (& help) me as I develop and make mistakes on this project
 
 - Ep.1:  https://github.com/JoaquimLey/transport-eta/tree/4642c5fd6af9de3b258b179d0a7a8c69195fa293
 
@@ -41,6 +43,8 @@ Since I always like to work on some pet-projects I decided to document them on a
 - Ep.6: https://github.com/JoaquimLey/transport-eta/pull/33
 
 - Ep.7: https://github.com/JoaquimLey/transport-eta/pull/36
+
+- Ep.8: https://github.com/JoaquimLey/transport-eta/pull/41
 
 
 ## About the author
