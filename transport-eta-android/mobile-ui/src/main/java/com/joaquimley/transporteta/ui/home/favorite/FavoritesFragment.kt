@@ -21,6 +21,7 @@ import android.view.ViewGroup
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.ui.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.ResourceState
+import com.joaquimley.transporteta.ui.util.isEmpty
 import com.joaquimley.transporteta.ui.util.setVisible
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_favourites.*
@@ -132,11 +133,11 @@ class FavoritesFragment : Fragment() {
         setupScreenEmptyState(false)
         if (isLoading) {
             if (swipe_refresh.isRefreshing.not() && adapter.isEmpty()) {
-                progress.visibility = View.VISIBLE
+                progress_bar.visibility = View.VISIBLE
             }
         } else {
             swipe_refresh.isRefreshing = false
-            progress.visibility = View.GONE
+            progress_bar.visibility = View.GONE
 //            adapter.removeLoadingView()
         }
     }

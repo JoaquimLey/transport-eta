@@ -21,8 +21,10 @@ versions.okhttp_logging_interceptor = "3.9.0"
 versions.mockwebserver = "3.8.1"
 versions.apache_commons = "2.5"
 versions.assertj = "3.8.0"
-versions.mockito = "2.8.9"
-versions.dexmaker = "2.2.0"
+versions.mockito = "2.18.0"
+versions.dexmaker = '1.2'
+versions.dexmaker_mockito = '1.2'
+versions.dexmaker_linkedin = "2.2.0"
 versions.constraint_layout = "1.0.2"
 versions.glide = "3.8.0"
 versions.timber = "4.6.0"
@@ -107,24 +109,29 @@ deps.atsl = atsl
 
 def mockito = [:]
 mockito.core = "org.mockito:mockito-core:$versions.mockito"
+mockito.inline = "org.mockito:mockito-inline:$versions.mockito"
 mockito.android = "org.mockito:mockito-android:$versions.mockito"
+mockito.kotlin = "com.nhaarman:mockito-kotlin:$versions.kotlin_mockito"
 deps.mockito = mockito
 
 def kotlin = [:]
 kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jre7:$versions.kotlin"
 kotlin.test = "org.jetbrains.kotlin:kotlin-test:$versions.kotlin"
 kotlin.junit = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
-kotlin.mockito = "com.nhaarman:mockito-kotlin:$versions.kotlin_mockito"
 kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 kotlin.rx = "io.reactivex.rxjava2:rxkotlin:$versions.kotlin_rx"
 deps.kotlin = kotlin
 
+def dexmaker = [:]
+dexmaker.stdlib = "com.google.dexmaker:dexmaker:$versions.dexmaker"
+dexmaker.mockito = "com.google.dexmaker:dexmaker-mockito:$versions.dexmaker_mockito"
+//dexmaker.linkedin = "com.linkedin.dexmaker:dexmaker-mockito:$versions.dexmaker_linkedin"
+deps.dexmaker = dexmaker
 
 deps.glassfish_annotation = "org.glassfish:javax.annotation:$versions.glassfish_annotation"
 deps.robolectric = "org.robolectric:robolectric:$versions.robolectric"
 deps.assertj = "org.assertj:assertj-core:$versions.assertj"
 deps.glide = "com.github.bumptech.glide:glide:$versions.glide"
-deps.dexmaker = "com.linkedin.dexmaker:dexmaker-mockito:$versions.dexmaker"
 deps.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
 deps.timber = "com.jakewharton.timber:timber:$versions.timber"
 deps.junit = "junit:junit:$versions.junit"

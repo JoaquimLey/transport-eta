@@ -7,7 +7,6 @@ import com.joaquimley.transporteta.sms.SmsBroadcastReceiverImpl
 import com.joaquimley.transporteta.sms.SmsController
 import com.joaquimley.transporteta.sms.SmsControllerImpl
 import com.joaquimley.transporteta.ui.injection.scope.PerApplication
-import com.nhaarman.mockito_kotlin.mock
 import dagger.Module
 import dagger.Provides
 

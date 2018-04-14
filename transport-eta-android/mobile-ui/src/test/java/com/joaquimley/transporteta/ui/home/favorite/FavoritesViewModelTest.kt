@@ -29,7 +29,7 @@ class FavoritesViewModelTest {
     @Mock private lateinit var mockSmsController: SmsController
     @Mock private lateinit var mockFavoriteViewObserver: Observer<Resource<List<FavoriteView>>>
 
-    private lateinit var captor: KArgumentCaptor<SmsController>
+//    private lateinit var captor: KArgumentCaptor<SmsController>
     private lateinit var smsTestObserver: TestObserver<SmsModel>
     private lateinit var favoritesViewModel: FavoritesViewModel
 

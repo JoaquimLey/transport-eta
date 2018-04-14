@@ -7,11 +7,12 @@ import com.joaquimley.transporteta.ui.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.Resource
 import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.sms.SmsController
+import javax.inject.Inject
 
 /**
  * Created by joaquimley on 28/03/2018.
  */
-class FavoritesViewModel(private val smsController: SmsController) : ViewModel() {
+class FavoritesViewModel @Inject internal constructor(private val smsController: SmsController) : ViewModel() {
 
     private val favouritesLiveData = MutableLiveData<Resource<List<FavoriteView>>>()
 

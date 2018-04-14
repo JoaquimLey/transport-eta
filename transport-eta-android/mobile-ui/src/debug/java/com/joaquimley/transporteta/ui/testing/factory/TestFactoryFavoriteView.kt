@@ -6,7 +6,7 @@ import com.joaquimley.transporteta.ui.testing.factory.ui.DataFactory
 import kotlin.collections.ArrayList
 
 @RestrictTo(RestrictTo.Scope.TESTS)
-object FavoriteViewTestFactory {
+object TestFactoryFavoriteView {
 
     fun generateFavoriteView(busStopCode: Int? = null): FavoriteView {
         return FavoriteView(busStopCode
