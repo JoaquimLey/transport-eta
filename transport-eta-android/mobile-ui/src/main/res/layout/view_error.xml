@@ -4,14 +4,13 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/text_message"
+        android:id="@+id/error_view_text_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Error result" />
+        android:layout_centerInParent="true" />
 
     <Button
-        android:id="@+id/button_try_again"
+        android:id="@+id/error_view_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_message"

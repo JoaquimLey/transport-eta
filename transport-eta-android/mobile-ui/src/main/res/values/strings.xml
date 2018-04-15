@@ -57,6 +57,7 @@
     <string name="create_favorite_title">Create favorite</string>
     <string name="create_favorite_code_hint">Bus station code *</string>
     <string name="create_favorite_title_hint">Bus station title</string>
+    <string name="error_create_favorite_code_required">Please input bus stop code</string>
 
     <!-- Login -->
     <string name="login_button_sign_in">@string/action_sign_in</string>
