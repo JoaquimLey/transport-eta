@@ -83,34 +83,18 @@ dependencies {
     // Kotlin
     implementation deps.kotlin.stdlib
     implementation deps.kotlin.rx
-    // Testing
-//    testImplementation deps.junit
-//    testImplementation deps.kotlin.test
-//    testImplementation deps.kotlin.mockito
-//    testImplementation deps.assertj
-//    testImplementation deps.robolectric
-//    testImplementation deps.arch_core.testing
-//    // Instrumentation testing
-//    androidTestImplementation deps.kotlin.mockito
-//    androidTestImplementation(deps.atsl.runner) {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    }
-//    androidTestImplementation(deps.atsl.rules) {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    }
-//    androidTestImplementation(deps.espresso.core) {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    }
-//    androidTestImplementation(deps.espresso.intents) {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    }
-//    androidTestImplementation(deps.espresso.contrib) {
-//        exclude module: 'appcompat'
-//        exclude module: 'appcompat-v7'
-//        exclude module: 'support-v4'
-//        exclude module: 'support-v13'
-//        exclude module: 'support-annotations'
-//        exclude module: 'recyclerview-v7'
-//        exclude module: 'design'
-//    }
+
+    /***********
+     * Testing *
+     ***********/
+
+    // Dependencies for local unit tests
+    kaptTest deps.dagger.compiler
+    testImplementation deps.junit
+    testImplementation deps.hamcrest
+    testImplementation deps.kotlin.test
+    testImplementation deps.mockito.kotlin
+    testImplementation deps.mockito.inline
+    // Resolve conflicts between main and local unit tests
+    testImplementation deps.support.annotations
 }

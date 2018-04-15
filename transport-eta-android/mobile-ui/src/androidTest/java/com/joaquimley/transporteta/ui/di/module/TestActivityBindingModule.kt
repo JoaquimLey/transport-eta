@@ -1,6 +1,5 @@
-package com.joaquimley.transporteta.ui.testing.di.module
+package com.joaquimley.transporteta.ui.di.module
 
-import com.joaquimley.transporteta.ui.di.module.HomeFragmentsBuildersModule
 import com.joaquimley.transporteta.ui.injection.scope.PerActivity
 import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
 import dagger.Module
@@ -10,6 +9,6 @@ import dagger.android.ContributesAndroidInjector
 abstract class TestActivityBindingModule {
 
     @PerActivity
-    @ContributesAndroidInjector(modules = arrayOf(HomeFragmentsBuildersModule::class))
+    @ContributesAndroidInjector(modules = arrayOf(HomeActivityModule::class, HomeFragmentsBuildersModule::class /*TestHomeFragmentsBuildersModule::class*/))
     abstract fun bindTestFragmentActivity(): TestFragmentActivity
 }

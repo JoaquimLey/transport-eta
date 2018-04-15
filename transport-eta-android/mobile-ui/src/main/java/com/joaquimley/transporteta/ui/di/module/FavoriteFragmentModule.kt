@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class FavouriteFragmentModule {
+class FavoriteFragmentModule {
 
     @Provides
     fun provideFavouritesViewModelFactory(smsController: SmsController): FavoritesViewModelFactory {

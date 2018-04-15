@@ -31,6 +31,13 @@ android {
         ignoreWarnings true
     }
 
+    // Always show the result of every unit test, even if it passes.
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
+
     buildTypes {
         debug {
             versionNameSuffix "-dev"
@@ -44,24 +51,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
 
-//    productFlavors {
-//        flavorDimensions "city", "environment"
-//
-//        lx {
-//           dimension "city"
-//        }
-//
-//        dev {
-//            applicationIdSuffix ".dev"
-//            dimension "environment"
-//        }
-//
-//        mock {
-//            applicationIdSuffix ".mock"
-//            dimension "environment"
-//        }
-//    }
+configurations.all {
+    resolutionStrategy {
+        force deps.kotlin.stdlib
+        force deps.support.annotations
+    }
 }
 
 kapt {
@@ -72,35 +68,24 @@ androidExtensions {
     experimental = true
 }
 
-configurations.all {
-    resolutionStrategy {
-        force deps.kotlin.stdlib
-    }
-}
-
 dependencies {
     // Modules
     implementation project(':sms')
-
     // Javax
     implementation deps.javax.inject
     compileOnly deps.javax.annotation
-
     // Rx
     implementation deps.rxjava2
     implementation deps.rx_android
-
     // Kotlin
     implementation deps.kotlin.rx
     implementation deps.kotlin.stdlib
-
     // Dagger
     implementation deps.dagger.runtime
     implementation deps.dagger.android
     implementation deps.dagger.android_support
     kapt deps.dagger.compiler
     kapt deps.dagger.android_support_compiler
-
     // Support
     implementation deps.support.v4
     implementation deps.support.design
@@ -109,12 +94,10 @@ dependencies {
     implementation deps.support.constraint
     implementation deps.support.annotations
     implementation deps.support.recyclerview
-
     // Utils
     implementation deps.glide
     implementation deps.timber
     implementation deps.lottie
-
     // ACC
     kapt deps.lifecycle.compiler
     implementation deps.lifecycle.extensions
@@ -128,34 +111,28 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.hamcrest
     testImplementation deps.kotlin.test
+    testImplementation deps.mockito.kotlin
     testImplementation deps.mockito.inline
     testImplementation deps.arch_core.testing
-
     // Resolve conflicts between main and local unit tests
     testImplementation deps.support.annotations
     testImplementation deps.support.core_utils
-
-
-
     // Dependencies for Android unit tests
-//    androidTestImplementation deps.dexmaker.mockito
+    androidTestImplementation deps.dexmaker.stdlib
     androidTestImplementation deps.mockito.android
+    androidTestImplementation deps.javax.inject
     kaptAndroidTest deps.dagger.compiler
-
     // Android Testing Support Library's runner and rules
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.atsl.rules
     androidTestImplementation deps.arch_core.testing
-
     // Espresso UI Testing
     androidTestImplementation deps.espresso.core
     androidTestImplementation deps.espresso.contrib
     androidTestImplementation deps.espresso.intents
-
     // Resolve conflicts between main and test APK:
     androidTestImplementation deps.support.annotations
     androidTestImplementation deps.support.v4
     androidTestImplementation deps.support.app_compat
     androidTestImplementation deps.support.design
-
 }

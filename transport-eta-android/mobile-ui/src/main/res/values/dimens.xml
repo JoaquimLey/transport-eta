@@ -5,6 +5,7 @@
     <dimen name="app_bar_height">220dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="default_dialog_corners">8dp</dimen>
 
     <!-- Bottom Navigation View -->
     <dimen name="bottom_navigation_view_elevation">8dp</dimen>
@@ -17,8 +18,9 @@
     <dimen name="button_round_min_width">225dp</dimen>
     <dimen name="button_round_horizontal_padding">24dp</dimen>
 
-    <!-- Item Lit -->
+    <!-- Item List -->
     <dimen name="card_item_radius">8dp</dimen>
     <dimen name="card_item_elevation">8dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
 
 </resources>

@@ -125,7 +125,7 @@ deps.kotlin = kotlin
 def dexmaker = [:]
 dexmaker.stdlib = "com.google.dexmaker:dexmaker:$versions.dexmaker"
 dexmaker.mockito = "com.google.dexmaker:dexmaker-mockito:$versions.dexmaker_mockito"
-//dexmaker.linkedin = "com.linkedin.dexmaker:dexmaker-mockito:$versions.dexmaker_linkedin"
+dexmaker.linkedin = "com.linkedin.dexmaker:dexmaker-mockito:$versions.dexmaker_linkedin"
 deps.dexmaker = dexmaker
 
 deps.glassfish_annotation = "org.glassfish:javax.annotation:$versions.glassfish_annotation"
