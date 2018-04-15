@@ -7,8 +7,6 @@ import com.joaquimley.transporteta.ui.model.data.Resource
 import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.sms.SmsController
 import com.joaquimley.transporteta.sms.model.SmsModel
-import com.joaquimley.transporteta.ui.home.favorite.FavoritesViewModel
-import com.nhaarman.mockito_kotlin.KArgumentCaptor
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Observable.just
@@ -31,7 +29,7 @@ class FavoritesViewModelTest {
 
 //    private lateinit var captor: KArgumentCaptor<SmsController>
     private lateinit var smsTestObserver: TestObserver<SmsModel>
-    private lateinit var favoritesViewModel: FavoritesViewModel
+    private lateinit var favoritesViewModel: FavoritesViewModelImpl
 
     @Before
     fun setUp() {
@@ -41,7 +39,7 @@ class FavoritesViewModelTest {
 
 //        smsTestObserver = mockSmsController.observeIncomingSms().test()
 
-        favoritesViewModel = FavoritesViewModel(mockSmsController)
+        favoritesViewModel = FavoritesViewModelImpl(mockSmsController)
     }
 
     @After

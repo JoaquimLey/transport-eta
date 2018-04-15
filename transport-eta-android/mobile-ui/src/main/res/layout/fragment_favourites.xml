@@ -7,6 +7,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         app:title="@string/favorites_fragment_title"
+        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
 

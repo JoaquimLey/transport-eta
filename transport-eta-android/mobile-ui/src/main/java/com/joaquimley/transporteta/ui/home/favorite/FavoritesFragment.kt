@@ -32,11 +32,11 @@ import javax.inject.Inject
  */
 class FavoritesFragment : Fragment() {
 
-    @Inject lateinit var viewModelFactory: FavoritesViewModelFactory
-    private lateinit var viewModel: FavoritesViewModel
     private lateinit var adapter: FavoritesAdapter
+    private lateinit var viewModel: FavoritesViewModel
+    @Inject lateinit var viewModelFactory: FavoritesViewModelFactory
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
@@ -66,7 +66,7 @@ class FavoritesFragment : Fragment() {
 
             dialog.show()
             val busStopCodeInputLayout: TextInputLayout? = dialog.findViewById(R.id.favorite_code_text_input_layout)
-            val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
+//            val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
 
             val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
             busStopCodeEditText?.addTextChangedListener(object: TextWatcher{

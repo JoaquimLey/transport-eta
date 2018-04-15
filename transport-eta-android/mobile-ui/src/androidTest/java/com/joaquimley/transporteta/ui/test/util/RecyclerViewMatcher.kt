@@ -1,11 +1,12 @@
 package com.joaquimley.transporteta.ui.test.util
 
 import android.content.res.Resources
+import android.support.test.InstrumentationRegistry
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import org.hamcrest.Description
-import org.hamcrest.Matcher
-import org.hamcrest.TypeSafeMatcher
+import org.hamcrest.*
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 
 open class RecyclerViewMatcher constructor(var recyclerViewId: Int) {
@@ -65,6 +66,26 @@ open class RecyclerViewMatcher constructor(var recyclerViewId: Int) {
         fun withRecyclerView(recyclerViewId: Int): RecyclerViewMatcher {
             return RecyclerViewMatcher(recyclerViewId)
         }
+
+     fun waitForAdapterChange(recyclerView: RecyclerView) {
+        val latch = CountDownLatch(1)
+        InstrumentationRegistry.getInstrumentation().runOnMainSync {
+            recyclerView.adapter.registerAdapterDataObserver(
+                    object : RecyclerView.AdapterDataObserver() {
+                        override fun onChanged() {
+                            latch.countDown()
+                        }
+
+                        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                            latch.countDown()
+                        }
+                    })
+        }
+        if (recyclerView.adapter.itemCount > 0) {
+            return
+        }
+        MatcherAssert.assertThat(latch.await(10, TimeUnit.SECONDS), CoreMatchers.`is`(true))
+    }
 
     }
 
