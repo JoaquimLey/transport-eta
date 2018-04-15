@@ -22,7 +22,6 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 @MediumTest
@@ -49,8 +48,54 @@ class FavoritesFragmentTest {
     }
 
     @Test
-    fun favoritesListViewIsShown() {
+    @Ignore("Test ignored: Can't currently mock ViewModel, therefore no data comes in")
+    fun whenThereAreItemsFavoritesListViewStateIsShown() {
+        // When there are items
+        // TODO -> Push mock data to UI
+        // Then
+        onView(withId(R.id.error_view)).check(doesNotExist())
+        onView(withId(R.id.empty_view)).check(doesNotExist())
         onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    @Ignore("Test ignored: Can't currently mock ViewModel, therefore no empty state is pushed")
+    fun whenNoItemAreInTheListEmptyViewStateIsShown() {
+        // When
+        // TODO Push EMPTY state to UI
+        // Then
+        onView(withId(R.id.error_view)).check(doesNotExist())
+        onView(withId(R.id.recycler_view)).check(doesNotExist())
+        onView(withId(R.id.empty_view)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    @Ignore("Test ignored: Can't currently mock ViewModel, therefore no error state is pushed")
+    fun whenErrorOccursWithEmptyDataErrorViewStateIsShown() {
+        // When
+        // ViewModel mock missing: TODO Push EMPTY state to UI
+        // ViewModel mock missing: TODO Use argument capture to get the correct error message
+        // Then
+        onView(withId(R.id.empty_view)).check(doesNotExist())
+        onView(withId(R.id.recycler_view)).check(doesNotExist())
+        // TODO onView(withText(<__ Use argument capture to get the error message and -> __>)).check(matches(isDisplayed()))
+        onView(withId(R.id.error_view)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    @Ignore("Test ignored: Can't currently mock ViewModel, therefore no error state is pushed")
+    fun whenErrorOccursWithDataDisplayedErrorMessageIsShown() {
+        // When
+        // TODO Push SOME DATA to the UI
+        // ViewModel mock missing: TODO Use argument capture to get the correct error message
+
+        // Then
+        onView(withId(R.id.recycler_view)).check(doesNotExist())
+        onView(withId(R.id.empty_view)).check(doesNotExist())
+        onView(withId(R.id.error_view)).check(doesNotExist())
+
+        // TODO Check we have a snackbar with error message
+        // TODO onView(withText(<__ Use argument capture to get the error message and -> __>)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -58,11 +103,16 @@ class FavoritesFragmentTest {
         // When
         onView(withId(R.id.fab)).perform(click())
         // Check dialog is showing
-        onView(withText("Create favorite")).check(matches(isDisplayed()))
+        onView(withText(R.string.create_favorite_title)).check(matches(isDisplayed()))
         onView(withId(R.id.favorite_code_edit_text)).check(matches(isDisplayed()))
         onView(withId(R.id.favorite_title_edit_text)).check(matches(isDisplayed()))
-        onView(withText("Create")).check(matches(isDisplayed()))
-        onView(withText("Discard")).check(matches(isDisplayed()))
+
+        // TODO Hint is shown but espresso can't see it, might be related to focus
+//        onView(withText(R.string.create_favorite_code_hint)).check(matches(isDisplayed()))
+//        onView(withText(R.string.create_favorite_title_hint)).check(matches(isDisplayed()))
+
+        onView(withText(R.string.action_create)).check(matches(isDisplayed()))
+        onView(withText(R.string.action_discard)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -70,9 +120,9 @@ class FavoritesFragmentTest {
         // Show dialog
         onView(withId(R.id.fab)).perform(click())
         // Click discard button
-        onView(withText("Discard")).perform(click())
+        onView(withText(R.string.action_discard)).perform(click())
         // Check is dismissed
-        onView(withText("Create favorite")).check(doesNotExist())
+        onView(withText(R.string.create_favorite_title)).check(doesNotExist())
     }
 
     @Test
@@ -82,11 +132,11 @@ class FavoritesFragmentTest {
         // Be sure the code field is empty
         onView(withId(R.id.favorite_code_edit_text)).perform(clearText())
         // Click create
-        onView(withText("Create")).perform(click())
+        onView(withText(R.string.action_create)).perform(click())
         // Dialog is not dismissed
-        onView(withText("Create favorite")).check(matches(isDisplayed()))
+        onView(withText(R.string.create_favorite_title)).check(matches(isDisplayed()))
         // Error message is shown
-        onView(withText("Please input bus stop code")).check(matches(isDisplayed()))
+        onView(withText(R.string.error_create_favorite_code_required)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -94,16 +144,16 @@ class FavoritesFragmentTest {
         // Show error message
         onView(withId(R.id.fab)).perform(click())
         onView(withId(R.id.favorite_code_edit_text)).perform(clearText())
-        onView(withText("Create")).perform(click())
+        onView(withText(R.string.action_create)).perform(click())
         // Start typing
         onView(withId(R.id.favorite_code_edit_text)).perform(typeText("1337"))
         // Check error message is hidden
-        onView(withText("Please input bus stop code")).check(doesNotExist())
+        onView(withText(R.string.error_create_favorite_code_required)).check(doesNotExist())
     }
 
 
     @Test
-    @Ignore("Test ignored: Not yet implemented")
+    @Ignore("Test ignored: Not yet implemented, can't currently mock ViewModel")
     fun whenDataComesInItIsCorrectlyDisplayedOnTheList() {
         val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))

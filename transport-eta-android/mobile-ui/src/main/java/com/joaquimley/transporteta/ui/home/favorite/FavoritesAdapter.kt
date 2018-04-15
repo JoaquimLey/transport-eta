@@ -51,7 +51,7 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
             itemView.eta_button.setOnClickListener { clickListener(favoriteView) }
         }
     }
-    
+
     companion object {
         const val VIEW_TYPE_PROGRESS = -1
         const val VIEW_TYPE_FAVORITE = -2

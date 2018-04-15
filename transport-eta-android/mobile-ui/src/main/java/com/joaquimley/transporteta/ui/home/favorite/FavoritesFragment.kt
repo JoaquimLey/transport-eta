@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
@@ -14,17 +15,18 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.ui.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.ResourceState
+import com.joaquimley.transporteta.ui.util.clear
 import com.joaquimley.transporteta.ui.util.isEmpty
 import com.joaquimley.transporteta.ui.util.setVisible
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_favourites.*
+import kotlinx.android.synthetic.main.view_error.*
 import javax.inject.Inject
 
 /**
@@ -56,8 +58,9 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun showAddFavoriteDialog() {
-        if (activity != null) {
-            val builder = AlertDialog.Builder(activity!!)
+
+        activity?.let {
+            val builder = AlertDialog.Builder(it)
             builder.setTitle(R.string.create_favorite_title)
             builder.setView(R.layout.dialog_create_favorite)
             builder.setPositiveButton(getString(R.string.action_create), null)
@@ -69,27 +72,25 @@ class FavoritesFragment : Fragment() {
 //            val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
 
             val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
-            busStopCodeEditText?.addTextChangedListener(object: TextWatcher{
+            busStopCodeEditText?.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
-                    if(!TextUtils.isEmpty(s)) {
+                    if (!TextUtils.isEmpty(s)) {
                         busStopCodeInputLayout?.error = null
                     }
                 }
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                     // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
-
-
             })
 
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 if (TextUtils.isEmpty(busStopCodeEditText?.text)) {
-                    busStopCodeInputLayout?.error = "Please input bus stop code"
+                    busStopCodeInputLayout?.error = getString(R.string.error_create_favorite_code_required)
                 }
             }
 
@@ -114,23 +115,26 @@ class FavoritesFragment : Fragment() {
                 })
     }
 
-    private fun handleDataState(resourceState: ResourceState, data: List<FavoriteView>?,
-                                message: String?) {
+    private fun handleDataState(resourceState: ResourceState, data: List<FavoriteView>?, message: String?) {
         when (resourceState) {
             ResourceState.LOADING -> setupScreenForLoadingState(true)
-            ResourceState.SUCCESS -> setupScreenForSuccess(data)
+            ResourceState.SUCCESS -> data?.let { setupScreenForSuccess(data) }
             ResourceState.ERROR -> setupScreenForError(message)
             ResourceState.EMPTY -> setupScreenForEmpty()
         }
     }
 
-    private fun setupScreenEmptyState(isEmpty: Boolean) {
-        // TODO show emptyView.setVisibility(isEmpty)
-        recycler_view.setVisible(!isEmpty)
+    private fun setupScreenEmptyState() {
+        adapter.clear()
+        recycler_view.setVisible(false)
+        error_view.setVisible(false)
+
+        empty_view.setVisible(true)
     }
 
     private fun setupScreenForLoadingState(isLoading: Boolean) {
-        setupScreenEmptyState(false)
+        error_view.setVisible(false)
+        empty_view.setVisible(false)
         if (isLoading) {
             if (swipe_refresh.isRefreshing.not() && adapter.isEmpty()) {
                 progress_bar.visibility = View.VISIBLE
@@ -142,24 +146,32 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    private fun setupScreenForSuccess(favoriteViewList: List<FavoriteView>?) {
-        setupScreenForLoadingState(false)
-        setupScreenEmptyState(false)
-        if (favoriteViewList != null) {
-            adapter.submitList(favoriteViewList)
-        }
+    private fun setupScreenForSuccess(favoriteViewList: List<FavoriteView>) {
+        error_view.setVisible(false)
+        empty_view.setVisible(false)
+        recycler_view.setVisible(true)
+        adapter.submitList(favoriteViewList)
     }
 
     private fun setupScreenForEmpty() {
-        if (adapter.isEmpty()) {
-            // TODO emptyView.setVisibility(true)
-
-        }
+        error_view.setVisible(false)
+        recycler_view.setVisible(false)
+        adapter.clear()
+        empty_view.setVisible(true)
     }
 
     private fun setupScreenForError(message: String?) {
-        // TODO
-        Log.e("FavFragment", "DEBUG: setupScreenForError: $message")
+        empty_view.setVisible(false)
+        if(adapter.isEmpty()) {
+            recycler_view.setVisible(false)
+            error_view_text_message.text = message
+            error_view.setVisible(true)
+        } else {
+            view?.let {
+                // TODO -> Add retry button (TDD: still no tests)
+                Snackbar.make(it, message.toString(), Snackbar.LENGTH_LONG)
+            }
+        }
     }
 
 

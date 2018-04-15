@@ -7,6 +7,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -23,11 +24,11 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class HomeActivityTest {
 
-    @get:Rule val activityRule = ActivityTestRule(HomeActivity::class.java)
+    @Rule @JvmField val activityRule = ActivityTestRule(TestFragmentActivity::class.java, true, true)
 
     @Before
     fun setup() {
-        activityRule.activity.supportFragmentManager.beginTransaction()
+
     }
 
     @Test

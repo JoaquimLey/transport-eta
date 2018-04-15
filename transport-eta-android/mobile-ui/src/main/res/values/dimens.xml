@@ -21,5 +21,6 @@
     <!-- Item List -->
     <dimen name="card_item_radius">8dp</dimen>
     <dimen name="card_item_elevation">8dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
 
 </resources>

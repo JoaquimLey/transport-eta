@@ -120,6 +120,7 @@ dependencies {
     // Dependencies for Android unit tests
     androidTestImplementation deps.dexmaker.stdlib
     androidTestImplementation deps.mockito.android
+    androidTestImplementation deps.javax.inject
     kaptAndroidTest deps.dagger.compiler
     // Android Testing Support Library's runner and rules
     androidTestImplementation deps.atsl.runner

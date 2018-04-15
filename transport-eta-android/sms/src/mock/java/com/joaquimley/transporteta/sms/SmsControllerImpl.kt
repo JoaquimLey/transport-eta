@@ -36,7 +36,7 @@ open class SmsControllerImpl @Inject constructor(private val smsBroadcastReceive
     override fun requestEta(busStopCode: Int) {
         this.busStopCode = busStopCode
         SmsManager.getDefault().sendTextMessage(smsBroadcastReceiver.serviceNumber, null, "C $busStopCode", null, null)
-        Log.e("SmsController", "requestEta $busStopCode")
+        Log.d("SmsController", "requestEta $busStopCode")
     }
 
     override fun dispose() {

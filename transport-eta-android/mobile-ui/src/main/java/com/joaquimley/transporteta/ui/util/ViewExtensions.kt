@@ -18,6 +18,10 @@ fun ImageView.load(resourceId: Int) {
 
 fun <T, VH : RecyclerView.ViewHolder> ListAdapter<T, VH>.isEmpty() = itemCount == 0
 
+fun <T, VH : RecyclerView.ViewHolder> ListAdapter<T, VH>.clear() {
+    submitList(null)
+}
+
 //private fun android.support.v7.app.AlertDialog.setButton(whichButton: Int, @StringRes stringResource: Int, function: () -> Unit) {
 //   setButton(whichButton, context.getString(stringResource), function)
 //}
