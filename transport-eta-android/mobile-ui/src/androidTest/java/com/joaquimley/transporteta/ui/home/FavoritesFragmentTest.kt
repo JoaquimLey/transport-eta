@@ -11,6 +11,7 @@ import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.joaquimley.transporteta.R
+import com.joaquimley.transporteta.ui.di.module.TestFavoriteFragmentModule
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesViewModel
 import com.joaquimley.transporteta.ui.model.FavoriteView
@@ -22,6 +23,7 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 @MediumTest
@@ -38,6 +40,10 @@ class FavoritesFragmentTest {
 
     @Before
     fun setup() {
+
+        `when`(TestFavoriteFragmentModule.favoritesViewModelsFactory.create(FavoritesViewModel::class.java)).thenReturn(viewModel)
+        `when`(viewModel.getFavourites()).thenReturn(results)
+
         favoritesFragment = FavoritesFragment.newInstance()
         activityRule.activity.addFragment(favoritesFragment)
     }
@@ -153,10 +159,11 @@ class FavoritesFragmentTest {
 
 
     @Test
-    @Ignore("Test ignored: Not yet implemented, can't currently mock ViewModel")
+//    @Ignore("Test ignored: Not yet implemented, can't currently mock ViewModel")
     fun whenDataComesInItIsCorrectlyDisplayedOnTheList() {
         val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
+        Thread.sleep(2000)
 
 //        onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(0))
 //                .check(matches(hasDescendant(withText(resultsList[0].latestEta))))

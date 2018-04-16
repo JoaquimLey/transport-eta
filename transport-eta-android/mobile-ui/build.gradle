@@ -36,6 +36,7 @@ android {
         testLogging {
             events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
         }
+        jvmArgs '-noverify'
     }
 
     buildTypes {
@@ -115,24 +116,26 @@ dependencies {
     testImplementation deps.mockito.inline
     testImplementation deps.arch_core.testing
     // Resolve conflicts between main and local unit tests
-    testImplementation deps.support.annotations
     testImplementation deps.support.core_utils
+    testImplementation deps.support.annotations
     // Dependencies for Android unit tests
-    androidTestImplementation deps.dexmaker.stdlib
-    androidTestImplementation deps.mockito.android
-    androidTestImplementation deps.javax.inject
     kaptAndroidTest deps.dagger.compiler
+    androidTestImplementation deps.javax.inject
+    androidTestImplementation deps.dexmaker.linkedin_inline
+//    androidTestImplementation deps.mockito.inline, { exclude group: 'net.bytebuddy' }
+//    androidTestImplementation deps.mockito.android, { exclude group: 'net.bytebuddy' }
+
     // Android Testing Support Library's runner and rules
-    androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.atsl.rules
+    androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.arch_core.testing
     // Espresso UI Testing
     androidTestImplementation deps.espresso.core
     androidTestImplementation deps.espresso.contrib
     androidTestImplementation deps.espresso.intents
     // Resolve conflicts between main and test APK:
-    androidTestImplementation deps.support.annotations
     androidTestImplementation deps.support.v4
-    androidTestImplementation deps.support.app_compat
     androidTestImplementation deps.support.design
+    androidTestImplementation deps.support.app_compat
+    androidTestImplementation deps.support.annotations
 }

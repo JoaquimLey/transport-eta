@@ -22,6 +22,7 @@ import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.ui.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.ui.util.clear
+import com.joaquimley.transporteta.ui.util.findViewById
 import com.joaquimley.transporteta.ui.util.isEmpty
 import com.joaquimley.transporteta.ui.util.setVisible
 import dagger.android.support.AndroidSupportInjection
@@ -147,8 +148,9 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun setupScreenForSuccess(favoriteViewList: List<FavoriteView>) {
-        error_view.setVisible(false)
-        empty_view.setVisible(false)
+        findViewById<View>(R.id.error_view)?.setVisible(false)
+//        error_view.setVisible(false)
+//        empty_view.setVisible(false)
         recycler_view.setVisible(true)
         adapter.submitList(favoriteViewList)
     }
