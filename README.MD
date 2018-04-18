@@ -48,6 +48,8 @@ Since I always like to work on some pet-projects I decided to document them on a
 
 - Ep.9: https://github.com/JoaquimLey/transport-eta/pull/42
 
+- Ep.10: https://github.com/JoaquimLey/transport-eta/pull/45
+
 
 ## About the author
 Hi, my name is  **Joaquim Ley**, I'm a Software Engineer (Android).
