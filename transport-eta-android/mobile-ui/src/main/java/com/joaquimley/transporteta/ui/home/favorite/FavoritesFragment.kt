@@ -6,15 +6,12 @@ import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TextInputEditText
-import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,12 +19,12 @@ import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.ui.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.ui.util.clear
-import com.joaquimley.transporteta.ui.util.findViewById
 import com.joaquimley.transporteta.ui.util.isEmpty
+import com.joaquimley.transporteta.ui.util.onChange
 import com.joaquimley.transporteta.ui.util.setVisible
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_favourites.*
-import kotlinx.android.synthetic.main.view_error.*
+import kotlinx.android.synthetic.main.view_message.*
 import javax.inject.Inject
 
 /**
@@ -67,31 +64,19 @@ class FavoritesFragment : Fragment() {
             builder.setPositiveButton(getString(R.string.action_create), null)
             builder.setNegativeButton(getString(R.string.action_discard), null)
             val dialog = builder.create()
-
             dialog.show()
-            val busStopCodeInputLayout: TextInputLayout? = dialog.findViewById(R.id.favorite_code_text_input_layout)
-//            val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
 
+            val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
             val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
-            busStopCodeEditText?.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                    if (!TextUtils.isEmpty(s)) {
-                        busStopCodeInputLayout?.error = null
-                    }
+            busStopCodeEditText?.onChange {
+                if (!TextUtils.isEmpty(it)) {
+                    busStopCodeEditText.error = null
                 }
-
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                    // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-            })
+            }
 
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 if (TextUtils.isEmpty(busStopCodeEditText?.text)) {
-                    busStopCodeInputLayout?.error = getString(R.string.error_create_favorite_code_required)
+                    busStopCodeEditText?.error = getString(R.string.error_create_favorite_code_required)
                 }
             }
 
@@ -121,21 +106,12 @@ class FavoritesFragment : Fragment() {
             ResourceState.LOADING -> setupScreenForLoadingState(true)
             ResourceState.SUCCESS -> data?.let { setupScreenForSuccess(data) }
             ResourceState.ERROR -> setupScreenForError(message)
-            ResourceState.EMPTY -> setupScreenForEmpty()
+            ResourceState.EMPTY -> setupScreenEmptyState()
         }
     }
 
-    private fun setupScreenEmptyState() {
-        adapter.clear()
-        recycler_view.setVisible(false)
-        error_view.setVisible(false)
-
-        empty_view.setVisible(true)
-    }
-
     private fun setupScreenForLoadingState(isLoading: Boolean) {
-        error_view.setVisible(false)
-        empty_view.setVisible(false)
+        message_view.setVisible(false)
         if (isLoading) {
             if (swipe_refresh.isRefreshing.not() && adapter.isEmpty()) {
                 progress_bar.visibility = View.VISIBLE
@@ -143,31 +119,29 @@ class FavoritesFragment : Fragment() {
         } else {
             swipe_refresh.isRefreshing = false
             progress_bar.visibility = View.GONE
-//            adapter.removeLoadingView()
         }
     }
 
     private fun setupScreenForSuccess(favoriteViewList: List<FavoriteView>) {
-        findViewById<View>(R.id.error_view)?.setVisible(false)
-//        error_view.setVisible(false)
-//        empty_view.setVisible(false)
-        recycler_view.setVisible(true)
+        message_view?.setVisible(false)
+        recycler_view?.setVisible(true)
         adapter.submitList(favoriteViewList)
     }
 
-    private fun setupScreenForEmpty() {
-        error_view.setVisible(false)
-        recycler_view.setVisible(false)
+    private fun setupScreenEmptyState() {
         adapter.clear()
-        empty_view.setVisible(true)
+        recycler_view?.setVisible(false)
+
+        // TODO set the view to empty state
+        message_view?.setVisible(true)
     }
 
     private fun setupScreenForError(message: String?) {
-        empty_view.setVisible(false)
-        if(adapter.isEmpty()) {
-            recycler_view.setVisible(false)
-            error_view_text_message.text = message
-            error_view.setVisible(true)
+        if (adapter.isEmpty()) {
+            recycler_view?.setVisible(false)
+            message_view?.setVisible(true)
+            // TODO set the view to error state
+            message_text_view?.text = message
         } else {
             view?.let {
                 // TODO -> Add retry button (TDD: still no tests)
@@ -182,10 +156,10 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        recycler_view.setHasFixedSize(true)
-        recycler_view.layoutManager = LinearLayoutManager(context)
+        recycler_view?.setHasFixedSize(true)
+        recycler_view?.layoutManager = LinearLayoutManager(context)
         adapter = FavoritesAdapter({ viewModel.onEtaRequested(it) })
-        recycler_view.adapter = adapter
+        recycler_view?.adapter = adapter
     }
 
     private fun setupListeners() {
@@ -194,8 +168,7 @@ class FavoritesFragment : Fragment() {
     }
 
     companion object {
-
-        fun newInstance(): FavoritesFragment {
+        @JvmStatic fun newInstance(): FavoritesFragment {
             val fragment = FavoritesFragment()
 //            val args = Bundle()
 //            fragment.arguments = args
@@ -203,18 +176,3 @@ class FavoritesFragment : Fragment() {
         }
     }
 }
-
-
-/*
-
-LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animation_view);
- ...
- Cancellable compositionCancellable = LottieComposition.Factory.fromJson(getResources(), jsonObject, (composition) -> {
-     animationView.setComposition(composition);
-     animationView.playAnimation();
- });
-
- // Cancel to stop asynchronous loading of composition
- // compositionCancellable.cancel();
-
- */

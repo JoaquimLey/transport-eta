@@ -38,4 +38,10 @@ class HomeActivityTest {
 
     // Check this article for permissions test
     // https://blog.egorand.me/testing-runtime-permissions-lessons-learned/
+
+    // https://medium.com/exploring-android/handling-android-runtime-permissions-in-ui-tests-981f9dc11a4e
+
+    // https://www.kotlindevelopment.com/runtime-permissions-espresso-done-right/
+
+    // https://developer.android.com/reference/android/support/test/rule/GrantPermissionRule.html
 }

@@ -107,7 +107,7 @@ dependencies {
      * Testing *
      ***********/
 
-    // Dependencies for local unit tests
+    // Local unit tests
     kaptTest deps.dagger.compiler
     testImplementation deps.junit
     testImplementation deps.hamcrest
@@ -118,14 +118,11 @@ dependencies {
     // Resolve conflicts between main and local unit tests
     testImplementation deps.support.core_utils
     testImplementation deps.support.annotations
-    // Dependencies for Android unit tests
+    // Android unit tests
     kaptAndroidTest deps.dagger.compiler
     androidTestImplementation deps.javax.inject
     androidTestImplementation deps.dexmaker.linkedin_inline
-//    androidTestImplementation deps.mockito.inline, { exclude group: 'net.bytebuddy' }
-//    androidTestImplementation deps.mockito.android, { exclude group: 'net.bytebuddy' }
-
-    // Android Testing Support Library's runner and rules
+    // Android Testing Support runner and rules and AAC
     androidTestImplementation deps.atsl.rules
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.arch_core.testing
