@@ -11,6 +11,7 @@ import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.joaquimley.transporteta.R
+import com.joaquimley.transporteta.ui.di.module.TestFavoriteFragmentModule
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesViewModel
 import com.joaquimley.transporteta.ui.model.FavoriteView
@@ -22,6 +23,7 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 @MediumTest
@@ -38,6 +40,10 @@ class FavoritesFragmentTest {
 
     @Before
     fun setup() {
+        // Init mock ViewModel
+        `when`(TestFavoriteFragmentModule.favoritesViewModelsFactory.create(FavoritesViewModel::class.java)).thenReturn(viewModel)
+        `when`(viewModel.getFavourites()).thenReturn(results)
+        // Instantiate fragment and add to the TestFragmentActivity
         favoritesFragment = FavoritesFragment.newInstance()
         activityRule.activity.addFragment(favoritesFragment)
     }
@@ -48,54 +54,51 @@ class FavoritesFragmentTest {
     }
 
     @Test
-    @Ignore("Test ignored: Can't currently mock ViewModel, therefore no data comes in")
-    fun whenThereAreItemsFavoritesListViewStateIsShown() {
+    fun whenThereIsDataSuccessViewStateIsShown() {
         // When there are items
-        // TODO -> Push mock data to UI
+        val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
+        results.postValue(Resource.success(resultsList))
         // Then
-        onView(withId(R.id.error_view)).check(doesNotExist())
-        onView(withId(R.id.empty_view)).check(doesNotExist())
+        onView(withId(R.id.message_view)).check(doesNotExist())
         onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
     }
 
     @Test
-    @Ignore("Test ignored: Can't currently mock ViewModel, therefore no empty state is pushed")
-    fun whenNoItemAreInTheListEmptyViewStateIsShown() {
+    fun whenThereIsNoDataEmptyViewStateIsShown() {
         // When
-        // TODO Push EMPTY state to UI
+        results.postValue(Resource.empty())
         // Then
-        onView(withId(R.id.error_view)).check(doesNotExist())
         onView(withId(R.id.recycler_view)).check(doesNotExist())
-        onView(withId(R.id.empty_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.message_view)).check(matches(isDisplayed()))
     }
 
     @Test
-    @Ignore("Test ignored: Can't currently mock ViewModel, therefore no error state is pushed")
-    fun whenErrorOccursWithEmptyDataErrorViewStateIsShown() {
-        // When
-        // ViewModel mock missing: TODO Push EMPTY state to UI
-        // ViewModel mock missing: TODO Use argument capture to get the correct error message
+    fun whenErrorOccursNoDataErrorViewStateIsShown() {
+        // When empty
+        results.postValue(Resource.empty())
+        // Error occurs
+        val errorMessage = "Test for error message"
+        results.postValue(Resource.error(errorMessage))
         // Then
-        onView(withId(R.id.empty_view)).check(doesNotExist())
+        onView(withId(R.id.message_view)).check(doesNotExist())
         onView(withId(R.id.recycler_view)).check(doesNotExist())
-        // TODO onView(withText(<__ Use argument capture to get the error message and -> __>)).check(matches(isDisplayed()))
-        onView(withId(R.id.error_view)).check(matches(isDisplayed()))
     }
 
     @Test
-    @Ignore("Test ignored: Can't currently mock ViewModel, therefore no error state is pushed")
     fun whenErrorOccursWithDataDisplayedErrorMessageIsShown() {
-        // When
-        // TODO Push SOME DATA to the UI
-        // ViewModel mock missing: TODO Use argument capture to get the correct error message
-
+        // When there is data
+        val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
+        results.postValue(Resource.success(resultsList))
+        onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
+        // Error occurs
+        val errorMessage = "Test for error message"
+        results.postValue(Resource.error(errorMessage))
         // Then
-        onView(withId(R.id.recycler_view)).check(doesNotExist())
-        onView(withId(R.id.empty_view)).check(doesNotExist())
-        onView(withId(R.id.error_view)).check(doesNotExist())
-
-        // TODO Check we have a snackbar with error message
-        // TODO onView(withText(<__ Use argument capture to get the error message and -> __>)).check(matches(isDisplayed()))
+        onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.message_view)).check(doesNotExist())
+        // Only snackbar is shown with retry button
+        onView(withText(errorMessage)).check(matches(isDisplayed()))
+        onView(withText(R.string.action_retry)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -104,12 +107,11 @@ class FavoritesFragmentTest {
         onView(withId(R.id.fab)).perform(click())
         // Check dialog is showing
         onView(withText(R.string.create_favorite_title)).check(matches(isDisplayed()))
+        // Check
         onView(withId(R.id.favorite_code_edit_text)).check(matches(isDisplayed()))
         onView(withId(R.id.favorite_title_edit_text)).check(matches(isDisplayed()))
-
-        // TODO Hint is shown but espresso can't see it, might be related to focus
-//        onView(withText(R.string.create_favorite_code_hint)).check(matches(isDisplayed()))
-//        onView(withText(R.string.create_favorite_title_hint)).check(matches(isDisplayed()))
+        onView(withId(R.id.favorite_code_edit_text)).check(matches(withHint(R.string.create_favorite_code_hint)))
+        onView(withId(R.id.favorite_title_edit_text)).check(matches(withHint(R.string.create_favorite_title_hint)))
 
         onView(withText(R.string.action_create)).check(matches(isDisplayed()))
         onView(withText(R.string.action_discard)).check(matches(isDisplayed()))
@@ -157,7 +159,6 @@ class FavoritesFragmentTest {
     fun whenDataComesInItIsCorrectlyDisplayedOnTheList() {
         val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
-
 //        onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(0))
 //                .check(matches(hasDescendant(withText(resultsList[0].latestEta))))
 //        onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(0)).check(matches(hasDescendant(withText(resultsList[0].code.toString()))))
