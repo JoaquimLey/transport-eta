@@ -40,13 +40,13 @@ Since I always like to work on some pet-projects I decided to document them on a
 
 - Ep.5: https://github.com/JoaquimLey/transport-eta/pull/32
 
-- Ep.6: https://github.com/JoaquimLey/transport-eta/pull/33
+- Ep.6: https://github.com/JoaquimLey/transport-eta/pull/36
 
-- Ep.7: https://github.com/JoaquimLey/transport-eta/pull/36
+- Ep.7: https://github.com/JoaquimLey/transport-eta/pull/41
 
-- Ep.8: https://github.com/JoaquimLey/transport-eta/pull/41
+- Ep.8: https://github.com/JoaquimLey/transport-eta/pull/42
 
-- Ep.9: https://github.com/JoaquimLey/transport-eta/pull/42
+- Ep.9: https://github.com/JoaquimLey/transport-eta/pull/45
 
 
 ## About the author
