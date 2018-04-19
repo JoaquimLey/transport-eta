@@ -2,11 +2,12 @@ package com.joaquimley.transporteta.ui.home.favorite
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Observer
+import com.joaquimley.transporteta.sms.SmsController
+import com.joaquimley.transporteta.sms.model.SmsModel
 import com.joaquimley.transporteta.ui.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.Resource
 import com.joaquimley.transporteta.ui.model.data.ResourceState
-import com.joaquimley.transporteta.sms.SmsController
-import com.joaquimley.transporteta.sms.model.SmsModel
+import com.joaquimley.transporteta.ui.presentation.home.favorite.FavoritesViewModelImpl
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Observable.just

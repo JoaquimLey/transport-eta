@@ -10,7 +10,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
-import com.joaquimley.transporteta.ui.presentation.HomeViewModel
+import com.joaquimley.transporteta.ui.presentation.home.HomeViewModel
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector

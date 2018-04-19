@@ -1,8 +1,9 @@
-package com.joaquimley.transporteta.ui.presentation
+package com.joaquimley.transporteta.ui.presentation.home
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.joaquimley.transporteta.ui.presentation.NavigationType
 
 /**
  * Created by joaquimley on 24/03/2018.

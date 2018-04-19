@@ -1,6 +1,7 @@
 package com.joaquimley.transporteta.ui.home.favorite
 
 import android.support.v7.recyclerview.extensions.ListAdapter
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -55,5 +56,15 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
     companion object {
         const val VIEW_TYPE_PROGRESS = -1
         const val VIEW_TYPE_FAVORITE = -2
+    }
+
+    class FavoriteViewDiffCallback : DiffUtil.ItemCallback<FavoriteView>() {
+        override fun areItemsTheSame(oldItem: FavoriteView?, newItem: FavoriteView?): Boolean {
+            return oldItem?.code == newItem?.code
+        }
+
+        override fun areContentsTheSame(oldItem: FavoriteView?, newItem: FavoriteView?): Boolean {
+            return oldItem == newItem
+        }
     }
 }

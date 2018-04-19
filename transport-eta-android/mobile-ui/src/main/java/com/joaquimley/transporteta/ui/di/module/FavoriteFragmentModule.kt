@@ -1,7 +1,7 @@
 package com.joaquimley.transporteta.ui.di.module
 
-import com.joaquimley.transporteta.ui.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.sms.SmsController
+import com.joaquimley.transporteta.ui.presentation.home.favorite.FavoritesViewModelFactory
 import dagger.Module
 import dagger.Provides
 

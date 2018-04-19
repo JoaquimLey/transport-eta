@@ -1,12 +1,11 @@
-package com.joaquimley.transporteta.ui.home.favorite
+package com.joaquimley.transporteta.ui.presentation.home.favorite
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import com.joaquimley.transporteta.sms.SmsController
 import com.joaquimley.transporteta.ui.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.Resource
 import com.joaquimley.transporteta.ui.model.data.ResourceState
-import com.joaquimley.transporteta.sms.SmsController
 import javax.inject.Inject
 
 /**
