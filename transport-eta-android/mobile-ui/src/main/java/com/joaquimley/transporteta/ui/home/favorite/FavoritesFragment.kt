@@ -18,6 +18,8 @@ import android.view.ViewGroup
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.ui.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.ResourceState
+import com.joaquimley.transporteta.ui.presentation.home.favorite.FavoritesViewModel
+import com.joaquimley.transporteta.ui.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.ui.util.clear
 import com.joaquimley.transporteta.ui.util.isEmpty
 import com.joaquimley.transporteta.ui.util.onChange

@@ -13,9 +13,9 @@ import android.support.test.runner.AndroidJUnit4
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.ui.di.module.TestFavoriteFragmentModule
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
-import com.joaquimley.transporteta.ui.home.favorite.FavoritesViewModel
 import com.joaquimley.transporteta.ui.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.Resource
+import com.joaquimley.transporteta.ui.presentation.home.favorite.FavoritesViewModel
 import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
 import com.joaquimley.transporteta.ui.testing.factory.TestFactoryFavoriteView
 import org.junit.Before

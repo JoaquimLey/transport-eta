@@ -1,4 +1,4 @@
-package com.joaquimley.transporteta.ui.home.favorite
+package com.joaquimley.transporteta.ui.presentation.home.favorite
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
