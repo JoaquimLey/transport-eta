@@ -53,7 +53,7 @@
     <string name="favorites_fragment_title">Favorites</string>
     <string name="station_code_placeholder">Station: %s</string>
 
-    <!-- Create Favorite -->
+    <!-- Create FavoriteViewObject -->
     <string name="create_favorite_title">Create favorite</string>
     <string name="create_favorite_code_hint">Bus station code *</string>
     <string name="create_favorite_title_hint">Bus station title</string>

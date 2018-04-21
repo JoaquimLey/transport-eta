@@ -13,13 +13,12 @@ import android.support.test.runner.AndroidJUnit4
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.ui.di.module.TestFavoriteFragmentModule
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
-import com.joaquimley.transporteta.ui.model.FavoriteView
-import com.joaquimley.transporteta.ui.model.data.Resource
+import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.ui.presentation.home.favorite.FavoritesViewModel
+import com.joaquimley.transporteta.ui.test.util.RecyclerViewMatcher
 import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
 import com.joaquimley.transporteta.ui.testing.factory.TestFactoryFavoriteView
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -73,19 +72,19 @@ class FavoritesFragmentTest {
     }
 
     @Test
-    fun whenErrorOccursNoDataErrorViewStateIsShown() {
+    fun whenThereIsNoDataAndErrorOccursErrorViewStateIsShown() {
         // When empty
         results.postValue(Resource.empty())
         // Error occurs
         val errorMessage = "Test for error message"
         results.postValue(Resource.error(errorMessage))
         // Then
-        onView(withId(R.id.message_view)).check(doesNotExist())
+        onView(withId(R.id.message_view)).check(matches(isDisplayed()))
         onView(withId(R.id.recycler_view)).check(doesNotExist())
     }
 
     @Test
-    fun whenErrorOccursWithDataDisplayedErrorMessageIsShown() {
+    fun whenThereIsDataAndErrorOccursErrorMessageIsShown() {
         // When there is data
         val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
@@ -102,7 +101,7 @@ class FavoritesFragmentTest {
     }
 
     @Test
-    fun whenFabIsClickedCreateFavoriteScreenIsShown() {
+    fun whenCreateFabIsClickedCreateFavoriteScreenIsShown() {
         // When
         onView(withId(R.id.fab)).perform(click())
         // Check dialog is showing
@@ -139,6 +138,7 @@ class FavoritesFragmentTest {
         onView(withText(R.string.create_favorite_title)).check(matches(isDisplayed()))
         // Error message is shown
         onView(withText(R.string.error_create_favorite_code_required)).check(matches(isDisplayed()))
+//        onView(allOf(withParent(R.id.txtPhoneNumber), withText("error text"))).check(matches(isDisplayed()))
     }
 
     @Test
@@ -155,16 +155,15 @@ class FavoritesFragmentTest {
 
 
     @Test
-    @Ignore("Test ignored: Not yet implemented, can't currently mock ViewModel")
-    fun whenDataComesInItIsCorrectlyDisplayedOnTheList() {
+    fun whenThereIsDataItIsCorrectlyDisplayedOnTheList() {
+        // When
         val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
-//        onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(0))
-//                .check(matches(hasDescendant(withText(resultsList[0].latestEta))))
-//        onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(0)).check(matches(hasDescendant(withText(resultsList[0].code.toString()))))
-//        onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
-//        onView(withText(resultsList[0].code.toString())).check(matches(isDisplayed()))
-//        viewModel.getFavourites()
+        // Then
+        onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(0)).check(matches(hasDescendant(withText(resultsList[0].latestEta))))
+        onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(0)).check(matches(hasDescendant(withText(resultsList[0].code.toString()))))
+        // Assert
+        onView(withId(R.id.progress_bar)).check(doesNotExist())
     }
 
 }

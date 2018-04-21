@@ -1,4 +1,4 @@
-package com.joaquimley.transporteta.ui.model
+package com.joaquimley.transporteta.presentation.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
