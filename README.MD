@@ -48,7 +48,7 @@ Since I always like to work on some pet-projects I decided to document them on a
 
 - Ep.9: https://github.com/JoaquimLey/transport-eta/pull/45
 
-- Ep.10: https://github.com/JoaquimLey/transport-eta/pull/45
+- Ep.10: https://github.com/JoaquimLey/transport-eta/pull/47
 
 
 ## About the author
