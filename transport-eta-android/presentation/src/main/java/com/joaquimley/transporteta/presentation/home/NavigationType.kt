@@ -1,4 +1,4 @@
-package com.joaquimley.transporteta.ui.presentation
+package com.joaquimley.transporteta.presentation.home
 
 /**
  * Created by joaquimley on 24/03/2018.

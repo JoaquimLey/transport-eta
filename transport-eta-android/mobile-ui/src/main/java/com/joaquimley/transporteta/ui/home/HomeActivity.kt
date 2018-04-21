@@ -9,8 +9,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import com.joaquimley.transporteta.R
+import com.joaquimley.transporteta.presentation.home.HomeViewModel
+import com.joaquimley.transporteta.presentation.home.HomeViewModelImpl
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
-import com.joaquimley.transporteta.ui.presentation.HomeViewModel
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -42,7 +43,8 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector/*, BottomNa
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        // Create a HomeViewModelFactory to abstract the HomeViewModelImpl class
+        viewModel = ViewModelProviders.of(this).get(HomeViewModelImpl::class.java)
     }
 
     /**
@@ -71,7 +73,7 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector/*, BottomNa
 
 
 //    private val favouritesFragment = FavoritesFragment.newInstance("")
-//    lateinit var viewModel: HomeViewModel
+//    lateinit var viewModel: HomeViewModelImpl
 //
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
@@ -93,7 +95,7 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector/*, BottomNa
 //
 //
 //    private fun setupViewModel() {
-//        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+//        viewModel = ViewModelProviders.of(this).get(HomeViewModelImpl::class.java)
 //    }
 //
 //    private fun setupNavigationView() {

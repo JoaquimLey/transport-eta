@@ -14,7 +14,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "com.joaquimley.transporteta.ui.test.TestRunner"
 
-        missingDimensionStrategy 'environment', 'mock', 'prod'
+        missingDimensionStrategy 'environment', ['prod', 'mock']
     }
 
     packagingOptions {
@@ -36,7 +36,7 @@ android {
         testLogging {
             events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
         }
-        jvmArgs '-noverify'
+//        jvmArgs '-noverify'
     }
 
     buildTypes {
@@ -72,6 +72,7 @@ androidExtensions {
 dependencies {
     // Modules
     implementation project(':sms')
+    implementation project(':presentation')
     // Javax
     implementation deps.javax.inject
     compileOnly deps.javax.annotation

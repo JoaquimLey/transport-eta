@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: SmsBroadcastReceiver) : SmsController {
+open class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: SmsBroadcastReceiver) : SmsController {
 
     private val serviceSms: PublishSubject<SmsModel> = PublishSubject.create()
     private var busStopCode: Int = 0
@@ -36,7 +36,7 @@ class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: Sm
     override fun requestEta(busStopCode: Int) {
         this.busStopCode = busStopCode
         SmsManager.getDefault().sendTextMessage(smsBroadcastReceiver.serviceNumber, null, "C $busStopCode", null, null)
-        Log.d("SmsController", "requestEta $busStopCode")
+        Log.e("SmsController", "requestEta $busStopCode")
     }
 
     override fun dispose() {

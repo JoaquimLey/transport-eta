@@ -1,6 +1,7 @@
 package com.joaquimley.transporteta.ui.di.module
 
-import com.joaquimley.transporteta.ui.home.favorite.FavoritesViewModelFactory
+import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
+import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactoryImpl
 import com.joaquimley.transporteta.sms.SmsController
 import dagger.Module
 import dagger.Provides
@@ -10,6 +11,6 @@ class FavoriteFragmentModule {
 
     @Provides
     fun provideFavouritesViewModelFactory(smsController: SmsController): FavoritesViewModelFactory {
-        return FavoritesViewModelFactory(smsController)
+        return FavoritesViewModelFactoryImpl(smsController)
     }
 }
