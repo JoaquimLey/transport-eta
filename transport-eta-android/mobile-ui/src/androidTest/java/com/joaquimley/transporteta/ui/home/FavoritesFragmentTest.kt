@@ -11,10 +11,11 @@ import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.joaquimley.transporteta.R
+import com.joaquimley.transporteta.presentation.data.Resource
+import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
+import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.ui.di.module.TestFavoriteFragmentModule
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
-import com.joaquimley.transporteta.presentation.data.Resource
-import com.joaquimley.transporteta.ui.presentation.home.favorite.FavoritesViewModel
 import com.joaquimley.transporteta.ui.test.util.RecyclerViewMatcher
 import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
 import com.joaquimley.transporteta.ui.testing.factory.TestFactoryFavoriteView
@@ -40,7 +41,7 @@ class FavoritesFragmentTest {
     @Before
     fun setup() {
         // Init mock ViewModel
-        `when`(TestFavoriteFragmentModule.favoritesViewModelsFactory.create(FavoritesViewModel::class.java)).thenReturn(viewModel)
+        `when`(TestFavoriteFragmentModule.favoritesViewModelsFactory.create()).thenReturn(viewModel)
         `when`(viewModel.getFavourites()).thenReturn(results)
         // Instantiate fragment and add to the TestFragmentActivity
         favoritesFragment = FavoritesFragment.newInstance()
