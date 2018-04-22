@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_favourites.*
 import kotlinx.android.synthetic.main.view_message.*
 import javax.inject.Inject
 
+
 /**
  * Created by joaquimley on 24/03/2018.
  */
@@ -116,15 +117,17 @@ class FavoritesFragment : Fragment() {
         message_view.setVisible(false)
         if (isLoading) {
             if (swipe_refresh.isRefreshing.not() && adapter.isEmpty()) {
-                progress_bar.visibility = View.VISIBLE
+                progress_bar?.setVisible(true)
             }
         } else {
-            swipe_refresh.isRefreshing = false
-            progress_bar.visibility = View.GONE
+            swipe_refresh?.isRefreshing = false
+            progress_bar?.setVisible(false)
         }
     }
 
     private fun setupScreenForSuccess(favoriteViewList: List<FavoriteView>) {
+        swipe_refresh?.isRefreshing = false
+        progress_bar?.setVisible(false)
         message_view?.setVisible(false)
         recycler_view?.setVisible(true)
         adapter.submitList(favoriteViewList)
@@ -141,13 +144,13 @@ class FavoritesFragment : Fragment() {
     private fun setupScreenForError(message: String?) {
         if (adapter.isEmpty()) {
             recycler_view?.setVisible(false)
-            message_view?.setVisible(true)
-            // TODO set the view to error state
             message_text_view?.text = message
+            message_view?.setVisible(true)
         } else {
-            view?.let {
-                // TODO -> Add retry button (TDD: still no tests)
-                Snackbar.make(it, message.toString(), Snackbar.LENGTH_LONG)
+            message?.let {
+                Snackbar.make(favorites_fragment_container, it, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.action_retry, { viewModel.retry() })
+                        .show()
             }
         }
     }

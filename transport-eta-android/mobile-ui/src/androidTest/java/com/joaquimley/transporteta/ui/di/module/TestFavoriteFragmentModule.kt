@@ -1,6 +1,7 @@
 package com.joaquimley.transporteta.ui.di.module
 
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
+import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactoryImpl
 import dagger.Module
 import dagger.Provides
 import org.mockito.Mockito.mock

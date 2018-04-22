@@ -122,7 +122,8 @@ dependencies {
     // Android unit tests
     kaptAndroidTest deps.dagger.compiler
     androidTestImplementation deps.javax.inject
-    androidTestImplementation deps.dexmaker.linkedin_inline
+    androidTestImplementation deps.mockito.android
+//    androidTestImplementation deps.dexmaker.linkedin_inline
     // Android Testing Support runner and rules and AAC
     androidTestImplementation deps.atsl.rules
     androidTestImplementation deps.atsl.runner
