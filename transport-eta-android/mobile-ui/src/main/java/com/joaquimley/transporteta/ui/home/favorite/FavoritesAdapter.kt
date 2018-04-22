@@ -59,11 +59,11 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
     }
 
     class FavoriteViewDiffCallback : DiffUtil.ItemCallback<FavoriteView>() {
-        override fun areItemsTheSame(oldItem: FavoriteView?, newItem: FavoriteView?): Boolean {
-            return oldItem?.code == newItem?.code
+        override fun areItemsTheSame(oldItem: FavoriteView, newItem: FavoriteView): Boolean {
+            return oldItem.code == newItem.code
         }
 
-        override fun areContentsTheSame(oldItem: FavoriteView?, newItem: FavoriteView?): Boolean {
+        override fun areContentsTheSame(oldItem: FavoriteView, newItem: FavoriteView): Boolean {
             return oldItem == newItem
         }
     }

@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion build_versions.target_sdk
+    compileSdkVersion build_versions.compile_sdk
     defaultConfig {
         applicationId "com.joaquimley.transporteta"
         minSdkVersion build_versions.min_sdk

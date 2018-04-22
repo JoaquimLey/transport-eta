@@ -70,7 +70,7 @@ open class RecyclerViewMatcher constructor(var recyclerViewId: Int) {
      fun waitForAdapterChange(recyclerView: RecyclerView) {
         val latch = CountDownLatch(1)
         InstrumentationRegistry.getInstrumentation().runOnMainSync {
-            recyclerView.adapter.registerAdapterDataObserver(
+            recyclerView.adapter?.registerAdapterDataObserver(
                     object : RecyclerView.AdapterDataObserver() {
                         override fun onChanged() {
                             latch.countDown()
@@ -81,7 +81,7 @@ open class RecyclerViewMatcher constructor(var recyclerViewId: Int) {
                         }
                     })
         }
-        if (recyclerView.adapter.itemCount > 0) {
+        if (recyclerView.adapter?.itemCount ?: -1 > 0) {
             return
         }
         MatcherAssert.assertThat(latch.await(10, TimeUnit.SECONDS), CoreMatchers.`is`(true))
