@@ -51,8 +51,6 @@ class FavoritesFragmentTest {
         // Instantiate fragment and add to the TestFragmentActivity
         favoritesFragment = FavoritesFragment.newInstance()
         activityRule.activity.addFragment(favoritesFragment)
-
-        // Due to Android P non-sdk access we're getting an alert dialog making the tests flaky
     }
 
     @Test
@@ -89,21 +87,30 @@ class FavoritesFragmentTest {
         results.postValue(Resource.error(errorMessage))
         // Then
         onView(withId(R.id.message_view)).check(matches(isDisplayed()))
+        onView(withText(errorMessage)).check(matches(isDisplayed()))
         onView(withId(R.id.recycler_view)).check(matches(not(isDisplayed())))
     }
 
+    /**
+     * Due to Android P non-sdk access an alert dialog is shown making this test flaky
+     *
+     * Issue: android.support.test.espresso.NoMatchingViewException:
+     * No views in hierarchy found matching: with id: com.joaquimley.transporteta.debug:id/recycler_view
+     *
+     * https://developer.android.com/preview/restrictions-non-sdk-interfaces.html
+     */
     @Test
     fun whenThereIsDataAndErrorOccursErrorMessageIsShown() {
         // When there is data
         val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
-//        onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
-
+        // List is displayed
+        onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
         // Error occurs
         val errorMessage = "Error message for Test"
         results.postValue(Resource.error(errorMessage))
 
-        // Then
+        // Then correct views are displayed
         onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
         onView(withId(R.id.message_view)).check(matches(not(isDisplayed())))
 
