@@ -65,6 +65,7 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
 
         override fun areContentsTheSame(oldItem: FavoriteView, newItem: FavoriteView): Boolean {
             return oldItem == newItem
+//            return oldItem.code == newItem.code && oldItem.latestEta == newItem.latestEta && newItem.originalText == oldItem.originalText
         }
     }
 }

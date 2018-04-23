@@ -1,5 +1,6 @@
 package com.joaquimley.transporteta.ui.home.favorite
 
+import android.app.Application
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -15,10 +16,12 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.model.FavoriteView
+import com.joaquimley.transporteta.ui.App
 import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.ui.util.clear
 import com.joaquimley.transporteta.ui.util.isEmpty
@@ -49,46 +52,8 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
         setupRecyclerView()
         setupListeners()
-    }
-
-    private fun initViews() {
-        fab.setOnClickListener { showAddFavoriteDialog() }
-    }
-
-    private fun showAddFavoriteDialog() {
-
-        activity?.let {
-            val builder = AlertDialog.Builder(it)
-            builder.setTitle(R.string.create_favorite_title)
-            builder.setView(R.layout.dialog_create_favorite)
-            builder.setPositiveButton(getString(R.string.action_create), null)
-            builder.setNegativeButton(getString(R.string.action_discard), null)
-            val dialog = builder.create()
-            dialog.show()
-
-            val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
-            val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
-            busStopCodeEditText?.onChange {
-                if (!TextUtils.isEmpty(it)) {
-                    busStopCodeEditText.error = null
-                }
-            }
-
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                if (TextUtils.isEmpty(busStopCodeEditText?.text)) {
-                    busStopCodeEditText?.error = getString(R.string.error_create_favorite_code_required)
-                }
-            }
-
-            context?.let { ContextCompat.getColor(it, R.color.colorLightGrey) }?.let { dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(it) }
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
-                dialog.dismiss()
-            }
-
-        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -131,6 +96,8 @@ class FavoritesFragment : Fragment() {
         message_view?.setVisible(false)
         recycler_view?.setVisible(true)
         adapter.submitList(favoriteViewList)
+        recycler_view.adapter = adapter
+        Toast.makeText(activity?.applicationContext, "setupScreenForSuccess()", Toast.LENGTH_LONG).show()
     }
 
     private fun setupScreenEmptyState() {
@@ -163,13 +130,56 @@ class FavoritesFragment : Fragment() {
     private fun setupRecyclerView() {
         recycler_view?.setHasFixedSize(true)
         recycler_view?.layoutManager = LinearLayoutManager(context)
-        adapter = FavoritesAdapter({ viewModel.onEtaRequested(it) })
+
+
+        adapter = FavoritesAdapter({
+            viewModel.onEtaRequested(it)
+
+//                    .doOnSubscribe {
+//                 TODO set this view loading/disabled
+//            }.subscribe({
+//                 TODO enable the view -> When this happens the data comes in
+//            })
+        })
         recycler_view?.adapter = adapter
     }
 
     private fun setupListeners() {
         // TODO emptyView.setListener(emptyListener)
         swipe_refresh.setOnRefreshListener({ viewModel.retry() })
+        fab.setOnClickListener { showAddFavoriteDialog() }
+    }
+
+    private fun showAddFavoriteDialog() {
+        activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.setTitle(R.string.create_favorite_title)
+            builder.setView(R.layout.dialog_create_favorite)
+            builder.setPositiveButton(getString(R.string.action_create), null)
+            builder.setNegativeButton(getString(R.string.action_discard), null)
+            val dialog = builder.create()
+            dialog.show()
+
+            val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
+            val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
+            busStopCodeEditText?.onChange {
+                if (!TextUtils.isEmpty(it)) {
+                    busStopCodeEditText.error = null
+                }
+            }
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                if (TextUtils.isEmpty(busStopCodeEditText?.text)) {
+                    busStopCodeEditText?.error = getString(R.string.error_create_favorite_code_required)
+                }
+            }
+
+            context?.let { ContextCompat.getColor(it, R.color.colorLightGrey) }?.let { dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(it) }
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
+                dialog.dismiss()
+            }
+
+        }
     }
 
     companion object {

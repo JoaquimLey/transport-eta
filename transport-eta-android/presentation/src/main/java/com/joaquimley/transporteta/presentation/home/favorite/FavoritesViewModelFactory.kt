@@ -7,10 +7,7 @@ import com.joaquimley.transporteta.sms.SmsController
 abstract class FavoritesViewModelFactory(private val smsController: SmsController) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass is FavoritesViewModel) {
-            return create() as T
-        }
-        throw IllegalStateException("Wrong class type passed ${modelClass.name}")
+        return create() as T
     }
 
     fun create(): FavoritesViewModel {

@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector/*, BottomNavigationView.OnNavigationItemSelectedListener*/ {
 
-    lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: HomeViewModel
     private val favouritesFragment = FavoritesFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {

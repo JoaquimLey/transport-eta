@@ -24,6 +24,7 @@ import com.joaquimley.transporteta.ui.testing.factory.TestFactoryFavoriteView
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.CoreMatchers.nullValue
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
