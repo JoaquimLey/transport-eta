@@ -12,9 +12,9 @@ import javax.inject.Singleton
 
 
 @Singleton
-open class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: SmsBroadcastReceiver) : SmsController {
+class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: SmsBroadcastReceiver) : SmsController {
 
-    private var smsBroadcastReceiverDisposable: Disposable? = null
+    private var broadcastReceiverDisposable: Disposable? = null
     private var smsRequestDisposable: Disposable? = null
     private val smsPublishSubject: PublishSubject<SmsModel> = PublishSubject.create()
 
@@ -22,6 +22,11 @@ open class SmsControllerImpl @Inject constructor(private val smsBroadcastReceive
 
     init {
         observeToSmsBroadcastReceiverEvents()
+    }
+
+    override fun invalidateRequest() {
+        this.busStopCode = null
+        smsRequestDisposable?.dispose()
     }
 
     override fun requestEta(busStopCode: Int): Single<SmsModel> {
@@ -41,7 +46,7 @@ open class SmsControllerImpl @Inject constructor(private val smsBroadcastReceive
     }
 
     private fun observeToSmsBroadcastReceiverEvents() {
-        smsBroadcastReceiverDisposable = smsBroadcastReceiver.observeServiceSms()
+        broadcastReceiverDisposable = smsBroadcastReceiver.observeServiceSms()
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     smsPublishSubject.onNext(SmsModel(busStopCode ?: -1, it))
@@ -49,7 +54,8 @@ open class SmsControllerImpl @Inject constructor(private val smsBroadcastReceive
     }
 
     override fun dispose() {
-        smsBroadcastReceiverDisposable?.dispose()
+        broadcastReceiverDisposable?.dispose()
+        smsRequestDisposable?.dispose()
     }
 }
 

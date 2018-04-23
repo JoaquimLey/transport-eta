@@ -1,6 +1,5 @@
 package com.joaquimley.transporteta.ui.home.favorite
 
-import android.app.Application
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -21,7 +20,6 @@ import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.model.FavoriteView
-import com.joaquimley.transporteta.ui.App
 import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.ui.util.clear
 import com.joaquimley.transporteta.ui.util.isEmpty
@@ -39,6 +37,7 @@ import javax.inject.Inject
 class FavoritesFragment : Fragment() {
 
     private lateinit var adapter: FavoritesAdapter
+    private lateinit var requestingSnackbar: Snackbar
     private lateinit var viewModel: FavoritesViewModel
     @Inject lateinit var viewModelFactory: FavoritesViewModelFactory
 
@@ -52,6 +51,7 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRequestSnackbar()
         setupRecyclerView()
         setupListeners()
     }
@@ -60,12 +60,20 @@ class FavoritesFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         initViewModel()
         observeFavourites()
+        observeRequestsEnabled()
+    }
+
+    private fun observeRequestsEnabled() {
+        viewModel.getAcceptingRequests().observe(this,
+                Observer {
+                    adapter.setActionEnabledStatus(it ?: true)
+                })
     }
 
     private fun observeFavourites() {
         viewModel.getFavourites().observe(this,
                 Observer {
-                    if (it != null) handleDataState(it.status, it.data, it.message)
+                    it?.let { handleDataState(it.status, it.data, it.message) }
                 })
     }
 
@@ -96,8 +104,7 @@ class FavoritesFragment : Fragment() {
         message_view?.setVisible(false)
         recycler_view?.setVisible(true)
         adapter.submitList(favoriteViewList)
-        recycler_view.adapter = adapter
-        Toast.makeText(activity?.applicationContext, "setupScreenForSuccess()", Toast.LENGTH_LONG).show()
+        requestingSnackbar.dismiss()
     }
 
     private fun setupScreenEmptyState() {
@@ -127,6 +134,14 @@ class FavoritesFragment : Fragment() {
         viewModel = ViewModelProviders.of(activity as AppCompatActivity, viewModelFactory).get(FavoritesViewModel::class.java)
     }
 
+    private fun setupRequestSnackbar() {
+        requestingSnackbar = Snackbar.make(favorites_fragment_container, "__Requesting...", Snackbar.LENGTH_INDEFINITE)
+        requestingSnackbar.setAction(R.string.action_cancel, {
+            viewModel.cancelEtaRequest()
+            Toast.makeText(activity?.applicationContext, R.string.info_canceled, Toast.LENGTH_SHORT).show()
+        })
+    }
+
     private fun setupRecyclerView() {
         recycler_view?.setHasFixedSize(true)
         recycler_view?.layoutManager = LinearLayoutManager(context)
@@ -134,12 +149,7 @@ class FavoritesFragment : Fragment() {
 
         adapter = FavoritesAdapter({
             viewModel.onEtaRequested(it)
-
-//                    .doOnSubscribe {
-//                 TODO set this view loading/disabled
-//            }.subscribe({
-//                 TODO enable the view -> When this happens the data comes in
-//            })
+            requestingSnackbar.show()
         })
         recycler_view?.adapter = adapter
     }

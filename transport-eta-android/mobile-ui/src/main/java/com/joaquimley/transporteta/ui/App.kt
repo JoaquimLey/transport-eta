@@ -2,7 +2,6 @@ package com.joaquimley.transporteta.ui
 
 import android.app.Activity
 import android.app.Application
-import android.content.Context
 import android.content.IntentFilter
 import android.provider.Telephony
 import com.joaquimley.transporteta.sms.SmsBroadcastReceiver
@@ -36,11 +35,5 @@ class App : Application(), HasActivityInjector {
 
     override fun activityInjector(): AndroidInjector<Activity> {
         return dispatchingAndroidInjector
-    }
-
-    companion object {
-        @JvmStatic fun getContext(): Context {
-            return App.getContext()
-        }
     }
 }

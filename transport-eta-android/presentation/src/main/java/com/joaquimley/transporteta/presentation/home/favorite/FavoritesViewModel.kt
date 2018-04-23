@@ -10,7 +10,11 @@ abstract class FavoritesViewModel(val smsController: SmsController): ViewModel()
 
     abstract fun getFavourites(): LiveData<Resource<List<FavoriteView>>>
 
+    abstract fun getAcceptingRequests(): LiveData<Boolean>
+
     abstract fun retry()
+
+    abstract fun cancelEtaRequest()
 
     abstract fun onEtaRequested(favourite: FavoriteView)
 }

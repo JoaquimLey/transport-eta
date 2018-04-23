@@ -40,6 +40,13 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
         }
     }
 
+    fun setActionEnabledStatus(isEnabled: Boolean) {
+        for (position in 0 until itemCount) {
+            getItem(position).isActionEnabled = isEnabled
+        }
+        notifyDataSetChanged()
+    }
+
     inner class ProgressViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     inner class FavoriteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -49,7 +56,14 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
             itemView.title_text_view.text = favoriteView.code.toString()
             itemView.subtitle_text_view.text = favoriteView.latestEta
             itemView.original_sms_text_view.text = favoriteView.originalText
-            itemView.eta_button.setOnClickListener { clickListener(favoriteView) }
+            favoriteView.isActionEnabled.let {
+                itemView.eta_button.isEnabled = it
+                itemView.eta_button.alpha = if (it) 1.0f else 0.3f
+            }
+
+            itemView.eta_button.setOnClickListener {
+                clickListener(favoriteView)
+            }
         }
     }
 
@@ -65,7 +79,6 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
 
         override fun areContentsTheSame(oldItem: FavoriteView, newItem: FavoriteView): Boolean {
             return oldItem == newItem
-//            return oldItem.code == newItem.code && oldItem.latestEta == newItem.latestEta && newItem.originalText == oldItem.originalText
         }
     }
 }
