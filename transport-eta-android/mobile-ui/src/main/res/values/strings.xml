@@ -21,6 +21,7 @@
     <string name="action_log_out">Log out</string>
 
     <!-- Information -->
+    <string name="info_requesting">Requesting…</string>
     <string name="info_canceled">Canceled</string>
 
     <!-- Permissions -->

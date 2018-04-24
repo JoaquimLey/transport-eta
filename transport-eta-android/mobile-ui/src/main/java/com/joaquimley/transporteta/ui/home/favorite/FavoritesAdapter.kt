@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.model.FavoriteView
-import com.joaquimley.transporteta.ui.util.load
+import com.joaquimley.transporteta.ui.util.extensions.load
 import kotlinx.android.synthetic.main.item_favorite.view.*
 
 class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)

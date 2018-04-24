@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -21,10 +22,7 @@ import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.ResourceState
-import com.joaquimley.transporteta.ui.util.clear
-import com.joaquimley.transporteta.ui.util.isEmpty
-import com.joaquimley.transporteta.ui.util.onChange
-import com.joaquimley.transporteta.ui.util.setVisible
+import com.joaquimley.transporteta.ui.util.extensions.*
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_favourites.*
 import kotlinx.android.synthetic.main.view_message.*
@@ -135,7 +133,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun setupRequestSnackbar() {
-        requestingSnackbar = Snackbar.make(favorites_fragment_container, "__Requesting...", Snackbar.LENGTH_INDEFINITE)
+        requestingSnackbar = Snackbar.make(favorites_fragment_container, R.string.info_requesting, Snackbar.LENGTH_INDEFINITE)
         requestingSnackbar.setAction(R.string.action_cancel, {
             viewModel.cancelEtaRequest()
             Toast.makeText(activity?.applicationContext, R.string.info_canceled, Toast.LENGTH_SHORT).show()
@@ -145,19 +143,27 @@ class FavoritesFragment : Fragment() {
     private fun setupRecyclerView() {
         recycler_view?.setHasFixedSize(true)
         recycler_view?.layoutManager = LinearLayoutManager(context)
-
-
         adapter = FavoritesAdapter({
             viewModel.onEtaRequested(it)
             requestingSnackbar.show()
         })
         recycler_view?.adapter = adapter
+        recycler_view?.addBottomPaddingDecoration()
     }
 
     private fun setupListeners() {
         // TODO emptyView.setListener(emptyListener)
         swipe_refresh.setOnRefreshListener({ viewModel.retry() })
         fab.setOnClickListener { showAddFavoriteDialog() }
+        recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                when (newState) {
+                    RecyclerView.SCROLL_STATE_DRAGGING -> fab.hide()
+                    RecyclerView.SCROLL_STATE_IDLE -> fab.show()
+                }
+            }
+        })
     }
 
     private fun showAddFavoriteDialog() {
