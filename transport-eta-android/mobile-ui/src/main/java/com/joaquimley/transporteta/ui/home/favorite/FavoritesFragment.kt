@@ -65,7 +65,7 @@ class FavoritesFragment : Fragment() {
         viewModel.getAcceptingRequests().observe(this,
                 Observer {
                     adapter.setActionEnabledStatus(it ?: true)
-                    requestingSnackbar.show()
+                    requestingSnackbar.setVisible(it)
                 })
     }
 
@@ -103,7 +103,6 @@ class FavoritesFragment : Fragment() {
         message_view?.setVisible(false)
         recycler_view?.setVisible(true)
         adapter.submitList(favoriteViewList)
-        requestingSnackbar.dismiss()
     }
 
     private fun setupScreenEmptyState() {

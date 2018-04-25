@@ -11,6 +11,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import android.support.v7.widget.RecyclerView
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
@@ -21,6 +22,8 @@ import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
 import com.joaquimley.transporteta.ui.test.util.RecyclerViewMatcher
 import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
 import com.joaquimley.transporteta.ui.testing.factory.TestFactoryFavoriteView
+import com.joaquimley.transporteta.ui.util.extensions.findViewById
+import com.nhaarman.mockito_kotlin.verify
 import org.hamcrest.CoreMatchers.*
 import org.junit.Before
 import org.junit.Rule
@@ -183,7 +186,7 @@ class FavoritesFragmentTest {
         results.postValue(Resource.success(resultsList))
         // Then check all items
         for (favoriteView in resultsList.withIndex()) {
-            // Scroll to item INDEX
+            // Scroll to item favoriteView.index
             onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition<FavoritesAdapter.FavoriteViewHolder>(favoriteView.index))
             // Check item is displayed correctly
             onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(favoriteView.index)).check(matches(hasDescendant(withText(resultsList[favoriteView.index].code.toString()))))
@@ -192,43 +195,78 @@ class FavoritesFragmentTest {
         }
     }
 
+    /**
+     * TODO: Not correctly implemented
+     */
     @Test
     fun whenRequestButtonIsClickedViewModelRequestIsCalled() {
         // Given
         val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
-//        requestsAvailable.postValue(false)
-
-        `when`(viewModel.onEtaRequested(resultsList[0])).then{requestsAvailable.postValue(false)}
         // When
         onView(withId(R.id.recycler_view))
                 .perform(RecyclerViewActions.scrollToPosition<FavoritesAdapter.FavoriteViewHolder>(0))
 
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions
-                                .actionOnItemAtPosition<FavoritesAdapter.FavoriteViewHolder>(0, click()))
-
         onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(0))
                 .check(matches(hasDescendant(withText(R.string.action_send_sms)))).perform(click())
         // Check requestEta was called
-//        verify(viewModel, times(1)).onEtaRequested(resultsList[0])
+        verify(viewModel).onEtaRequested(resultsList[0])
     }
 
+    @Test
+    fun whenAcceptingRequestStateIsFalseRequestingTextIsShown() {
+        // Given (make sure requesting is not being shown)
+        requestsAvailable.postValue(true)
+        // When
+        requestsAvailable.postValue(false)
+        // Then Snackbar with requesting text and cancel action are shown
+        onView(allOf(withId(android.support.design.R.id.snackbar_text), withText(R.string.info_requesting))).check(matches(isDisplayed()))
+        onView(allOf(withId(android.support.design.R.id.snackbar_action), withText(R.string.action_cancel))).check(matches(isDisplayed()))
+    }
 
     @Test
-    fun whenRequestButtonIsClickedRequestingTextIsShown() {
-        // Given
+    fun whenAcceptingRequestStateIsTrueSnackbarWithCancelActionIsDismissed() {
+        // Given (make sure requesting is showing)
+        requestsAvailable.postValue(false)
+        // When
+        requestsAvailable.postValue(true)
+        // Then Snackbar with requesting text and cancel action are not shown
+        onView(allOf(withId(android.support.design.R.id.snackbar_text), withText(R.string.info_requesting))).check(doesNotExist())
+        onView(allOf(withId(android.support.design.R.id.snackbar_action), withText(R.string.action_cancel))).check(doesNotExist())
+    }
+
+    @Test
+    fun whenAcceptingRequestStateIsFalseRequestSmsButtonsAreDisabled() {
+        // Given (make sure requesting is not being shown)
         val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
         // When
-        onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(0))
-                .check(matches(hasDescendant(withText(R.string.action_send_sms)))).perform(click())
-        // Then show requesting text
-        onView(withText(R.string.info_requesting)).check(matches(isDisplayed()))
+        requestsAvailable.postValue(false)
+        // Then ALL request ETA buttons are disabled
+        favoritesFragment.findViewById<RecyclerView>(R.id.recycler_view)?.let {
+            RecyclerViewMatcher.waitForAdapterChange(it)
+            for (favoriteView in resultsList.withIndex()) {
+                // Scroll to item at favoriteView.index
+                onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition<FavoritesAdapter.FavoriteViewHolder>(favoriteView.index))
+                // Check item is displayed correctly
+                onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(favoriteView.index))
+                        .check(matches(hasDescendant(withId(R.id.eta_button)))).check(matches(not(isEnabled())))
+            }
+        }
+    }
+
+    @Test
+    fun whenAcceptingRequestStateIsTrueRequestSmsButtonsAreEnabled() {
+        // Given (make sure requesting is not being shown)
+        val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
+        results.postValue(Resource.success(resultsList))
+        // When
+        requestsAvailable.postValue(true)
+        // Then ALL request ETA buttons are enabled
+        for (favoriteView in resultsList.withIndex()) {
+            // Scroll to item favoriteView.index
+            onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(favoriteView.index))
+                    .check(matches(hasDescendant(withId(R.id.eta_button)))).check(matches(isEnabled()))
+        }
     }
 }
-
-
-// https://spin.atomicobject.com/2016/04/15/espresso-testing-recyclerviews/
-// https://spin.atomicobject.com/2016/04/15/espresso-testing-recyclerviews/
-// https://medium.com/@_rpiel/recyclerview-and-espresso-a-complicated-story-3f6f4179652e
