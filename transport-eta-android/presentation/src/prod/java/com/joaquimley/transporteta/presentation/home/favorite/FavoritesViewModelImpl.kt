@@ -20,14 +20,16 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) :
     private val favouritesLiveData = MutableLiveData<Resource<List<FavoriteView>>>()
     private val acceptingRequestsLiveData = MutableLiveData<Boolean>()
 
+
+
     init {
         val currentValue = ArrayList<FavoriteView>()
-        currentValue.add(FavoriteView(1337, "This is mock data 1", isActionEnabled = true))
-        currentValue.add(FavoriteView(1338, "This is mock data 2", isActionEnabled = true))
-        currentValue.add(FavoriteView(1339, "This is mock data 3", isActionEnabled = true))
-        currentValue.add(FavoriteView(1330, "This is mock data 4", isActionEnabled = true))
-        currentValue.add(FavoriteView(1331, "This is mock data 5", isActionEnabled = true))
-        currentValue.add(FavoriteView(1332, "This is mock data 6", isActionEnabled = true))
+        currentValue.add(FavoriteView(1337, "This is mock data 1"))
+        currentValue.add(FavoriteView(1338, "This is mock data 2"))
+        currentValue.add(FavoriteView(1339, "This is mock data 3"))
+        currentValue.add(FavoriteView(1330, "This is mock data 4"))
+        currentValue.add(FavoriteView(1331, "This is mock data 5"))
+        currentValue.add(FavoriteView(1332, "This is mock data 6"))
 
         favouritesLiveData.postValue(Resource.success(currentValue))
     }
@@ -51,8 +53,8 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) :
     }
 
     override fun cancelEtaRequest() {
-        smsController.invalidateRequest()
         smsRequestDisposable?.dispose()
+        smsController.invalidateRequest()
         acceptingRequestsLiveData.postValue(true)
     }
 

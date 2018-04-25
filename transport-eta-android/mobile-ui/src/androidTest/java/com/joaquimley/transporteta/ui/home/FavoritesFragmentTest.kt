@@ -21,24 +21,27 @@ import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
 import com.joaquimley.transporteta.ui.test.util.RecyclerViewMatcher
 import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
 import com.joaquimley.transporteta.ui.testing.factory.TestFactoryFavoriteView
-import org.hamcrest.CoreMatchers.not
-import org.hamcrest.CoreMatchers.nullValue
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import org.hamcrest.CoreMatchers.*
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import java.util.regex.Matcher
 
 
 @MediumTest
 @RunWith(AndroidJUnit4::class)
 class FavoritesFragmentTest {
 
-    @Rule @JvmField val activityRule = ActivityTestRule(TestFragmentActivity::class.java, false, true)
+    @Rule @JvmField
+    val activityRule = ActivityTestRule(TestFragmentActivity::class.java, false, true)
     @Rule @JvmField val instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    private val requestsAvailable = MutableLiveData<Boolean>()
     private val results = MutableLiveData<Resource<List<FavoriteView>>>()
     private val viewModel = mock(FavoritesViewModel::class.java)
 
@@ -49,6 +52,8 @@ class FavoritesFragmentTest {
         // Init mock ViewModel
         `when`(TestFavoriteFragmentModule.favoritesViewModelsFactory.create(FavoritesViewModel::class.java)).thenReturn(viewModel)
         `when`(viewModel.getFavourites()).thenReturn(results)
+        `when`(viewModel.getAcceptingRequests()).thenReturn(requestsAvailable)
+
         // Instantiate fragment and add to the TestFragmentActivity
         favoritesFragment = FavoritesFragment.newInstance()
         activityRule.activity.addFragment(favoritesFragment)
@@ -128,10 +133,9 @@ class FavoritesFragmentTest {
         onView(withText(R.string.create_favorite_title)).check(matches(isDisplayed()))
         onView(withId(R.id.favorite_code_edit_text)).check(matches(isDisplayed()))
         onView(withId(R.id.favorite_title_edit_text)).check(matches(isDisplayed()))
-
         // TODO Fix hints
-//        onView(withText(R.string.create_favorite_code_hint)).check(matches(isDisplayed()))
-//        onView(withText(R.string.create_favorite_title_hint)).check(matches(isDisplayed()))
+//        onView(withHint(R.string.create_favorite_code_hint)).check(matches(isDisplayed()))
+//        onView(withHint(R.string.create_favorite_title_hint)).check(matches(isDisplayed()))
         // Dialog Action buttons
         onView(withText(R.string.action_create)).check(matches(isDisplayed()))
         onView(withText(R.string.action_discard)).check(matches(isDisplayed()))
@@ -176,7 +180,6 @@ class FavoritesFragmentTest {
         onView(withId(R.id.favorite_code_edit_text)).check(matches(hasErrorText(nullValue(String::class.java))))
     }
 
-
     @Test
     fun whenThereIsDataItIsCorrectlyDisplayedOnTheList() {
         // When
@@ -191,6 +194,38 @@ class FavoritesFragmentTest {
             onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(favoriteView.index)).check(matches(hasDescendant(withText(resultsList[favoriteView.index].latestEta))))
             onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(favoriteView.index)).check(matches(hasDescendant(withText(resultsList[favoriteView.index].originalText))))
         }
+    }
+
+    @Test
+    fun whenRequestButtonIsClickedViewModelRequestIsCalled() {
+        // Given
+        val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
+        results.postValue(Resource.success(resultsList))
+        requestsAvailable.postValue(true)
+        // When
+        onView(withId(R.id.recycler_view))
+                .perform(RecyclerViewActions.scrollToPosition<FavoritesAdapter.FavoriteViewHolder>(0))
+        onView(withId(R.id.recycler_view))
+                .perform(RecyclerViewActions
+                        .actionOnHolderItem<FavoritesAdapter.FavoriteViewHolder>(, click()))
+        RecyclerViewActions.actionOnItemAtPosition<FavoritesAdapter.FavoriteViewHolder>(0, )
+        onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(0))
+                .check(matches(hasDescendant(withText(R.string.action_send_sms)))).perform(click())
+        // Check requestEta was called
+        verify(viewModel, times(1)).onEtaRequested(resultsList[0])
+    }
+
+
+    @Test
+    fun whenRequestButtonIsClickedRequestingTextIsShown() {
+        // Given
+        val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
+        results.postValue(Resource.success(resultsList))
+        // When
+        onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(0))
+                .check(matches(hasDescendant(withText(R.string.action_send_sms)))).perform(click())
+        // Then show requesting text
+        onView(withText(R.string.info_requesting)).check(matches(isDisplayed()))
     }
 }
 
