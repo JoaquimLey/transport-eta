@@ -7,6 +7,7 @@
     <string name="nav_title_notifications">Notifications</string>
 
     <!-- Actions -->
+    <string name="action_send_sms">Send SMS</string>
     <string name="action_settings">Settings</string>
     <string name="action_retry">Retry</string>
     <string name="action_try_again">Try again</string>
@@ -19,6 +20,10 @@
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_or_register">Sign in or register</string>
     <string name="action_log_out">Log out</string>
+
+    <!-- Information -->
+    <string name="info_requesting">Requesting…</string>
+    <string name="info_canceled">Canceled</string>
 
     <!-- Permissions -->
     <string name="permission_rationale_contacts">Contacts permissions are needed for providing email completions.</string>
@@ -52,8 +57,7 @@
     <!-- Favorites Fragment -->
     <string name="favorites_fragment_title">Favorites</string>
     <string name="station_code_placeholder">Station: %s</string>
-
-    <!-- Create FavoriteViewObject -->
+    <!-- Create Favorite -->
     <string name="create_favorite_title">Create favorite</string>
     <string name="create_favorite_code_hint">Bus station code *</string>
     <string name="create_favorite_title_hint">Bus station title</string>

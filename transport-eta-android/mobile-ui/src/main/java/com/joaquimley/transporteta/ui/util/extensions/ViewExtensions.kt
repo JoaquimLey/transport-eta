@@ -1,5 +1,6 @@
-package com.joaquimley.transporteta.ui.util
+package com.joaquimley.transporteta.ui.util.extensions
 
+import android.support.design.widget.Snackbar
 import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -11,11 +12,15 @@ import com.airbnb.lottie.Cancellable
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieComposition
 import com.bumptech.glide.Glide
+import com.joaquimley.transporteta.ui.util.PaddingBottomItemDecoration
 
 fun View.setVisible(isVisible: Boolean) {
     visibility = if (isVisible) View.VISIBLE else View.GONE
 }
 
+fun Snackbar.setVisible(isVisible: Boolean?) {
+    if(isVisible != true) this.show() else this.dismiss()
+}
 fun ImageView.load(resourceId: Int) {
     Glide.with(context)
             .load(resourceId)
@@ -37,6 +42,10 @@ fun <T, VH : RecyclerView.ViewHolder> ListAdapter<T, VH>.isEmpty() = itemCount =
 
 fun <T, VH : RecyclerView.ViewHolder> ListAdapter<T, VH>.clear() {
     submitList(null)
+}
+
+fun RecyclerView.addBottomPaddingDecoration(size: Int = 80) {
+    this.addItemDecoration(PaddingBottomItemDecoration(size.px))
 }
 
 fun LottieAnimationView.load(jsonString: String) {

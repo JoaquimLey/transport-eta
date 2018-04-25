@@ -2,26 +2,49 @@ package com.joaquimley.transporteta.presentation.home.favorite
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.sms.SmsController
-import com.joaquimley.transporteta.presentation.data.Resource
-import com.joaquimley.transporteta.ui.model.data.ResourceState
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
 
 /**
  * Created by joaquimley on 28/03/2018.
  */
-class FavoritesViewModelImpl @Inject internal constructor(smsController: SmsController) : FavoritesViewModel(smsController) {
+class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) : FavoritesViewModel(smsController) {
 
+    private var smsRequestDisposable: Disposable? = null
     private val favouritesLiveData = MutableLiveData<Resource<List<FavoriteView>>>()
+    private val acceptingRequestsLiveData = MutableLiveData<Boolean>()
+
+
 
     init {
-        getSms()
+        val currentValue = ArrayList<FavoriteView>()
+        currentValue.add(FavoriteView(1337, "This is mock data 1"))
+        currentValue.add(FavoriteView(1338, "This is mock data 2"))
+        currentValue.add(FavoriteView(1339, "This is mock data 3"))
+        currentValue.add(FavoriteView(1330, "This is mock data 4"))
+        currentValue.add(FavoriteView(1331, "This is mock data 5"))
+        currentValue.add(FavoriteView(1332, "This is mock data 6"))
+
+        favouritesLiveData.postValue(Resource.success(currentValue))
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        smsRequestDisposable?.dispose()
     }
 
     override fun getFavourites(): LiveData<Resource<List<FavoriteView>>> {
         return favouritesLiveData
+    }
+
+    override fun getAcceptingRequests(): LiveData<Boolean> {
+        return acceptingRequestsLiveData
     }
 
     override fun retry() {
@@ -29,32 +52,47 @@ class FavoritesViewModelImpl @Inject internal constructor(smsController: SmsCont
 
     }
 
+    override fun cancelEtaRequest() {
+        smsRequestDisposable?.dispose()
+        smsController.invalidateRequest()
+        acceptingRequestsLiveData.postValue(true)
+    }
+
     override fun onEtaRequested(favourite: FavoriteView) {
         requestEta(favourite.code)
     }
 
-
     private fun requestEta(code: Int) {
-        favouritesLiveData.postValue(Resource(ResourceState.LOADING))
-        smsController.requestEta(code)
+        smsRequestDisposable = smsController.requestEta(code)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe({ acceptingRequestsLiveData.postValue(false) })
+                .doAfterTerminate({ acceptingRequestsLiveData.postValue(true) })
+                .subscribe({
+                    // TODO Mapper from SmsModel to FavoriteViewObject
+                    val newFavoriteView = FavoriteView(it.code, it.message, it.message, true)
+                    val data = getCurrentData().toMutableList()
+
+                    var index = -1
+                    for (view in data.withIndex()) {
+                        if (view.value.code == newFavoriteView.code) {
+                            index = view.index
+                            break
+                        }
+                    }
+
+                    if (index != -1) {
+                        data[index] = newFavoriteView
+                    } else {
+                        data.add(newFavoriteView)
+                    }
+                    // TODO (possible caching this to local storage at this point)
+
+                    favouritesLiveData.postValue(Resource.success(data))
+                }, { favouritesLiveData.postValue(Resource.error(it.message.orEmpty())) })
     }
 
-
-    private fun getSms() {
-        smsController.observeIncomingSms().subscribe ({
-            favouritesLiveData.postValue(Resource(ResourceState.LOADING))
-
-
-            // TODO: remove mocked up shenenigans Make it more 🎨
-            val currentValue = ArrayList<FavoriteView>()
-            currentValue.add(FavoriteView(it.code, it.message))
-
-//            val currentValue = favouritesLiveData.value?.data?.toMutableList()
-//                    ?: emptyList<FavoriteView>()
-//            currentValue.toMutableList().add(FavoriteView(it.code, it.message))
-            favouritesLiveData.postValue(Resource(ResourceState.SUCCESS, currentValue))
-
-        }, {favouritesLiveData.postValue(Resource(ResourceState.ERROR, null, it.message)) })
+    private fun getCurrentData(): List<FavoriteView> {
+        return favouritesLiveData.value?.data ?: emptyList()
     }
-
 }

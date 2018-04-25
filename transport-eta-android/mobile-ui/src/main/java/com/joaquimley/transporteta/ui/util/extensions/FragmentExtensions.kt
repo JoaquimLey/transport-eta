@@ -1,4 +1,4 @@
-package com.joaquimley.transporteta.ui.util
+package com.joaquimley.transporteta.ui.util.extensions
 
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment

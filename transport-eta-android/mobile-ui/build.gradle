@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion build_versions.target_sdk
+    compileSdkVersion build_versions.compile_sdk
     defaultConfig {
         applicationId "com.joaquimley.transporteta"
         minSdkVersion build_versions.min_sdk
@@ -122,7 +122,8 @@ dependencies {
     // Android unit tests
     kaptAndroidTest deps.dagger.compiler
     androidTestImplementation deps.javax.inject
-    androidTestImplementation deps.dexmaker.linkedin_inline
+    androidTestImplementation deps.mockito.kotlin
+    androidTestImplementation deps.mockito.android
     // Android Testing Support runner and rules and AAC
     androidTestImplementation deps.atsl.rules
     androidTestImplementation deps.atsl.runner

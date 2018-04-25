@@ -44,4 +44,10 @@ class HomeActivityTest {
     // https://www.kotlindevelopment.com/runtime-permissions-espresso-done-right/
 
     // https://developer.android.com/reference/android/support/test/rule/GrantPermissionRule.html
+
+    // https://stackoverflow.com/questions/25998659/espresso-how-can-i-check-if-an-activity-is-launched-after-performing-a-certain
+
+    // https://github.com/googlesamples/android-testing/tree/master/ui/espresso/IntentsBasicSample
+
+    // https://github.com/googlesamples/android-testing/tree/master/ui/espresso/IntentsAdvancedSample
 }

@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.model.FavoriteView
-import com.joaquimley.transporteta.ui.util.load
+import com.joaquimley.transporteta.ui.util.extensions.load
 import kotlinx.android.synthetic.main.item_favorite.view.*
 
 class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
@@ -40,6 +40,13 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
         }
     }
 
+    fun setActionEnabledStatus(isEnabled: Boolean) {
+        for (position in 0 until itemCount) {
+            getItem(position).isActionEnabled = isEnabled
+        }
+        notifyDataSetChanged()
+    }
+
     inner class ProgressViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     inner class FavoriteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -49,7 +56,14 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
             itemView.title_text_view.text = favoriteView.code.toString()
             itemView.subtitle_text_view.text = favoriteView.latestEta
             itemView.original_sms_text_view.text = favoriteView.originalText
-            itemView.eta_button.setOnClickListener { clickListener(favoriteView) }
+            favoriteView.isActionEnabled.let {
+                itemView.eta_button.isEnabled = it
+                itemView.eta_button.alpha = if (it) 1.0f else 0.3f
+            }
+
+            itemView.eta_button.setOnClickListener {
+                clickListener(favoriteView)
+            }
         }
     }
 
@@ -59,11 +73,11 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
     }
 
     class FavoriteViewDiffCallback : DiffUtil.ItemCallback<FavoriteView>() {
-        override fun areItemsTheSame(oldItem: FavoriteView?, newItem: FavoriteView?): Boolean {
-            return oldItem?.code == newItem?.code
+        override fun areItemsTheSame(oldItem: FavoriteView, newItem: FavoriteView): Boolean {
+            return oldItem.code == newItem.code
         }
 
-        override fun areContentsTheSame(oldItem: FavoriteView?, newItem: FavoriteView?): Boolean {
+        override fun areContentsTheSame(oldItem: FavoriteView, newItem: FavoriteView): Boolean {
             return oldItem == newItem
         }
     }
