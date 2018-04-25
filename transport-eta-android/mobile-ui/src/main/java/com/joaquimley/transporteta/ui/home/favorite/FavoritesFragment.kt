@@ -65,6 +65,7 @@ class FavoritesFragment : Fragment() {
         viewModel.getAcceptingRequests().observe(this,
                 Observer {
                     adapter.setActionEnabledStatus(it ?: true)
+                    requestingSnackbar.show()
                 })
     }
 
@@ -145,7 +146,6 @@ class FavoritesFragment : Fragment() {
         recycler_view?.layoutManager = LinearLayoutManager(context)
         adapter = FavoritesAdapter({
             viewModel.onEtaRequested(it)
-            requestingSnackbar.show()
         })
         recycler_view?.adapter = adapter
         recycler_view?.addBottomPaddingDecoration()
