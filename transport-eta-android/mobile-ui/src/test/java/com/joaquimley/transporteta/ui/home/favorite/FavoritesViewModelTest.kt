@@ -11,9 +11,11 @@ import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Observable.just
+import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import org.junit.*
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
@@ -33,9 +35,11 @@ class FavoritesViewModelTest {
     private lateinit var smsTestObserver: TestObserver<SmsModel>
     private lateinit var favoritesViewModel: FavoritesViewModelImpl
 
+    private var testSmsModel = SmsModel(Random().nextInt(), UUID.randomUUID().toString())
+
     @Before
     fun setUp() {
-        `when`(smsController.observeIncomingSms()).thenReturn(just(SmsModel(Random().nextInt(), UUID.randomUUID().toString())))
+        `when`(smsController.requestEta(anyInt())).thenReturn(Single.just(testSmsModel))
         favoritesViewModel = FavoritesViewModelImpl(smsController)
     }
 
@@ -72,10 +76,10 @@ class FavoritesViewModelTest {
         // given
         val testSms = SmsModel(Random().nextInt(), UUID.randomUUID().toString())
         // when
-        `when`(smsController.observeIncomingSms()).thenReturn(just(testSms))
+//        `when`(smsController.observeIncomingSms()).thenReturn(just(testSms))
         // then
         assertEquals(favoritesViewModel.getFavourites().value?.status, ResourceState.SUCCESS)
-        assertEquals(favoritesViewModel.getFavourites().value?.data, )
+//        assertEquals(favoritesViewModel.getFavourites().value?.data, )
 
     }
 

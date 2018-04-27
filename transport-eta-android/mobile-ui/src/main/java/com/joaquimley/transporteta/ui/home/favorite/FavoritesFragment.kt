@@ -1,6 +1,7 @@
 package com.joaquimley.transporteta.ui.home.favorite
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -16,6 +17,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.joaquimley.transporteta.R
+import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
+import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.ui.util.extensions.*
@@ -33,8 +36,12 @@ class FavoritesFragment : Fragment() {
     private lateinit var adapter: FavoritesAdapter
     private lateinit var requestingSnackbar: Snackbar
 
-    @Inject lateinit var viewModelProvider: FavoritesViewModelProvider
-    private val viewModel by lazy { viewModelProvider(this) }
+//    @Inject lateinit var viewModelProvider: FavoritesViewModelProvider
+//    private val viewModel by lazy { viewModelProvider(this) }
+
+
+    @Inject lateinit var favoritesViewModelFactory: FavoritesViewModelFactory
+    private val viewModel by lazy { ViewModelProviders.of(this, favoritesViewModelFactory).get(FavoritesViewModel::class.java) }
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)

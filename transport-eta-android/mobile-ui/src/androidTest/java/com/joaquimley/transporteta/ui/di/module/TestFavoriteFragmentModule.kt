@@ -1,21 +1,26 @@
 package com.joaquimley.transporteta.ui.di.module
 
+import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import dagger.Module
+import dagger.Provides
+import org.mockito.Mockito.mock
 
 @Module
 class TestFavoriteFragmentModule {
 
-//    companion object {
+    companion object {
 //        @JvmStatic val favoritesViewModelProvider = mock(FavoritesViewModelProvider::class.java)
-//    }
-//
+
+        @JvmStatic val favoritesViewModelFactory = mock(FavoritesViewModelFactory::class.java)
+    }
+
+    @Provides
+    fun provideFavoritesViewModelFactory(): FavoritesViewModelFactory {
+        return favoritesViewModelFactory
+    }
+
 //    @Provides
-//    fun provideFavoritesViewModelProvider(favoritesViewModelFactory: FavoritesViewModelFactory): FavoritesViewModelProvider {
-//        return FavoritesViewModelProvider(favoritesViewModelFactory)
-//    }
-//
-//    @Provides
-//    fun provideSmsController(): SmsController {
-//        return mock(SmsController::class.java)
+//    fun provideFavoritesViewModelProvider(): FavoritesViewModelProvider {
+//        return favoritesViewModelProvider
 //    }
 }
