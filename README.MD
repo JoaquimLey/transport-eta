@@ -51,6 +51,8 @@ Since I'm always working on some side-projects, I decided to document the develo
 
 - Ep.11: https://github.com/JoaquimLey/transport-eta/pull/48
 
+- Ep.12: https://github.com/JoaquimLey/transport-eta/pull/49
+
 
 ## About the author
 Hi, my name is  **Joaquim Ley**, I'm a Software Engineer (Android).
