@@ -2,23 +2,23 @@ package com.joaquimley.transporteta.ui.home.favorite
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Observer
-import com.joaquimley.transporteta.sms.SmsController
-import com.joaquimley.transporteta.sms.model.SmsModel
 import com.joaquimley.transporteta.presentation.data.Resource
-import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelImpl
 import com.joaquimley.transporteta.presentation.model.FavoriteView
+import com.joaquimley.transporteta.sms.SmsController
+import com.joaquimley.transporteta.sms.model.SmsModel
+import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
-import io.reactivex.Observable.just
 import io.reactivex.Single
+import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.observers.TestObserver
+import io.reactivex.schedulers.Schedulers
 import org.junit.*
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 import kotlin.test.assertEquals
@@ -27,9 +27,11 @@ import kotlin.test.assertEquals
 @RunWith(MockitoJUnitRunner::class)
 class FavoritesViewModelTest {
 
-    @get:Rule val instantTaskExecutorRule = InstantTaskExecutorRule()
-    @Mock private val smsController = mock(SmsController::class.java)
-    @Mock private lateinit var mockFavoriteViewObserver: Observer<Resource<List<FavoriteView>>>
+    @Rule @JvmField val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Mock private lateinit var smsController: SmsController
+    @Mock private lateinit var observer: Observer<Resource<List<FavoriteView>>>
+    @Mock private lateinit var acceptingRequestsObserver: Observer<Boolean>
 
 //    private lateinit var captor: KArgumentCaptor<SmsController>
     private lateinit var smsTestObserver: TestObserver<SmsModel>
@@ -39,6 +41,7 @@ class FavoritesViewModelTest {
 
     @Before
     fun setUp() {
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
         `when`(smsController.requestEta(anyInt())).thenReturn(Single.just(testSmsModel))
         favoritesViewModel = FavoritesViewModelImpl(smsController)
     }
@@ -60,27 +63,28 @@ class FavoritesViewModelTest {
     }
 
     @Test
-    fun `fetch eta triggers loading state`() {
+    fun `fetch eta triggers not accepting requests state`() {
         // given
-        favoritesViewModel.getFavourites().observeForever(mockFavoriteViewObserver)
-        // when
+        favoritesViewModel.getAcceptingRequests().observeForever(acceptingRequestsObserver)
         val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
+        // when
         favoritesViewModel.onEtaRequested(favoriteView)
         // then
-        assertEquals(favoritesViewModel.getFavourites().value?.status, ResourceState.LOADING)
+        verify(acceptingRequestsObserver).onChanged(false)
     }
 
     @Test
     @Throws(IllegalArgumentException::class)
-    fun `when sms is received triggers success state`() {
+    fun `when sms is received triggers accepting requests state`() {
+        favoritesViewModel.getAcceptingRequests().observeForever(acceptingRequestsObserver)
         // given
+        val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         val testSms = SmsModel(Random().nextInt(), UUID.randomUUID().toString())
+        `when`(smsController.requestEta(favoriteView.code)).thenReturn(Single.just(testSms))
         // when
-//        `when`(smsController.observeIncomingSms()).thenReturn(just(testSms))
+        favoritesViewModel.onEtaRequested(favoriteView)
         // then
-        assertEquals(favoritesViewModel.getFavourites().value?.status, ResourceState.SUCCESS)
-//        assertEquals(favoritesViewModel.getFavourites().value?.data, )
-
+        verify(acceptingRequestsObserver).onChanged(true)
     }
 
     @Ignore("Ignored test: when sms is received correct data is passed -> Lacking implementation")
