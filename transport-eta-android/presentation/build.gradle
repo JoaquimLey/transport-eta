@@ -78,7 +78,6 @@ androidExtensions {
 dependencies {
     // Module
     implementation project(':sms')
-
     // Javax
     implementation deps.javax.inject
     compileOnly deps.javax.annotation
@@ -91,4 +90,15 @@ dependencies {
     // ACC
     kapt deps.lifecycle.compiler
     implementation deps.lifecycle.extensions
+    // Local unit tests
+    kaptTest deps.dagger.compiler
+    testImplementation deps.junit
+    testImplementation deps.hamcrest
+    testImplementation deps.kotlin.test
+    testImplementation deps.mockito.kotlin
+    testImplementation deps.mockito.inline
+    testImplementation deps.arch_core.testing
+    // Resolve conflicts between main and local unit tests
+    testImplementation deps.support.core_utils
+    testImplementation deps.support.annotations
 }

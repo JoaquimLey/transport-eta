@@ -84,7 +84,8 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) :
                     } else {
                         data.add(newFavoriteView)
                     }
-                    // TODO (possible caching this to local storage at this point)
+                    // TODO Possible caching this to local storage at this point (when mapper is used)
+                    // TODO And have favouritesLiveData actually bound to the cache instead of posting like this
 
                     favouritesLiveData.postValue(Resource.success(data))
                 }, { favouritesLiveData.postValue(Resource.error(it.message.orEmpty())) })
