@@ -37,8 +37,7 @@ import org.mockito.Mockito.mock
 @RunWith(AndroidJUnit4::class)
 class FavoritesFragmentTest {
 
-    @Rule @JvmField
-    val activityRule = ActivityTestRule(TestFragmentActivity::class.java, false, true)
+    @Rule @JvmField val activityRule = ActivityTestRule(TestFragmentActivity::class.java, false, true)
     @Rule @JvmField val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val requestsAvailable = MutableLiveData<Boolean>()
@@ -120,8 +119,8 @@ class FavoritesFragmentTest {
         onView(withId(R.id.message_view)).check(matches(not(isDisplayed())))
 
         // Snackbar is shown with retry button
-        onView(withText(errorMessage)).check(matches(isDisplayed()))
-        onView(withText(R.string.action_retry)).check(matches(isDisplayed()))
+        onView(allOf(withId(android.support.design.R.id.snackbar_text), withText(errorMessage))).check(matches(isDisplayed()))
+        onView(allOf(withId(android.support.design.R.id.snackbar_action), withText(R.string.action_retry))).check(matches(isDisplayed()))
     }
 
     @Test

@@ -1,20 +1,17 @@
+<img alt="Icon" src="art/readme_logo.png?raw=true" align="left" hspace="1" vspace="1">
 
-![AppIcon](https://raw.githubusercontent.com/JoaquimLey/bus-eta/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png?token=AGmh_Pt2nHwIUsN-QmVfaL56Q0cnYrhWks5ZQYebwA%3D%3D)   
-  
-![minSdkVersion](https://img.shields.io/badge/minSdkVersion-15-green.svg?style=true) ![compileSdkVersion](https://img.shields.io/badge/compileSdkVersion-25-green.svg?style=true)
-  
-## Info about the Article
-- Read the [Medium blog post](https://medium.com/@JoaquimLey/android-architecture-components-now-with-100-more-mvvm-11629a630125)
-- See the code on the [blogpost branch](https://github.com/JoaquimLey/bus-eta/tree/blogpost)
+<a alt='Watch the Stream' href='https://twitch.tv/joaquimley' target='_blank' align='left'><img align='right' height='36' style='border:0px;height:45px;' src='art/follow_me_twitch_badge.png?v=0' border='0' /></a>
+
+<a alt='Available soon' href='' target='_blank' align='left'><img align='right' height='45' style='border:0px;height:45px;' src='art/googleplay_soon.svg?v=0' border='0' /></a>
 
 # Transport ETA
-  
-###   An utility app built from the ground-up on my twitch channel: [twitch.tv/joaquimley](http:twitch.tv/joaquimley)
-Uses an SMS based service or the web to request a more precise ETA of a publc-transport (Bus, Boat etc.) to a specific station, currently implementing for Lisbon 🇵🇹, but the idea is to scale up to any other cities around the world that provide the same kind of service(s).
+[![License Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=true)](http://www.apache.org/licenses/LICENSE-2.0)
+![minSdkVersion 19](https://img.shields.io/badge/minSdkVersion-19-red.svg?style=true)
+![compileSdkVersion 27](https://img.shields.io/badge/compileSdkVersion-27-green.svg?style=true)
 
-Don't forget to follow and watch the stream
+An utility app using an SMS based service (or the web) to request a more precise ETA of a publc-transport (Bus, Metro etc.) to a specific station, currently implementing for Lisbon 🇵🇹, but the idea is to scale up to any other cities around the world that provide the same kind of service(s).
 
-#### Some of the cool stuff I'll be integrating in this project:
+## Some of the cool stuff I'll be integrating in this project:
 - Multi module Clean architecture
 - Rx
 - Kotlin
@@ -22,13 +19,15 @@ Don't forget to follow and watch the stream
 - Firebase Suite (I'll integrate as much services as possible)
 - Tests  🙌
 
+-----------------------------
+#### Built from the ground-up on my twitch channel: [twitch.tv/joaquimley](http:twitch.tv/joaquimley)
+--------------------
 
-### Why 🤔
-Since I always like to work on some pet-projects I decided to document them on a live coding stream, this way I'll force myself into actually finishing and maybe get some feedback from the community. With others is easier to learn 📖.
+## Why 🤔
+Since I'm always working on some side-projects, I decided to document the development on a live coding stream, this way I'll force myself into finishing more often, and maybe giving something back, or get some feedback from the community.
 
 ## Stream log
-
-#### Come and say Hi 👋 and join me on stream [twitch.tv/joaquimley](http:twitch.tv/joaquimley) and watch (& help) me as I develop and make mistakes on this project
+#### Come and say Hi 👋, join me on stream [twitch.tv/joaquimley](http:twitch.tv/joaquimley): watch, help, and learn as I develop, make mistakes developing on this project
 
 - Ep.1:  https://github.com/JoaquimLey/transport-eta/tree/4642c5fd6af9de3b258b179d0a7a8c69195fa293
 
@@ -60,7 +59,7 @@ The easiest way to contact me is through:
 
 -   [twitter.com/joaquimley](https://twitter.com/joaquimley)
 
-Follow me on:
+You can also follow me on:
 
 -   [medium.com/@joaquimley](https://medium.com/@joaquimley)
 
@@ -73,7 +72,11 @@ Personal website:
 
 -   [www.joaquimley.com](http://www.joaquimley.com/)
 
----------------------
+## Coming from the medium blog?
+- Read the [article here](https://medium.com/@JoaquimLey/android-architecture-components-now-with-100-more-mvvm-11629a630125)
+- See the code on the [this commit](https://github.com/JoaquimLey/transport-eta/tree/26ce1a7f4b2dff12c6efa2292531035e70bfc4ae)
+
+-
 #### Contributing  
 Contributions are always welcome! Follow the "fork-and-pull" Git workflow.  
   
