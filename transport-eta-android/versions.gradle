@@ -106,6 +106,7 @@ deps.espresso = espresso
 def atsl = [:]
 atsl.runner = "com.android.support.test:runner:$versions.atsl_runner"
 atsl.rules = "com.android.support.test:rules:$versions.atsl_runner"
+atsl.orchestrator = "com.android.support.test:orchestrator:$versions.atsl_runner"
 deps.atsl = atsl
 
 def mockito = [:]
