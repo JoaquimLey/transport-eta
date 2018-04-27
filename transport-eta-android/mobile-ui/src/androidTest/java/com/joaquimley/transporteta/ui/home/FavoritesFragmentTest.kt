@@ -44,16 +44,19 @@ class FavoritesFragmentTest {
     private val results = MutableLiveData<Resource<List<FavoriteView>>>()
     private val viewModel = mock(FavoritesViewModel::class.java)
 
+     
     private lateinit var favoritesFragment: FavoritesFragment
 
     @Before
     fun setup() {
         // Init mock ViewModel
-        `when`(TestFavoriteFragmentModule.favoritesViewModelsFactory.create(FavoritesViewModel::class.java)).thenReturn(viewModel)
+//        `when`(TestFavoriteFragmentModule.favoritesViewModelProvider.invoke(favoritesFragment)).thenReturn(viewModel)
         `when`(viewModel.getFavourites()).thenReturn(results)
         `when`(viewModel.getAcceptingRequests()).thenReturn(requestsAvailable)
         // Instantiate fragment and add to the TestFragmentActivity
         favoritesFragment = FavoritesFragment.newInstance()
+        `when`(favoritesFragment.viewModelProvider.invoke(favoritesFragment)).thenReturn(viewModel)
+
         activityRule.activity.addFragment(favoritesFragment)
     }
 
@@ -95,14 +98,6 @@ class FavoritesFragmentTest {
         onView(withId(R.id.recycler_view)).check(matches(not(isDisplayed())))
     }
 
-    /**
-     * Due to Android P non-sdk access an alert dialog is shown making this test flaky
-     *
-     * Issue: android.support.test.espresso.NoMatchingViewException:
-     * No views in hierarchy found matching: with id: com.joaquimley.transporteta.debug:id/recycler_view
-     *
-     * https://developer.android.com/preview/restrictions-non-sdk-interfaces.html
-     */
     @Test
     fun whenThereIsDataAndErrorOccursErrorMessageIsShown() {
         // When there is data
@@ -194,9 +189,6 @@ class FavoritesFragmentTest {
         }
     }
 
-    /**
-     * TODO: Not correctly implemented
-     */
     @Test
     fun whenRequestButtonIsClickedViewModelRequestIsCalled() {
         // Given
@@ -236,7 +228,7 @@ class FavoritesFragmentTest {
 
     @Test
     fun whenAcceptingRequestStateIsFalseRequestSmsButtonsAreDisabled() {
-        // Given (make sure requesting is not being shown)
+        // Given
         val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
         // When
@@ -256,16 +248,21 @@ class FavoritesFragmentTest {
 
     @Test
     fun whenAcceptingRequestStateIsTrueRequestSmsButtonsAreEnabled() {
-        // Given (make sure requesting is not being shown)
+        // Given
         val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
         // When
-        requestsAvailable.postValue(true)
+        requestsAvailable.postValue(false)
         // Then ALL request ETA buttons are enabled
-        for (favoriteView in resultsList.withIndex()) {
-            // Scroll to item favoriteView.index
-            onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(favoriteView.index))
-                    .check(matches(hasDescendant(withId(R.id.eta_button)))).check(matches(isEnabled()))
+        favoritesFragment.findViewById<RecyclerView>(R.id.recycler_view)?.let {
+            RecyclerViewMatcher.waitForAdapterChange(it)
+            for (favoriteView in resultsList.withIndex()) {
+                // Scroll to item at favoriteView.index
+                onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition<FavoritesAdapter.FavoriteViewHolder>(favoriteView.index))
+                // Check item is displayed correctly
+                onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(favoriteView.index))
+                        .check(matches(hasDescendant(withId(R.id.eta_button)))).check(matches(isEnabled()))
+            }
         }
     }
 }

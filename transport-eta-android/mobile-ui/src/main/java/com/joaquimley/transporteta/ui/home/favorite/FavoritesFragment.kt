@@ -1,7 +1,6 @@
 package com.joaquimley.transporteta.ui.home.favorite
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -9,7 +8,6 @@ import android.support.design.widget.TextInputEditText
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -18,8 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.joaquimley.transporteta.R
-import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
-import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.ui.util.extensions.*
@@ -36,8 +32,9 @@ class FavoritesFragment : Fragment() {
 
     private lateinit var adapter: FavoritesAdapter
     private lateinit var requestingSnackbar: Snackbar
-    private lateinit var viewModel: FavoritesViewModel
-    @Inject lateinit var viewModelFactory: FavoritesViewModelFactory
+
+    @Inject lateinit var viewModelProvider: FavoritesViewModelProvider
+    private val viewModel by lazy { viewModelProvider(this) }
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -56,7 +53,7 @@ class FavoritesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initViewModel()
+//            initViewModel()
         observeFavourites()
         observeRequestsEnabled()
     }
@@ -125,11 +122,6 @@ class FavoritesFragment : Fragment() {
                         .show()
             }
         }
-    }
-
-
-    private fun initViewModel() {
-        viewModel = ViewModelProviders.of(activity as AppCompatActivity, viewModelFactory).get(FavoritesViewModel::class.java)
     }
 
     private fun setupRequestSnackbar() {
