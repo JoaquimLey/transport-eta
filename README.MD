@@ -51,6 +51,8 @@ Since I'm always working on some side-projects, I decided to document the develo
 
 - Ep.11: https://github.com/JoaquimLey/transport-eta/pull/48
 
+- Ep.12: https://github.com/JoaquimLey/transport-eta/pull/49
+
 
 ## About the author
 Hi, my name is  **Joaquim Ley**, I'm a Software Engineer (Android).
@@ -74,7 +76,7 @@ Personal website:
 
 ## Coming from the medium blog?
 - Read the [article here](https://medium.com/@JoaquimLey/android-architecture-components-now-with-100-more-mvvm-11629a630125)
-- See the code on the [this commit](https://github.com/JoaquimLey/transport-eta/tree/26ce1a7f4b2dff12c6efa2292531035e70bfc4ae)
+- See the code on [this commit](https://github.com/JoaquimLey/transport-eta/tree/26ce1a7f4b2dff12c6efa2292531035e70bfc4ae)
 
 #### Contributing  
 Contributions are always welcome! Follow the "fork-and-pull" Git workflow.  

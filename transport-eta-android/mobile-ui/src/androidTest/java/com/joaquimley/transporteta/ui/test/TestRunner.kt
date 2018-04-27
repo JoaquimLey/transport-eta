@@ -11,7 +11,6 @@ class TestRunner : AndroidJUnitRunner() {
 
     override fun onCreate(arguments: Bundle) {
         super.onCreate(arguments)
-//        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().permitAll().build())
     }
 

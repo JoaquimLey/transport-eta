@@ -32,10 +32,6 @@ android {
         }
     }
 
-//    testOptions {
-//        execution 'ANDROID_TEST_ORCHESTRATOR'
-//    }
-
     packagingOptions {
         exclude 'LICENSE.txt'
         exclude 'META-INF/DEPENDENCIES'

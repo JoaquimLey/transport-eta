@@ -17,10 +17,8 @@ import javax.inject.Inject
 class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) : FavoritesViewModel(smsController) {
 
     private var smsRequestDisposable: Disposable? = null
-    private val favouritesLiveData = MutableLiveData<Resource<List<FavoriteView>>>()
     private val acceptingRequestsLiveData = MutableLiveData<Boolean>()
-
-
+    private val favouritesLiveData = MutableLiveData<Resource<List<FavoriteView>>>()
 
     init {
         val currentValue = ArrayList<FavoriteView>()
