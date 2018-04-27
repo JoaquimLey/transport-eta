@@ -1,8 +1,8 @@
 <img alt="Icon" src="art/readme_logo.png?raw=true" align="left" hspace="1" vspace="1">
 
-<a alt='Watch the Stream' href='https://twitch.tv/joaquimley' target='_blank' align='left'><img align='right'style='border:0px;height:50px;' src='art/follow_me_twitch_badge.png?v=0' border='0' /></a>
+<a alt='Watch the Stream' href='https://twitch.tv/joaquimley' target='_blank' align='left'><img align='right' height='50' style='border:0px;height:50px;' src='art/follow_me_twitch_badge.png?v=0' border='0' /></a>
 
-<a alt='Available soon' href='' target='_blank' align='left'><img align='right' style='border:0px;height:36px;' src='art/googleplay_soon.png?v=0' border='0' /></a>
+<a alt='Available soon' href='' target='_blank' align='left'><img align='right' height='36' style='border:0px;height:36px;' src='art/googleplay_soon.png?v=0' border='0' /></a>
 
 # Transport ETA
 [![License Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=true)](http://www.apache.org/licenses/LICENSE-2.0)
