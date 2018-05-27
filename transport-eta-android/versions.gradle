@@ -5,6 +5,7 @@
 ext.deps = [:]
 def versions = [:]
 
+versions.kotlin = "1.2.41"
 versions.android_gradle_plugin = "3.1.2"
 //versions.android_gradle_plugin = "3.2.0-alpha15"
 // AndroidX
@@ -57,7 +58,6 @@ versions.jacoco_android_version = "0.1.1"
 versions.lottie = "2.5.1"
 versions.rxjava2 = "2.1.3"
 versions.rx_android = "2.0.1"
-versions.kotlin = "1.2.41"
 versions.kotlin_rx = "2.1.0"
 versions.kotlin_mockito = "1.5.0"
 versions.atsl_runner = "1.0.1"
@@ -125,16 +125,13 @@ support.v13 = "com.android.support:support-v13:$versions.support"
 support.core_utils = "com.android.support:support-core-utils:$versions.support"
 deps.support = support
 
-def arch_core = [:]
-arch_core.testing = "android.arch.core:core-testing:$versions.arch"
-deps.arch_core = arch_core
-
 def retrofit = [:]
 retrofit.runtime = "com.squareup.retrofit2:retrofit:$versions.retrofit"
 retrofit.converter_gson = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 retrofit.rxjava = "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
 retrofit.mock = "com.squareup.retrofit2:retrofit-mock:$versions.retrofit"
 deps.retrofit = retrofit
+
 deps.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
 deps.okhttp_logging_interceptor = "com.squareup.okhttp3:logging-interceptor:${versions.okhttp_logging_interceptor}"
 deps.gson = "com.google.code.gson:gson:$versions.gson"

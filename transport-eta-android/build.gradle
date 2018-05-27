@@ -7,9 +7,6 @@ buildscript {
         classpath deps.navigation.safe_args
         classpath deps.android_gradle_plugin
     }
-    repositories {
-        mavenCentral()
-    }
 }
 
 allprojects {
