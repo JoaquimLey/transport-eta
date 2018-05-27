@@ -3,18 +3,19 @@ package com.joaquimley.transporteta.presentation
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Observer
 import com.joaquimley.transporteta.presentation.data.Resource
+import com.joaquimley.transporteta.presentation.factory.TestModelsFactory
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelImpl
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.sms.SmsController
 import com.joaquimley.transporteta.sms.model.SmsModel
-import com.joaquimley.transporteta.ui.testing.factory.TestFactoryFavoriteView
+import com.joaquimley.transporteta.ui.testing.factory.ui.DataFactory
 import com.nhaarman.mockito_kotlin.KArgumentCaptor
-import com.nhaarman.mockito_kotlin.atLeastOnce
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.*
@@ -33,26 +34,27 @@ class FavoritesViewModelTest {
 
     @Rule @JvmField val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @Mock private lateinit var smsController: SmsController
-    @Mock private lateinit var acceptingRequestsObserver: Observer<Boolean>
-    @Mock private lateinit var observer: Observer<Resource<List<FavoriteView>>>
     @Captor private lateinit var argumentCaptor: ArgumentCaptor<Int>
+    @Mock private lateinit var observer: Observer<Resource<List<FavoriteView>>>
+    @Mock private lateinit var smsController: SmsController
+    @Mock private lateinit var requestStatusObserver: Observer<Boolean>
 
-    private lateinit var  captor: KArgumentCaptor<Int>
+    private val smsResult: PublishSubject<SmsModel> = PublishSubject.create()
 
+    private lateinit var captor: KArgumentCaptor<Int>
     private lateinit var favoritesViewModel: FavoritesViewModelImpl
 
-    private var testSmsModel = SmsModel(Random().nextInt(), UUID.randomUUID().toString())
+    private val single = Single.create<SmsModel>({ emitter ->
+        smsResult.subscribe { emitter.onSuccess(it) }
+    })
 
     @Before
     fun setUp() {
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
-        favoritesViewModel = FavoritesViewModelImpl(smsController)
-
-        favoritesViewModel.getFavourites().observeForever(observer)
-        favoritesViewModel.getAcceptingRequests().observeForever(acceptingRequestsObserver)
         captor = KArgumentCaptor(argumentCaptor, Int::class)
-        `when`(smsController.requestEta(anyInt())).thenReturn(Single.just(testSmsModel))
+        `when`(smsController.requestEta(anyInt())).thenReturn(single)
+
+        favoritesViewModel = FavoritesViewModelImpl(smsController)
     }
 
     @After
@@ -65,9 +67,10 @@ class FavoritesViewModelTest {
         // given
         val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         // when
+        favoritesViewModel.getAcceptingRequests().observeForever(requestStatusObserver)
         favoritesViewModel.onEtaRequested(favoriteView)
         // then
-        verify(acceptingRequestsObserver).onChanged(false)
+        verify(requestStatusObserver).onChanged(false)
     }
 
     @Test
@@ -77,9 +80,10 @@ class FavoritesViewModelTest {
         val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         favoritesViewModel.onEtaRequested(favoriteView)
         // when
+        favoritesViewModel.getAcceptingRequests().observeForever(requestStatusObserver)
         favoritesViewModel.cancelEtaRequest()
         // then
-        verify(acceptingRequestsObserver, atLeastOnce()).onChanged(true)
+        verify(requestStatusObserver).onChanged(true)
     }
 
     @Test
@@ -96,6 +100,17 @@ class FavoritesViewModelTest {
 
     @Test
     @Throws(IllegalArgumentException::class)
+    fun `when favorite eta is requested smsController requestEta is called`() {
+        // given
+        val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
+        // when
+        favoritesViewModel.onEtaRequested(favoriteView)
+        // then
+        verify(smsController, times(1)).requestEta(anyInt())
+    }
+
+    @Test
+    @Throws(IllegalArgumentException::class)
     fun `when favorite eta is requested correct favorite code is passed to smsController`() {
         // given
         val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
@@ -108,18 +123,28 @@ class FavoritesViewModelTest {
 
     @Test
     @Throws(IllegalArgumentException::class)
-    fun `when favorite eta is requested correct smsController requestEta is called`() {
+    fun `when sms is received triggers accepting requests state`() {
         // given
         val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
-        // when
         favoritesViewModel.onEtaRequested(favoriteView)
+        // when
+        favoritesViewModel.getAcceptingRequests().observeForever(requestStatusObserver)
+        smsResult.onNext(TestModelsFactory.generateSmsModel())
         // then
-        verify(smsController, times(1)).requestEta(anyInt())
+        verify(requestStatusObserver).onChanged(true)
     }
 
     @Test
     @Throws(IllegalArgumentException::class)
-    fun `when sms is received triggers accepting requests state`() {
+    fun `when sms is received correct data is passed`() {
+        // given
+//        captor.firstValue.onSuccess(SmsModel(Random().nextInt(), UUID.randomUUID().toString()))
+//        favoritesViewModel.getFavorites().observeForever(mockFavoriteViewObserver)
+//        smsTestObserver = mockSmsController.observeIncomingSms().test()
+        // when
+//        favoritesViewModel.getFavorites()
+        // then
+
 
         /**
 
@@ -138,31 +163,30 @@ class FavoritesViewModelTest {
 
 
          */
-        val results = TestFactoryFavoriteView.generateFavoriteViewList()
-
         // given
-        val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
-        val testSms = SmsModel(Random().nextInt(), UUID.randomUUID().toString())
-        `when`(smsController.requestEta(favoriteView.code)).thenReturn(Single.just(testSms))
+        favoritesViewModel.getFavorites().observeForever(observer)
+        val code = DataFactory.randomInt()
+        favoritesViewModel.onEtaRequested(TestModelsFactory.generateFavoriteView(code))
         // when
-        favoritesViewModel.onEtaRequested(favoriteView)
+        smsResult.onNext(TestModelsFactory.generateSmsModel(code))
+        single.on
         // then
-
-//        verify(observer).onChanged()
-
+        println("The data is ${favoritesViewModel.getFavorites().value?.data}")
+        assert(favoritesViewModel.getFavorites().value?.data?.filter { it.code ==  code}?.isNotEmpty()
+                ?: false)
     }
 
     @Ignore("Ignored test: when sms is received correct data is passed -> Lacking implementation")
     @Test
     @Throws(IllegalArgumentException::class)
-    fun `when sms is received correct data is passed`() {
-        // given
-//        captor.firstValue.onSuccess(SmsModel(Random().nextInt(), UUID.randomUUID().toString()))
-//        favoritesViewModel.getFavourites().observeForever(mockFavoriteViewObserver)
-//        smsTestObserver = mockSmsController.observeIncomingSms().test()
-        // when
-        favoritesViewModel.getFavourites()
-        // then
+    fun `when sms is received single is completed`() {
+
+    }
+
+    @Ignore("Ignored test: implement test")
+    @Test
+    @Throws(IllegalArgumentException::class)
+    fun `when sms request errors the error state posted`() {
 
     }
 

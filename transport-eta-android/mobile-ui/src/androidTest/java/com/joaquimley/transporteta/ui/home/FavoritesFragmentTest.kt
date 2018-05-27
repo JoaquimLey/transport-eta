@@ -21,7 +21,7 @@ import com.joaquimley.transporteta.ui.home.favorite.FavoritesAdapter
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
 import com.joaquimley.transporteta.ui.test.util.RecyclerViewMatcher
 import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
-import com.joaquimley.transporteta.ui.testing.factory.TestFactoryFavoriteView
+import com.joaquimley.transporteta.ui.testing.factory.TestModelsFactory
 import com.joaquimley.transporteta.ui.util.extensions.findViewById
 import com.nhaarman.mockito_kotlin.verify
 import org.hamcrest.CoreMatchers.*
@@ -51,7 +51,7 @@ class FavoritesFragmentTest {
     fun setup() {
         // Init mock ViewModel
         `when`(TestFavoriteFragmentModule.favoritesViewModelFactory.create(FavoritesViewModel::class.java)).thenReturn(viewModel)
-        `when`(viewModel.getFavourites()).thenReturn(results)
+        `when`(viewModel.getFavorites()).thenReturn(results)
         `when`(viewModel.getAcceptingRequests()).thenReturn(requestsAvailable)
         // Instantiate fragment and add to the TestFragmentActivity
         favoritesFragment = FavoritesFragment.newInstance()
@@ -66,7 +66,7 @@ class FavoritesFragmentTest {
     @Test
     fun whenThereIsDataSuccessViewStateIsShown() {
         // When there are items
-        val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
+        val resultsList = TestModelsFactory.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
         // Then
         onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
@@ -99,7 +99,7 @@ class FavoritesFragmentTest {
     @Test
     fun whenThereIsDataAndErrorOccursErrorMessageIsShown() {
         // When there is data
-        val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
+        val resultsList = TestModelsFactory.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
         // List is displayed
         onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
@@ -174,7 +174,7 @@ class FavoritesFragmentTest {
     @Test
     fun whenThereIsDataItIsCorrectlyDisplayedOnTheList() {
         // When
-        val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
+        val resultsList = TestModelsFactory.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
         // Then check all items
         for (favoriteView in resultsList.withIndex()) {
@@ -212,7 +212,7 @@ class FavoritesFragmentTest {
     @Test
     fun whenAcceptingRequestStateIsFalseRequestSmsButtonsAreDisabled() {
         // Given
-        val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
+        val resultsList = TestModelsFactory.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
         // When
         requestsAvailable.postValue(false)
@@ -232,7 +232,7 @@ class FavoritesFragmentTest {
     @Test
     fun whenAcceptingRequestStateIsTrueRequestSmsButtonsAreEnabled() {
         // Given
-        val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
+        val resultsList = TestModelsFactory.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
         // When
         requestsAvailable.postValue(false)
@@ -253,7 +253,7 @@ class FavoritesFragmentTest {
     @Ignore("ViewModel mocking not at 100% -> https://stackoverflow.com/questions/49833533/how-to-correctly-mock-viewmodel-on-androidtest")
     fun whenRequestButtonIsClickedViewModelRequestIsCalled() {
         // Given
-        val resultsList = TestFactoryFavoriteView.generateFavoriteViewList()
+        val resultsList = TestModelsFactory.generateFavoriteViewList()
         results.postValue(Resource.success(resultsList))
         // When
         onView(withId(R.id.recycler_view))

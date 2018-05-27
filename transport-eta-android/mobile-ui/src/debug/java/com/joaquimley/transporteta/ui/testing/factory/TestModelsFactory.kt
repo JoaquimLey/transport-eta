@@ -2,10 +2,9 @@ package com.joaquimley.transporteta.ui.testing.factory
 
 import android.support.annotation.RestrictTo
 import com.joaquimley.transporteta.presentation.model.FavoriteView
-import com.joaquimley.transporteta.ui.testing.factory.ui.DataFactory
 
 @RestrictTo(RestrictTo.Scope.TESTS)
-object TestFactoryFavoriteView {
+object TestModelsFactory {
 
     fun generateFavoriteView(busStopCode: Int? = null): FavoriteView {
         return FavoriteView(busStopCode

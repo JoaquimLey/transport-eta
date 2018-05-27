@@ -74,7 +74,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun observeFavourites() {
-        viewModel.getFavourites().observe(this,
+        viewModel.getFavorites().observe(this,
                 Observer {
                     it?.let { handleDataState(it.status, it.data, it.message) }
                 })

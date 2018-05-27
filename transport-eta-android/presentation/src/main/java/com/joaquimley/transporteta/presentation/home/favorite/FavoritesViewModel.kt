@@ -8,7 +8,7 @@ import com.joaquimley.transporteta.sms.SmsController
 
 abstract class FavoritesViewModel(val smsController: SmsController): ViewModel() {
 
-    abstract fun getFavourites(): LiveData<Resource<List<FavoriteView>>>
+    abstract fun getFavorites(): LiveData<Resource<List<FavoriteView>>>
 
     abstract fun getAcceptingRequests(): LiveData<Boolean>
 
