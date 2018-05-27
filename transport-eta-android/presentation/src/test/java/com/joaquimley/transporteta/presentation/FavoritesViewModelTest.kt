@@ -1,7 +1,7 @@
 package com.joaquimley.transporteta.presentation
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.Observer
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.factory.TestModelsFactory
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelImpl

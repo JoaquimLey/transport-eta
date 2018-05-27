@@ -1,17 +1,17 @@
 package com.joaquimley.transporteta.ui.home
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.MutableLiveData
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.*
-import android.support.test.espresso.assertion.ViewAssertions.doesNotExist
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers.*
-import android.support.test.filters.MediumTest
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
-import android.support.v7.widget.RecyclerView
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.filters.MediumTest
+import androidx.test.rule.ActivityTestRule
+import androidx.test.runner.AndroidJUnit4
+import androidx.recyclerview.widget.RecyclerView
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
@@ -217,7 +217,7 @@ class FavoritesFragmentTest {
         // When
         requestsAvailable.postValue(false)
         // Then ALL request ETA buttons are disabled
-        favoritesFragment.findViewById<RecyclerView>(R.id.recycler_view)?.let {
+        favoritesFragment.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view)?.let {
             RecyclerViewMatcher.waitForAdapterChange(it)
             for (favoriteView in resultsList.withIndex()) {
                 // Scroll to item at favoriteView.index
@@ -237,7 +237,7 @@ class FavoritesFragmentTest {
         // When
         requestsAvailable.postValue(false)
         // Then ALL request ETA buttons are enabled
-        favoritesFragment.findViewById<RecyclerView>(R.id.recycler_view)?.let {
+        favoritesFragment.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view)?.let {
             RecyclerViewMatcher.waitForAdapterChange(it)
             for (favoriteView in resultsList.withIndex()) {
                 // Scroll to item at favoriteView.index

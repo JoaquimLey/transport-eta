@@ -1,8 +1,8 @@
 package com.joaquimley.transporteta.ui.testing
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.joaquimley.transporteta.R
@@ -27,21 +27,21 @@ class TestFragmentActivity: AppCompatActivity(), HasSupportFragmentInjector {
         setContentView(content)
     }
 
-    fun addFragment(fragment: Fragment) {
+    fun addFragment(fragment: androidx.fragment.app.Fragment) {
         supportFragmentManager.beginTransaction().add(
                 R.id.fragment_container,
                 fragment, "TEST").commit()
     }
 
 
-    fun replaceFragment(fragment: Fragment) {
+    fun replaceFragment(fragment: androidx.fragment.app.Fragment) {
         supportFragmentManager.beginTransaction().replace(
                 R.id.fragment_container,
                 fragment, "TEST").commit()
     }
 
-    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
+    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
+    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment>? {
         return fragmentInjector
     }
 }

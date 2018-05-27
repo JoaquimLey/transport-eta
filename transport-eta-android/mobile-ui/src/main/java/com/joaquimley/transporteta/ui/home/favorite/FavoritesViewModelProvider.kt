@@ -1,14 +1,14 @@
 package com.joaquimley.transporteta.ui.home.favorite
 
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 
 class FavoritesViewModelProvider(private val viewModelFactory: FavoritesViewModelFactory) {
 
-    operator fun invoke(fragment: Fragment): FavoritesViewModel {
+    operator fun invoke(fragment: androidx.fragment.app.Fragment): FavoritesViewModel {
         return provide(fragment)
     }
 
@@ -16,7 +16,7 @@ class FavoritesViewModelProvider(private val viewModelFactory: FavoritesViewMode
         return provide(activity)
     }
 
-    private fun provide(fragment: Fragment): FavoritesViewModel {
+    private fun provide(fragment: androidx.fragment.app.Fragment): FavoritesViewModel {
         return ViewModelProviders.of(fragment, viewModelFactory).get(FavoritesViewModel::class.java)
     }
 

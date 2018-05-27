@@ -1,8 +1,8 @@
 package com.joaquimley.transporteta.ui.test.util
 
 import android.content.res.Resources
-import android.support.test.InstrumentationRegistry
-import android.support.v7.widget.RecyclerView
+import androidx.test.InstrumentationRegistry
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import org.hamcrest.*
 import java.util.concurrent.CountDownLatch
@@ -41,8 +41,8 @@ open class RecyclerViewMatcher constructor(var recyclerViewId: Int) {
                 this.resources = view.resources
 
                 if (childView == null) {
-                    val recyclerView = view.rootView.findViewById<RecyclerView>(recyclerViewId)
-                            as RecyclerView
+                    val recyclerView = view.rootView.findViewById<androidx.recyclerview.widget.RecyclerView>(recyclerViewId)
+                            as androidx.recyclerview.widget.RecyclerView
                     if (recyclerView.id == recyclerViewId) {
                         childView = recyclerView.findViewHolderForAdapterPosition(position).itemView
                     } else {
@@ -67,11 +67,11 @@ open class RecyclerViewMatcher constructor(var recyclerViewId: Int) {
             return RecyclerViewMatcher(recyclerViewId)
         }
 
-     fun waitForAdapterChange(recyclerView: RecyclerView) {
+     fun waitForAdapterChange(recyclerView: androidx.recyclerview.widget.RecyclerView) {
         val latch = CountDownLatch(1)
         InstrumentationRegistry.getInstrumentation().runOnMainSync {
             recyclerView.adapter?.registerAdapterDataObserver(
-                    object : RecyclerView.AdapterDataObserver() {
+                    object : androidx.recyclerview.widget.RecyclerView.AdapterDataObserver() {
                         override fun onChanged() {
                             latch.countDown()
                         }

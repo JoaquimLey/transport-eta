@@ -2,7 +2,7 @@ package com.joaquimley.transporteta.ui.test
 
 import android.app.Activity
 import android.app.Application
-import android.support.test.InstrumentationRegistry
+import androidx.test.InstrumentationRegistry
 import com.joaquimley.transporteta.ui.di.component.DaggerTestAppComponent
 import com.joaquimley.transporteta.ui.di.component.TestAppComponent
 import dagger.android.AndroidInjector

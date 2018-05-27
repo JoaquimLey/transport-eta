@@ -1,13 +1,13 @@
 package com.joaquimley.transporteta.ui.home
 
 import android.Manifest
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.home.HomeViewModel
 import com.joaquimley.transporteta.presentation.home.HomeViewModelImpl
@@ -34,7 +34,7 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector/*, BottomNa
         changeFragment(favouritesFragment)
     }
 
-    private fun changeFragment(fragment: Fragment) {
+    private fun changeFragment(fragment: androidx.fragment.app.Fragment) {
         supportFragmentManager
                 .beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -61,8 +61,8 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector/*, BottomNa
                 arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS), SMS_PERMISSION_CODE)
     }
 
-    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
+    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
+    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment>? {
         return fragmentInjector
     }
 

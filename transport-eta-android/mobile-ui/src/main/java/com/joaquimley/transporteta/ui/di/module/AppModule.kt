@@ -1,7 +1,7 @@
 package com.joaquimley.transporteta.ui.di.module
 
 import android.app.Application
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider
 import android.content.Context
 import com.joaquimley.transporteta.ui.di.component.SmsControllerSubComponent
 import com.joaquimley.transporteta.ui.injection.scope.PerApplication

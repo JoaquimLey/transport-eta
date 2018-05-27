@@ -1,16 +1,18 @@
 package com.joaquimley.transporteta.ui.home.favorite
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.design.widget.TextInputEditText
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +33,7 @@ import javax.inject.Inject
 /**
  * Created by joaquimley on 24/03/2018.
  */
-class FavoritesFragment : Fragment() {
+class FavoritesFragment : androidx.fragment.app.Fragment() {
 
     private lateinit var adapter: FavoritesAdapter
     private lateinit var requestingSnackbar: Snackbar
@@ -124,7 +126,7 @@ class FavoritesFragment : Fragment() {
             message_view?.setVisible(true)
         } else {
             message?.let {
-                Snackbar.make(favorites_fragment_container, it, Snackbar.LENGTH_LONG)
+                com.google.android.material.snackbar.Snackbar.make(favorites_fragment_container, it, com.google.android.material.snackbar.Snackbar.LENGTH_LONG)
                         .setAction(R.string.action_retry, { viewModel.retry() })
                         .show()
             }
@@ -132,7 +134,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun setupRequestSnackbar() {
-        requestingSnackbar = Snackbar.make(favorites_fragment_container, R.string.info_requesting, Snackbar.LENGTH_INDEFINITE)
+        requestingSnackbar = com.google.android.material.snackbar.Snackbar.make(favorites_fragment_container, R.string.info_requesting, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
         requestingSnackbar.setAction(R.string.action_cancel, {
             viewModel.cancelEtaRequest()
             Toast.makeText(activity?.applicationContext, R.string.info_canceled, Toast.LENGTH_SHORT).show()
@@ -141,7 +143,7 @@ class FavoritesFragment : Fragment() {
 
     private fun setupRecyclerView() {
         recycler_view?.setHasFixedSize(true)
-        recycler_view?.layoutManager = LinearLayoutManager(context)
+        recycler_view?.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         adapter = FavoritesAdapter({
             viewModel.onEtaRequested(it)
         })
@@ -153,12 +155,12 @@ class FavoritesFragment : Fragment() {
         // TODO emptyView.setListener(emptyListener)
         swipe_refresh.setOnRefreshListener({ viewModel.retry() })
         fab.setOnClickListener { showAddFavoriteDialog() }
-        recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+        recycler_view.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 when (newState) {
-                    RecyclerView.SCROLL_STATE_DRAGGING -> fab.hide()
-                    RecyclerView.SCROLL_STATE_IDLE -> fab.show()
+                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING -> fab.hide()
+                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE -> fab.show()
                 }
             }
         })
@@ -174,8 +176,8 @@ class FavoritesFragment : Fragment() {
             val dialog = builder.create()
             dialog.show()
 
-            val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
-            val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
+            val busStopTitleEditText: com.google.android.material.textfield.TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
+            val busStopCodeEditText: com.google.android.material.textfield.TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
             busStopCodeEditText?.onChange {
                 if (!TextUtils.isEmpty(it)) {
                     busStopCodeEditText.error = null

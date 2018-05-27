@@ -98,3 +98,7 @@ dependencies {
     // Resolve conflicts between main and local unit tests
     testImplementation deps.support.annotations
 }
+
+repositories {
+    mavenCentral()
+}

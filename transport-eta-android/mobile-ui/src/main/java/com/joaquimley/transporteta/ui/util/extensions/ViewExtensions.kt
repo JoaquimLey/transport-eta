@@ -1,8 +1,8 @@
 package com.joaquimley.transporteta.ui.util.extensions
 
-import android.support.design.widget.Snackbar
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -18,7 +18,7 @@ fun View.setVisible(isVisible: Boolean) {
     visibility = if (isVisible) View.VISIBLE else View.GONE
 }
 
-fun Snackbar.setVisible(isVisible: Boolean?) {
+fun com.google.android.material.snackbar.Snackbar.setVisible(isVisible: Boolean?) {
     if(isVisible != true) this.show() else this.dismiss()
 }
 fun ImageView.load(resourceId: Int) {
@@ -38,13 +38,13 @@ fun EditText.onChange(cb: (String) -> Unit) {
     })
 }
 
-fun <T, VH : RecyclerView.ViewHolder> ListAdapter<T, VH>.isEmpty() = itemCount == 0
+fun <T, VH : androidx.recyclerview.widget.RecyclerView.ViewHolder> ListAdapter<T, VH>.isEmpty() = itemCount == 0
 
-fun <T, VH : RecyclerView.ViewHolder> ListAdapter<T, VH>.clear() {
+fun <T, VH : androidx.recyclerview.widget.RecyclerView.ViewHolder> ListAdapter<T, VH>.clear() {
     submitList(null)
 }
 
-fun RecyclerView.addBottomPaddingDecoration(size: Int = 80) {
+fun androidx.recyclerview.widget.RecyclerView.addBottomPaddingDecoration(size: Int = 80) {
     this.addItemDecoration(PaddingBottomItemDecoration(size.px))
 }
 

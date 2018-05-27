@@ -1,6 +1,6 @@
 package com.joaquimley.transporteta.presentation.home
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 
 /**
  * Created by joaquimley on 24/03/2018.

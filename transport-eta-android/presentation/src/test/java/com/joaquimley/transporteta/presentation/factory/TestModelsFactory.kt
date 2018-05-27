@@ -1,6 +1,6 @@
 package com.joaquimley.transporteta.presentation.factory
 
-import android.support.annotation.RestrictTo
+import androidx.annotation.RestrictTo
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.sms.model.SmsModel
 import com.joaquimley.transporteta.ui.testing.factory.ui.DataFactory

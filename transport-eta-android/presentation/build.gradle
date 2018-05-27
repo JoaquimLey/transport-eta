@@ -89,7 +89,8 @@ dependencies {
     implementation deps.kotlin.rx
     // ACC
     kapt deps.lifecycle.compiler
-    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.livedata
+    implementation deps.lifecycle.viewmodel
     // Local unit tests
     kaptTest deps.dagger.compiler
     testImplementation deps.junit
@@ -101,4 +102,7 @@ dependencies {
     // Resolve conflicts between main and local unit tests
     testImplementation deps.support.core_utils
     testImplementation deps.support.annotations
+}
+repositories {
+    mavenCentral()
 }

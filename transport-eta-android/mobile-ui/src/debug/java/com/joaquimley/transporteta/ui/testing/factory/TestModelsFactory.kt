@@ -1,6 +1,6 @@
 package com.joaquimley.transporteta.ui.testing.factory
 
-import android.support.annotation.RestrictTo
+import androidx.annotation.RestrictTo
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 
 @RestrictTo(RestrictTo.Scope.TESTS)

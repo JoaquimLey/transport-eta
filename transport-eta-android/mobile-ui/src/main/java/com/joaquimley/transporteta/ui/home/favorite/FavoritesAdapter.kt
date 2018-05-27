@@ -1,8 +1,8 @@
 package com.joaquimley.transporteta.ui.home.favorite
 
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,7 @@ import com.joaquimley.transporteta.ui.util.extensions.load
 import kotlinx.android.synthetic.main.item_favorite.view.*
 
 class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
-    : ListAdapter<FavoriteView, RecyclerView.ViewHolder>(FavoriteViewDiffCallback()) {
+    : ListAdapter<FavoriteView, androidx.recyclerview.widget.RecyclerView.ViewHolder>(FavoriteViewDiffCallback()) {
 
     override fun getItemViewType(position: Int): Int {
         return if (getItem(position) != null) {
@@ -22,7 +22,7 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_FAVORITE -> {
                 FavoriteViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_favorite, parent, false))
@@ -33,7 +33,7 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         val favourite = getItem(position)
         if (favourite != null) {
             (holder as? FavoriteViewHolder)?.bind(favourite)
@@ -47,9 +47,9 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
         notifyDataSetChanged()
     }
 
-    inner class ProgressViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ProgressViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 
-    inner class FavoriteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class FavoriteViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
         fun bind(favoriteView: FavoriteView) {
             itemView.avatar_image_view.load(R.drawable.station)

@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion build_versions.compile_sdk
@@ -61,21 +62,6 @@ android {
     }
 }
 
-configurations.all {
-    resolutionStrategy {
-        force deps.kotlin.stdlib
-        force deps.support.annotations
-    }
-}
-
-kapt {
-    correctErrorTypes = true
-}
-
-androidExtensions {
-    experimental = true
-}
-
 dependencies {
     // Modules
     implementation project(':sms')
@@ -95,21 +81,37 @@ dependencies {
     implementation deps.dagger.android_support
     kapt deps.dagger.compiler
     kapt deps.dagger.android_support_compiler
+
+
+
+
+    // AndroidX
+    implementation deps.androidx.core
+    implementation deps.androidx.slice
+    implementation deps.androidx.material
+    implementation deps.androidx.fragment
+    implementation deps.androidx.cardview
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.recycler_view
+    implementation deps.androidx.constraint_layout
+
     // Support
-    implementation deps.support.v4
-    implementation deps.support.design
-    implementation deps.support.cardview
-    implementation deps.support.app_compat
-    implementation deps.support.constraint
-    implementation deps.support.annotations
-    implementation deps.support.recyclerview
+//    implementation deps.support.v4
+//    implementation deps.support.design
+//    implementation deps.support.cardview
+//    implementation deps.support.app_compat
+//    implementation deps.support.constraint
+//    implementation deps.support.annotations
+//    implementation deps.support.recyclerview
     // Utils
     implementation deps.glide
     implementation deps.timber
     implementation deps.lottie
     // ACC
     kapt deps.lifecycle.compiler
-    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.common
+    implementation deps.lifecycle.livedata
+    implementation deps.lifecycle.viewmodel
 
     /***********
      * Testing *
@@ -141,8 +143,24 @@ dependencies {
     androidTestImplementation deps.espresso.contrib
     androidTestImplementation deps.espresso.intents
     // Resolve conflicts between main and test APK:
-    androidTestImplementation deps.support.v4
-    androidTestImplementation deps.support.design
-    androidTestImplementation deps.support.app_compat
+    androidTestImplementation deps.androidx.core
+    androidTestImplementation deps.androidx.material
+    androidTestImplementation deps.androidx.appcompat
     androidTestImplementation deps.support.annotations
+}
+
+// Module configuration
+configurations.all {
+    resolutionStrategy {
+        force deps.kotlin.stdlib
+        force deps.support.annotations
+    }
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+androidExtensions {
+    experimental = true
 }
