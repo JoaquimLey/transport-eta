@@ -78,6 +78,8 @@ Personal website:
 - Read the [article here](https://medium.com/@JoaquimLey/android-architecture-components-now-with-100-more-mvvm-11629a630125)
 - See the code on [this commit](https://github.com/JoaquimLey/transport-eta/tree/26ce1a7f4b2dff12c6efa2292531035e70bfc4ae)
 
+- Jetpack [Medium article](https://medium.com/@JoaquimLey/jetpack-series-1-androidx-a-headache-for-a-better-package-structure-62c3608596fd)
+
 #### Contributing  
 Contributions are always welcome! Follow the "fork-and-pull" Git workflow.  
   
