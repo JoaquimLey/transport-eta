@@ -4,27 +4,25 @@
  **/
 ext.deps = [:]
 def versions = [:]
-
+// Plugins
 versions.kotlin = "1.2.41"
-versions.android_gradle_plugin = "3.1.2"
-//versions.android_gradle_plugin = "3.2.0-alpha15"
+versions.android_gradle_plugin = "3.2.0-alpha15"
+
 // AndroidX
-versions.material = "1.1.0"
-versions.fragment = "1.1.0"
-versions.slice = "1.0.0-alpha1"
-versions.recycler_view = "1.1.0"
-versions.appcompat = "1.0.0-alpha1"
+versions.slice = "1.0.0-alpha2"
+versions.core_ktx = "1.0.0-alpha1"
+versions.material = "1.0.0-alpha1"
+versions.fragment = "1.0.0-alpha2"
+versions.appcompat = "1.0.0-alpha2"
 versions.card_view = "1.0.0-alpha1"
 versions.constraint_layout = "1.1.0"
-versions.androidx_core = "1.0.0-alpha1"
-
+versions.recycler_view = "1.0.0-alpha2"
 
 // Architecture components
-versions.room = "2.0.0-alpha1"
+versions.room = "2.0.0-alpha2"
+versions.paging = "2.0.0-alpha2"
 versions.lifecycle = "2.0.0-alpha1"
-versions.paging = "2.0.0-alpha1"
-versions.navigation = "2.0.0-alpha1"
-versions.navigation_safe_args = "1.0.0-alpha01"
+versions.navigation = "1.0.0-alpha01"
 versions.work_manager = "1.0.0-alpha02"
 
 
@@ -32,7 +30,7 @@ versions.arch = "1.1.1"
 versions.arch_room = "1.0.0"
 versions.support = "28.0.0-alpha1"
 versions.support_constraint = "1.1.0"
-versions.dagger = "2.11"
+versions.dagger = "2.16"
 versions.javax_inject = "1"
 versions.javax_annotation = "1.0"
 versions.junit = "4.12"
@@ -67,10 +65,9 @@ versions.glassfish_annotation = "10.0-b28"
 versions.kaction = "0.0.1"
 def deps = [:]
 
-
 def androidx = [:]
 androidx.slice = "androidx.slice:slice-view:$versions.slice"
-androidx.core = "androidx.core:core-ktx:$versions.androidx_core"
+androidx.core_ktx = "androidx.core:core-ktx:$versions.core_ktx"
 androidx.fragment = "androidx.fragment:fragment:$versions.fragment"
 androidx.cardview = "androidx.cardview:cardview:$versions.card_view"
 androidx.appcompat = "androidx.appcompat:appcompat:$versions.appcompat"
@@ -87,11 +84,12 @@ room.testing = "androidx.room:room-testing::$versions.room"
 deps.room = room
 
 def lifecycle = [:]
-lifecycle.viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
-lifecycle.livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
-lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle"
-lifecycle.common = "android.arch.lifecycle:common-java8:$versions.lifecycle"
 lifecycle.testing = "androidx.arch.core:core-testing:$versions.lifecycle"
+lifecycle.common = "android.arch.lifecycle:common-java8:$versions.lifecycle"
+lifecycle.livedata = "androidx.lifecycle:lifecycle-livedata:$versions.lifecycle"
+lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle"
+lifecycle.extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
+lifecycle.viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
 deps.lifecycle = lifecycle
 
 def paging = [:]
@@ -104,7 +102,7 @@ def navigation =[:]
 navigation.fragment = "android.arch.navigation:navigation-fragment-ktx:$versions.navigation"
 navigation.ui = "android.arch.navigation:navigation-ui-ktx:$versions.navigation"
 navigation.testing = "android.arch.navigation:navigation-testing-ktx:$versions.navigation"
-navigation.safe_args = "android.arch.navigation:navigation-safe-args-gradle-plugin:$versions.navigation_safe_args"
+navigation.safe_args = "android.arch.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
 deps.navigation = navigation
 
 def work_manager = [:]
@@ -169,7 +167,7 @@ mockito.kotlin = "com.nhaarman:mockito-kotlin:$versions.kotlin_mockito"
 deps.mockito = mockito
 
 def kotlin = [:]
-kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jre7:$versions.kotlin"
+kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
 kotlin.test = "org.jetbrains.kotlin:kotlin-test:$versions.kotlin"
 kotlin.junit = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"

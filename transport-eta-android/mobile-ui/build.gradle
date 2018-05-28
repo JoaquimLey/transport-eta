@@ -66,6 +66,23 @@ dependencies {
     // Modules
     implementation project(':sms')
     implementation project(':presentation')
+    // AndroidX
+    implementation deps.androidx.core_ktx
+    implementation deps.androidx.slice
+    implementation deps.androidx.material
+    implementation deps.androidx.fragment
+    implementation deps.androidx.cardview
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.recycler_view
+    implementation deps.androidx.constraint_layout
+    // ACC
+    kapt deps.lifecycle.compiler
+    implementation deps.lifecycle.extensions
+    // Utils
+    implementation deps.glide
+    implementation deps.timber
+    implementation deps.lottie
+
     // Javax
     implementation deps.javax.inject
     compileOnly deps.javax.annotation
@@ -82,37 +99,6 @@ dependencies {
     kapt deps.dagger.compiler
     kapt deps.dagger.android_support_compiler
 
-
-
-
-    // AndroidX
-    implementation deps.androidx.core
-    implementation deps.androidx.slice
-    implementation deps.androidx.material
-    implementation deps.androidx.fragment
-    implementation deps.androidx.cardview
-    implementation deps.androidx.appcompat
-    implementation deps.androidx.recycler_view
-    implementation deps.androidx.constraint_layout
-
-    // Support
-//    implementation deps.support.v4
-//    implementation deps.support.design
-//    implementation deps.support.cardview
-//    implementation deps.support.app_compat
-//    implementation deps.support.constraint
-//    implementation deps.support.annotations
-//    implementation deps.support.recyclerview
-    // Utils
-    implementation deps.glide
-    implementation deps.timber
-    implementation deps.lottie
-    // ACC
-    kapt deps.lifecycle.compiler
-    implementation deps.lifecycle.common
-    implementation deps.lifecycle.livedata
-    implementation deps.lifecycle.viewmodel
-
     /***********
      * Testing *
      ***********/
@@ -124,7 +110,7 @@ dependencies {
     testImplementation deps.kotlin.test
     testImplementation deps.mockito.kotlin
     testImplementation deps.mockito.inline
-    testImplementation deps.arch_core.testing
+    testImplementation deps.lifecycle.testing
     // Resolve conflicts between main and local unit tests
     testImplementation deps.support.core_utils
     testImplementation deps.support.annotations
@@ -137,13 +123,13 @@ dependencies {
     androidTestUtil deps.atsl.orchestrator
     androidTestImplementation deps.atsl.rules
     androidTestImplementation deps.atsl.runner
-    androidTestImplementation deps.arch_core.testing
+    androidTestImplementation deps.lifecycle.testing
     // Espresso UI Testing
     androidTestImplementation deps.espresso.core
     androidTestImplementation deps.espresso.contrib
     androidTestImplementation deps.espresso.intents
     // Resolve conflicts between main and test APK:
-    androidTestImplementation deps.androidx.core
+    androidTestImplementation deps.androidx.core_ktx
     androidTestImplementation deps.androidx.material
     androidTestImplementation deps.androidx.appcompat
     androidTestImplementation deps.support.annotations

@@ -7,6 +7,8 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class HomeFragmentsBuildersModule {
 
-    @ContributesAndroidInjector(modules = arrayOf(FavoriteFragmentModule::class))
+    @ContributesAndroidInjector(modules = [
+        FavoriteFragmentModule::class
+    ])
     abstract fun contributeFavouritesFragment(): FavoritesFragment
 }

@@ -11,9 +11,9 @@ import dagger.Provides
 /**
  * Module used to provide dependencies at an application-level.
  */
-@Module(subcomponents = arrayOf(
-        SmsControllerSubComponent::class
-))
+@Module(subcomponents = [
+    SmsControllerSubComponent::class
+])
 class AppModule {
 
     @Provides

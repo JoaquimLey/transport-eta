@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -69,10 +68,6 @@ android {
     }
 }
 
-androidExtensions {
-    experimental = true
-}
-
 dependencies {
     // Javax
     implementation deps.javax.inject
@@ -81,8 +76,8 @@ dependencies {
     implementation deps.rxjava2
     implementation deps.rx_android
     // Kotlin
-    implementation deps.kotlin.stdlib
     implementation deps.kotlin.rx
+    implementation deps.kotlin.stdlib
 
     /***********
      * Testing *
@@ -99,6 +94,6 @@ dependencies {
     testImplementation deps.support.annotations
 }
 
-repositories {
-    mavenCentral()
+androidExtensions {
+    experimental = true
 }

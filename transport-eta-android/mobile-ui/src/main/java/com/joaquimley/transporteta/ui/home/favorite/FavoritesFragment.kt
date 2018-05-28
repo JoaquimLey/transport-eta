@@ -1,26 +1,18 @@
 package com.joaquimley.transporteta.ui.home.favorite
 
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import androidx.fragment.app.Fragment
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.joaquimley.transporteta.R
-import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
-import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.ui.util.extensions.*
@@ -33,17 +25,14 @@ import javax.inject.Inject
 /**
  * Created by joaquimley on 24/03/2018.
  */
-class FavoritesFragment : androidx.fragment.app.Fragment() {
+class FavoritesFragment : Fragment() {
 
     private lateinit var adapter: FavoritesAdapter
     private lateinit var requestingSnackbar: Snackbar
 
-//    @Inject lateinit var viewModelProvider: FavoritesViewModelProvider
-//    private val viewModel by lazy { viewModelProvider(this) }
-
-
-    @Inject lateinit var favoritesViewModelFactory: FavoritesViewModelFactory
-    private val viewModel by lazy { ViewModelProviders.of(this, favoritesViewModelFactory).get(FavoritesViewModel::class.java) }
+    @Inject
+    lateinit var viewModelProvider: FavoritesViewModelProvider
+    private val viewModel by lazy { viewModelProvider(this) }
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)

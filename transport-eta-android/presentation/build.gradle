@@ -8,7 +8,7 @@ android {
     defaultConfig {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-//        testInstrumentationRunner "com.joaquimley.transporteta.ui.test.TestRunner"
+        testInstrumentationRunner "com.joaquimley.transporteta.ui.test.TestRunner"
     }
 
     packagingOptions {
@@ -71,13 +71,14 @@ android {
     }
 }
 
-androidExtensions {
-    experimental = true
-}
-
 dependencies {
     // Module
     implementation project(':sms')
+    // ACC
+    kapt deps.lifecycle.compiler
+    implementation deps.lifecycle.livedata
+    implementation deps.lifecycle.viewmodel
+
     // Javax
     implementation deps.javax.inject
     compileOnly deps.javax.annotation
@@ -85,12 +86,9 @@ dependencies {
     implementation deps.rxjava2
     implementation deps.rx_android
     // Kotlin
-    implementation deps.kotlin.stdlib
     implementation deps.kotlin.rx
-    // ACC
-    kapt deps.lifecycle.compiler
-    implementation deps.lifecycle.livedata
-    implementation deps.lifecycle.viewmodel
+    implementation deps.kotlin.stdlib
+
     // Local unit tests
     kaptTest deps.dagger.compiler
     testImplementation deps.junit
@@ -98,11 +96,13 @@ dependencies {
     testImplementation deps.kotlin.test
     testImplementation deps.mockito.kotlin
     testImplementation deps.mockito.inline
-    testImplementation deps.arch_core.testing
+    testImplementation deps.lifecycle.testing
     // Resolve conflicts between main and local unit tests
     testImplementation deps.support.core_utils
     testImplementation deps.support.annotations
 }
-repositories {
-    mavenCentral()
+
+
+androidExtensions {
+    experimental = true
 }
