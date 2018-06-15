@@ -41,5 +41,4 @@
             android:hint="@string/create_favorite_title_hint"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

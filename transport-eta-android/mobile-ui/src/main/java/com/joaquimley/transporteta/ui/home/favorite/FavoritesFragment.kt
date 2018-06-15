@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.model.FavoriteView
@@ -51,7 +52,6 @@ class FavoritesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//            initViewModel()
         observeFavourites()
         observeRequestsEnabled()
     }
@@ -116,7 +116,7 @@ class FavoritesFragment : Fragment() {
         } else {
             message?.let {
                 com.google.android.material.snackbar.Snackbar.make(favorites_fragment_container, it, com.google.android.material.snackbar.Snackbar.LENGTH_LONG)
-                        .setAction(R.string.action_retry, { viewModel.retry() })
+                        .setAction(R.string.action_retry) { viewModel.retry() }
                         .show()
             }
         }
@@ -124,32 +124,30 @@ class FavoritesFragment : Fragment() {
 
     private fun setupRequestSnackbar() {
         requestingSnackbar = com.google.android.material.snackbar.Snackbar.make(favorites_fragment_container, R.string.info_requesting, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
-        requestingSnackbar.setAction(R.string.action_cancel, {
+        requestingSnackbar.setAction(R.string.action_cancel) {
             viewModel.cancelEtaRequest()
             Toast.makeText(activity?.applicationContext, R.string.info_canceled, Toast.LENGTH_SHORT).show()
-        })
+        }
     }
 
     private fun setupRecyclerView() {
         recycler_view?.setHasFixedSize(true)
         recycler_view?.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        adapter = FavoritesAdapter({
-            viewModel.onEtaRequested(it)
-        })
+        adapter = FavoritesAdapter { viewModel.onEtaRequested(it) }
         recycler_view?.adapter = adapter
         recycler_view?.addBottomPaddingDecoration()
     }
 
     private fun setupListeners() {
         // TODO emptyView.setListener(emptyListener)
-        swipe_refresh.setOnRefreshListener({ viewModel.retry() })
+        swipe_refresh.setOnRefreshListener { viewModel.retry() }
         fab.setOnClickListener { showAddFavoriteDialog() }
         recycler_view.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 when (newState) {
-                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING -> fab.hide()
-                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE -> fab.show()
+                    RecyclerView.SCROLL_STATE_DRAGGING -> fab.hide()
+                    RecyclerView.SCROLL_STATE_IDLE -> fab.show()
                 }
             }
         })

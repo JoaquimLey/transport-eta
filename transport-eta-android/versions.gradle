@@ -181,7 +181,7 @@ dexmaker.linkedin = "com.linkedin.dexmaker:dexmaker-mockito:$versions.dexmaker_l
 dexmaker.linkedin_inline = "com.linkedin.dexmaker:dexmaker-mockito-inline:$versions.dexmaker_linkedin_inline"
 deps.dexmaker = dexmaker
 
-deps.glassfish_annotation = "org.glassfish:javax.annotation:$versions.glassfish_annotation"
+deps.glassfish_annotation = "org.glassfish:javax.annotation:$versions.glassfish_annotatio n"
 deps.robolectric = "org.robolectric:robolectric:$versions.robolectric"
 deps.assertj = "org.assertj:assertj-core:$versions.assertj"
 deps.glide = "com.github.bumptech.glide:glide:$versions.glide"

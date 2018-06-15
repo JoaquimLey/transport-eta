@@ -20,15 +20,15 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) :
     private val favouritesLiveData = MutableLiveData<Resource<List<FavoriteView>>>()
 
     init {
-//        val currentValue = ArrayList<FavoriteView>()
-//        currentValue.add(FavoriteView(1337, "This is mock data 1"))
-//        currentValue.add(FavoriteView(1338, "This is mock data 2"))
-//        currentValue.add(FavoriteView(1339, "This is mock data 3"))
-//        currentValue.add(FavoriteView(1330, "This is mock data 4"))
-//        currentValue.add(FavoriteView(1331, "This is mock data 5"))
-//        currentValue.add(FavoriteView(1332, "This is mock data 6"))
+        val currentValue = ArrayList<FavoriteView>()
+        currentValue.add(FavoriteView(1337, "This is mock data 1"))
+        currentValue.add(FavoriteView(1338, "This is mock data 2"))
+        currentValue.add(FavoriteView(1339, "This is mock data 3"))
+        currentValue.add(FavoriteView(1330, "This is mock data 4"))
+        currentValue.add(FavoriteView(1331, "This is mock data 5"))
+        currentValue.add(FavoriteView(1332, "This is mock data 6"))
 
-//        favouritesLiveData.postValue(Resource.success(currentValue))
+        favouritesLiveData.postValue(Resource.success(currentValue))
     }
 
     override fun onCleared() {
@@ -63,8 +63,8 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) :
         smsRequestDisposable = smsController.requestEta(code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({ acceptingRequestsLiveData.postValue(false) })
-                .doAfterTerminate({ acceptingRequestsLiveData.postValue(true) })
+                .doOnSubscribe { acceptingRequestsLiveData.postValue(false) }
+                .doAfterTerminate { acceptingRequestsLiveData.postValue(true) }
                 .subscribe({
                     // TODO Mapper from SmsModel to FavoriteViewObject
                     val newFavoriteView = FavoriteView(it.code, it.message, it.message, true)

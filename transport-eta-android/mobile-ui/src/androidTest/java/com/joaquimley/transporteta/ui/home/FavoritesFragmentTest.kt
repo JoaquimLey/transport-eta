@@ -112,8 +112,8 @@ class FavoritesFragmentTest {
         onView(withId(R.id.message_view)).check(matches(not(isDisplayed())))
 
         // Snackbar is shown with retry button
-        onView(allOf(withId(android.support.design.R.id.snackbar_text), withText(errorMessage))).check(matches(isDisplayed()))
-        onView(allOf(withId(android.support.design.R.id.snackbar_action), withText(R.string.action_retry))).check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.snackbar_text), withText(errorMessage))).check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.snackbar_action), withText(R.string.action_retry))).check(matches(isDisplayed()))
     }
 
     @Test
@@ -194,8 +194,8 @@ class FavoritesFragmentTest {
         // When
         requestsAvailable.postValue(false)
         // Then Snackbar with requesting text and cancel action are shown
-        onView(allOf(withId(android.support.design.R.id.snackbar_text), withText(R.string.info_requesting))).check(matches(isDisplayed()))
-        onView(allOf(withId(android.support.design.R.id.snackbar_action), withText(R.string.action_cancel))).check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.snackbar_text), withText(R.string.info_requesting))).check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.snackbar_action), withText(R.string.action_cancel))).check(matches(isDisplayed()))
     }
 
     @Test
@@ -205,8 +205,8 @@ class FavoritesFragmentTest {
         // When
         requestsAvailable.postValue(true)
         // Then Snackbar with requesting text and cancel action are not shown
-        onView(allOf(withId(android.support.design.R.id.snackbar_text), withText(R.string.info_requesting))).check(doesNotExist())
-        onView(allOf(withId(android.support.design.R.id.snackbar_action), withText(R.string.action_cancel))).check(doesNotExist())
+        onView(allOf(withId(R.id.snackbar_text), withText(R.string.info_requesting))).check(doesNotExist())
+        onView(allOf(withId(R.id.snackbar_action), withText(R.string.action_cancel))).check(doesNotExist())
     }
 
     @Test

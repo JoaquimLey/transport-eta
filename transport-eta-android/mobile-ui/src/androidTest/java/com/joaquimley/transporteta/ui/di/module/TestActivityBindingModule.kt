@@ -9,6 +9,9 @@ import dagger.android.ContributesAndroidInjector
 abstract class TestActivityBindingModule {
 
     @PerActivity // HomeFragmentsBuildersModule::class
-    @ContributesAndroidInjector(modules = arrayOf(TestFragmentActivityModule::class, TestFragmentsBuildersModule::class))
+    @ContributesAndroidInjector(modules = [
+        TestFragmentActivityModule::class,
+        TestFragmentsBuildersModule::class
+    ])
     abstract fun bindTestFragmentActivity(): TestFragmentActivity
 }

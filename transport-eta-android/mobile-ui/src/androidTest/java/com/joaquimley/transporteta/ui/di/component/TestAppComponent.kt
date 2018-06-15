@@ -10,11 +10,12 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 
-@Component(modules = arrayOf(
-        TestAppModule::class,
-        TestActivityBindingModule::class,
-        SmsControllerModule::class,
-        AndroidSupportInjectionModule::class))
+@Component(modules = [
+    TestAppModule::class,
+    TestActivityBindingModule::class,
+    SmsControllerModule::class,
+    AndroidSupportInjectionModule::class
+])
 @PerApplication
 interface TestAppComponent : AppComponent {
 

@@ -67,8 +67,8 @@ dependencies {
     implementation project(':sms')
     implementation project(':presentation')
     // AndroidX
-    implementation deps.androidx.core_ktx
     implementation deps.androidx.slice
+    implementation deps.androidx.core_ktx
     implementation deps.androidx.material
     implementation deps.androidx.fragment
     implementation deps.androidx.cardview
