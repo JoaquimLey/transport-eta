@@ -7,6 +7,14 @@ about: Create a report to help us improve
 **Describe the bug**
 A clear and concise description of what the bug is.
 
+**Building from**
+
+- [ ] Production release Playstore/Appstore/Website
+  - Specify version if possible: 
+
+- [ ] Source
+  - Specify branch: 
+
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
