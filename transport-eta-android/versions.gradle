@@ -4,9 +4,9 @@
  **/
 ext.deps = [:]
 def versions = [:]
-// Plugins
-versions.kotlin = "1.2.41"
-versions.android_gradle_plugin = "3.2.0-alpha15"
+// Plugins˙
+versions.kotlin = "1.2.51"
+versions.android_gradle_plugin = '3.3.0-alpha03'
 
 // AndroidX
 versions.slice = "1.0.0-alpha2"
@@ -80,7 +80,7 @@ def room = [:]
 room.runtime = "androidx.room:room-runtime:$versions.room"
 room.compiler = "androidx.room:room-compiler:$versions.room"
 room.rxjava2 = "androidx.room:room-rxjava2:$versions.room"
-room.testing = "androidx.room:room-testing::$versions.room"
+room.testing = "androidx.room:room-testing:$versions.room"
 deps.room = room
 
 def lifecycle = [:]

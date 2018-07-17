@@ -22,7 +22,7 @@ interface TestAppComponent : AppComponent {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun application(application: Application): Builder
+        fun application(application: Application): TestAppComponent.Builder
 
         fun build(): TestAppComponent
     }
