@@ -62,6 +62,22 @@ android {
     }
 }
 
+// Module configuration
+configurations.all {
+    resolutionStrategy {
+        force deps.kotlin.stdlib
+        force deps.androidx.annotation
+    }
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     // Modules
     implementation project(':sms')
@@ -82,10 +98,9 @@ dependencies {
     implementation deps.glide
     implementation deps.timber
     implementation deps.lottie
-
     // Javax
+    api deps.javax.annotation
     implementation deps.javax.inject
-    compileOnly deps.javax.annotation
     // Rx
     implementation deps.rxjava2
     implementation deps.rx_android
@@ -103,21 +118,16 @@ dependencies {
      * Testing *
      ***********/
 
-    // Local unit tests
-    kaptTest deps.dagger.compiler
-    testImplementation deps.junit
-    testImplementation deps.hamcrest
-    testImplementation deps.kotlin.test
-    testImplementation deps.mockito.kotlin
-    testImplementation deps.mockito.inline
-    testImplementation deps.lifecycle.testing
-    // Resolve conflicts between main and local unit tests
-    testImplementation deps.support.core_utils
-    testImplementation deps.support.annotations
+//    // Local unit tests
+//    kaptTest deps.dagger.compiler
+//    testImplementation deps.junit
+//    testImplementation deps.kotlin.test
+//    testImplementation deps.lifecycle.testing
+//    // Resolve conflicts between main and local unit tests
+//    testImplementation deps.androidx.annotation
     // Android unit tests
     kaptAndroidTest deps.dagger.compiler
     androidTestImplementation deps.javax.inject
-    androidTestImplementation deps.mockito.kotlin
     androidTestImplementation deps.mockito.android
     // Android Testing Support runner and rules and AAC
     androidTestUtil deps.atsl.orchestrator
@@ -132,21 +142,5 @@ dependencies {
     androidTestImplementation deps.androidx.core_ktx
     androidTestImplementation deps.androidx.material
     androidTestImplementation deps.androidx.appcompat
-    androidTestImplementation deps.support.annotations
-}
-
-// Module configuration
-configurations.all {
-    resolutionStrategy {
-        force deps.kotlin.stdlib
-        force deps.support.annotations
-    }
-}
-
-kapt {
-    correctErrorTypes = true
-}
-
-androidExtensions {
-    experimental = true
+    androidTestImplementation deps.androidx.annotation
 }

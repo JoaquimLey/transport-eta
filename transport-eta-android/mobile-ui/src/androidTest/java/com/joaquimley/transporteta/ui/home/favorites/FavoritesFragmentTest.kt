@@ -1,4 +1,4 @@
-package com.joaquimley.transporteta.ui.home
+package com.joaquimley.transporteta.ui.home.favorites
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -8,15 +8,13 @@ import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.filters.MediumTest
+import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
-import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.model.FavoriteView
-import com.joaquimley.transporteta.ui.di.module.TestFavoriteFragmentModule
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesAdapter
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesViewModelProvider
@@ -24,23 +22,20 @@ import com.joaquimley.transporteta.ui.test.util.RecyclerViewMatcher
 import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
 import com.joaquimley.transporteta.ui.testing.factory.TestModelsFactory
 import com.joaquimley.transporteta.ui.util.extensions.findViewById
-import com.nhaarman.mockito_kotlin.verify
 import org.hamcrest.CoreMatchers.*
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.Mockito.*
 
-
-@MediumTest
+@LargeTest
 @RunWith(AndroidJUnit4::class)
 class FavoritesFragmentTest {
 
     // Rules
-    @Rule @JvmField val activityRule = ActivityTestRule(TestFragmentActivity::class.java, true, true)
+    @Rule @JvmField val activityRule = ActivityTestRule(TestFragmentActivity::class.java)
     @Rule @JvmField val instantTaskExecutorRule = InstantTaskExecutorRule()
     // Mocks
     private val viewModel = mock(FavoritesViewModel::class.java)
@@ -53,7 +48,7 @@ class FavoritesFragmentTest {
     @Before
     fun setup() {
         // Init mock ViewModel
-        `when`(TestFavoriteFragmentModule.favoritesViewModelFactory.create(FavoritesViewModel::class.java)).thenReturn(viewModel)
+//        `when`(TestFavoriteFragmentModule.favoritesViewModelFactory.create(FavoritesViewModel::class.java)).thenReturn(viewModel)
         `when`(viewModel.getFavorites()).thenReturn(results)
         `when`(viewModel.isAcceptingRequests()).thenReturn(requestsAvailable)
 

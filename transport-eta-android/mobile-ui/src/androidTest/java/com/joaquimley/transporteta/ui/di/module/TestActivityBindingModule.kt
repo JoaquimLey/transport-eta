@@ -10,8 +10,8 @@ abstract class TestActivityBindingModule {
 
     @PerActivity // HomeFragmentsBuildersModule::class
     @ContributesAndroidInjector(modules = [
-        TestFragmentActivityModule::class,
-        TestFragmentsBuildersModule::class
+        TestFragmentActivityModule::class
+//        TestFragmentsBuildersModule::class
     ])
     abstract fun bindTestFragmentActivity(): TestFragmentActivity
 }

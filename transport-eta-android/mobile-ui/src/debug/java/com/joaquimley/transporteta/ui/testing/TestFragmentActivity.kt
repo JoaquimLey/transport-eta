@@ -1,7 +1,6 @@
 package com.joaquimley.transporteta.ui.testing
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
 import android.widget.FrameLayout
