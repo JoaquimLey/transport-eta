@@ -85,7 +85,6 @@ deps.room = room
 
 def lifecycle = [:]
 lifecycle.testing = "androidx.arch.core:core-testing:$versions.lifecycle"
-lifecycle.common = "android.arch.lifecycle:common-java8:$versions.lifecycle"
 lifecycle.livedata = "androidx.lifecycle:lifecycle-livedata:$versions.lifecycle"
 lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle"
 lifecycle.extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"

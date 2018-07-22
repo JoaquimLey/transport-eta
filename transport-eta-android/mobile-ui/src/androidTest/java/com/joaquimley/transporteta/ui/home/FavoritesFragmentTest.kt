@@ -11,14 +11,15 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.MediumTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
-import androidx.recyclerview.widget.RecyclerView
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
+import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.ui.di.module.TestFavoriteFragmentModule
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesAdapter
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
+import com.joaquimley.transporteta.ui.home.favorite.FavoritesViewModelProvider
 import com.joaquimley.transporteta.ui.test.util.RecyclerViewMatcher
 import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
 import com.joaquimley.transporteta.ui.testing.factory.TestModelsFactory
@@ -38,12 +39,14 @@ import org.mockito.Mockito.mock
 @RunWith(AndroidJUnit4::class)
 class FavoritesFragmentTest {
 
-    @Rule @JvmField val activityRule = ActivityTestRule(TestFragmentActivity::class.java, false, true)
+    // Rules
+    @Rule @JvmField val activityRule = ActivityTestRule(TestFragmentActivity::class.java, true, true)
     @Rule @JvmField val instantTaskExecutorRule = InstantTaskExecutorRule()
-
+    // Mocks
+    private val viewModel = mock(FavoritesViewModel::class.java)
+    // LiveData
     private val requestsAvailable = MutableLiveData<Boolean>()
     private val results = MutableLiveData<Resource<List<FavoriteView>>>()
-    private val viewModel = mock(FavoritesViewModel::class.java)
 
     private lateinit var favoritesFragment: FavoritesFragment
 
@@ -52,9 +55,17 @@ class FavoritesFragmentTest {
         // Init mock ViewModel
         `when`(TestFavoriteFragmentModule.favoritesViewModelFactory.create(FavoritesViewModel::class.java)).thenReturn(viewModel)
         `when`(viewModel.getFavorites()).thenReturn(results)
-        `when`(viewModel.getAcceptingRequests()).thenReturn(requestsAvailable)
+        `when`(viewModel.isAcceptingRequests()).thenReturn(requestsAvailable)
+
         // Instantiate fragment and add to the TestFragmentActivity
+        val mockViewModelProvider = mock(FavoritesViewModelProvider::class.java)
+        `when`(mockViewModelProvider.invoke(favoritesFragment)).thenReturn(viewModel)
+
+
         favoritesFragment = FavoritesFragment.newInstance()
+        favoritesFragment.viewModelProvider = mockViewModelProvider
+
+
         activityRule.activity.addFragment(favoritesFragment)
     }
 

@@ -67,7 +67,7 @@ class FavoritesViewModelTest {
         // given
         val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         // when
-        favoritesViewModel.getAcceptingRequests().observeForever(requestStatusObserver)
+        favoritesViewModel.isAcceptingRequests().observeForever(requestStatusObserver)
         favoritesViewModel.onEtaRequested(favoriteView)
         // then
         verify(requestStatusObserver).onChanged(false)
@@ -80,7 +80,7 @@ class FavoritesViewModelTest {
         val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         favoritesViewModel.onEtaRequested(favoriteView)
         // when
-        favoritesViewModel.getAcceptingRequests().observeForever(requestStatusObserver)
+        favoritesViewModel.isAcceptingRequests().observeForever(requestStatusObserver)
         favoritesViewModel.cancelEtaRequest()
         // then
         verify(requestStatusObserver).onChanged(true)
@@ -128,7 +128,7 @@ class FavoritesViewModelTest {
         val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         favoritesViewModel.onEtaRequested(favoriteView)
         // when
-        favoritesViewModel.getAcceptingRequests().observeForever(requestStatusObserver)
+        favoritesViewModel.isAcceptingRequests().observeForever(requestStatusObserver)
         smsResult.onNext(TestModelsFactory.generateSmsModel())
         // then
         verify(requestStatusObserver).onChanged(true)

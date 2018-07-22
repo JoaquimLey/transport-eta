@@ -4,6 +4,7 @@ import android.app.Application
 import com.joaquimley.transporteta.ui.di.module.SmsControllerModule
 import com.joaquimley.transporteta.ui.di.module.TestActivityBindingModule
 import com.joaquimley.transporteta.ui.di.module.TestAppModule
+import com.joaquimley.transporteta.ui.di.module.TestFavoriteFragmentModule
 import com.joaquimley.transporteta.ui.injection.scope.PerApplication
 import com.joaquimley.transporteta.ui.test.TestApplication
 import dagger.BindsInstance

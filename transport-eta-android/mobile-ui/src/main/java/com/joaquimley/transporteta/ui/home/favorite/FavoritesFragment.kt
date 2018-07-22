@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.joaquimley.transporteta.R
+import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.ui.model.data.ResourceState
 import com.joaquimley.transporteta.ui.util.extensions.*
@@ -28,11 +29,12 @@ import javax.inject.Inject
  */
 class FavoritesFragment : Fragment() {
 
+    @Inject lateinit var viewModelProvider: FavoritesViewModelProvider
+//    @Inject lateinit var viewModelFactory: FavoritesViewModelFactory
+
     private lateinit var adapter: FavoritesAdapter
     private lateinit var requestingSnackbar: Snackbar
 
-    @Inject
-    lateinit var viewModelProvider: FavoritesViewModelProvider
     private val viewModel by lazy { viewModelProvider(this) }
 
     override fun onAttach(context: Context) {
@@ -57,7 +59,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun observeRequestsEnabled() {
-        viewModel.getAcceptingRequests().observe(this,
+        viewModel.isAcceptingRequests().observe(this,
                 Observer {
                     adapter.setActionEnabledStatus(it ?: true)
                     requestingSnackbar.setVisible(it)

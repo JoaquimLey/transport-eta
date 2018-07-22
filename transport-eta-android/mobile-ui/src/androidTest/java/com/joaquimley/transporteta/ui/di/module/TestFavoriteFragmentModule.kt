@@ -23,7 +23,8 @@ class TestFavoriteFragmentModule {
 
     @Provides
     fun provideFavoritesViewModelFactory(): FavoritesViewModelFactory {
-        return favoritesViewModelFactory
+//        return favoritesViewModelFactory
+        return mock(FavoritesViewModelFactory::class.java)
     }
 
 //    @Provides

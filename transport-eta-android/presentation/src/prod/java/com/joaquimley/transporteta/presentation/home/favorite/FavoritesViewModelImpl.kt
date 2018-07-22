@@ -40,7 +40,7 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) :
         return favouritesLiveData
     }
 
-    override fun getAcceptingRequests(): LiveData<Boolean> {
+    override fun isAcceptingRequests(): LiveData<Boolean> {
         return acceptingRequestsLiveData
     }
 

@@ -10,7 +10,7 @@ abstract class FavoritesViewModel(val smsController: SmsController): ViewModel()
 
     abstract fun getFavorites(): LiveData<Resource<List<FavoriteView>>>
 
-    abstract fun getAcceptingRequests(): LiveData<Boolean>
+    abstract fun isAcceptingRequests(): LiveData<Boolean>
 
     abstract fun retry()
 

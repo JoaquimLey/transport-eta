@@ -6,6 +6,7 @@ import com.joaquimley.transporteta.sms.SmsController
 
 abstract class FavoritesViewModelFactory(private val smsController: SmsController) : ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return create() as T
     }
