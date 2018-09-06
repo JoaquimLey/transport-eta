@@ -1,0 +1,154 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'androidx.navigation.safeargs'
+
+android {
+    compileSdkVersion build_versions.compile_sdk
+    defaultConfig {
+        applicationId "com.joaquimley.transporteta"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode app_version.versionCode
+        versionName app_version.versionName
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "com.joaquimley.transporteta.ui.test.TestRunner"
+
+        // The following argument makes the Android Test Orchestrator run its
+        // "pm clear" command after each test invocation. This command ensures
+        // that the app's state is completely cleared between tests.
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+        // Set missing flavors strategy
+        missingDimensionStrategy 'environment', ['prod', 'mock']
+    }
+
+    // Always show the result of every unit test, even if it passes.
+    testOptions {
+//        execution 'ANDROID_TEST_ORCHESTRATOR'
+        unitTests.all {
+            testLogging {
+                events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            }
+        }
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+    }
+
+    buildTypes {
+        debug {
+            versionNameSuffix "-dev"
+            applicationIdSuffix ".debug"
+            debuggable true
+            testCoverageEnabled true
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+// Module configuration
+configurations.all {
+    resolutionStrategy {
+        force deps.kotlin.stdlib
+        force deps.androidx.annotation
+    }
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    // Modules
+    implementation project(':sms')
+    implementation project(':presentation')
+    // AndroidX
+    implementation deps.androidx.slice
+    implementation deps.androidx.core_ktx
+    implementation deps.androidx.material
+    implementation deps.androidx.fragment
+    implementation deps.androidx.cardview
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.recycler_view
+    implementation deps.androidx.constraint_layout
+    // ACC
+    kapt deps.lifecycle.compiler
+    implementation deps.lifecycle.extensions
+    // Utils
+    implementation deps.glide
+    implementation deps.timber
+    implementation deps.lottie
+    // Javax
+    implementation deps.javax.inject
+    compileOnly deps.javax.annotation
+    // Rx
+    implementation deps.rxjava2
+    implementation deps.rx_android
+    // Kotlin
+    implementation deps.kotlin.rx
+    implementation deps.kotlin.stdlib
+    // Dagger
+    implementation deps.dagger.runtime
+    implementation deps.dagger.android
+    implementation deps.dagger.android_support
+    kapt deps.dagger.compiler
+    kapt deps.dagger.android_support_compiler
+
+    /***********
+     * Testing *
+     ***********/
+    // Local unit tests
+//    testImplementation deps.mockito.kotlin
+//    testImplementation deps.mockito.inline
+//    testImplementation deps.arch_core.testing
+
+    // Unit tests
+    kaptTest deps.dagger.compiler
+    testImplementation deps.junit
+    testImplementation deps.hamcrest
+    testImplementation deps.kotlin.test
+    testImplementation deps.lifecycle.testing
+    // Resolve conflicts between main and local unit tests
+    testImplementation deps.androidx.annotation
+
+    // Android unit tests
+    kaptAndroidTest deps.dagger.compiler
+    androidTestImplementation deps.javax.inject
+    androidTestImplementation deps.mockito.core
+    androidTestImplementation deps.mockito.android
+//    androidTestImplementation deps.dexmaker.linkedin_inline
+    // Android Testing Support runner and rules & AAC
+    androidTestUtil deps.atsl.orchestrator
+    androidTestImplementation deps.atsl.rules
+    androidTestImplementation deps.atsl.runner
+    androidTestImplementation deps.lifecycle.testing
+    // Espresso
+    androidTestImplementation deps.espresso.core
+    androidTestImplementation deps.espresso.contrib
+    androidTestImplementation deps.espresso.intents
+    // Resolve conflicts between main and test APK:
+    androidTestImplementation deps.androidx.core_ktx
+    androidTestImplementation deps.androidx.material
+    androidTestImplementation deps.androidx.appcompat
+    androidTestImplementation deps.androidx.annotation
+}

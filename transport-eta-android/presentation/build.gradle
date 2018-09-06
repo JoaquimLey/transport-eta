@@ -8,7 +8,7 @@ android {
     defaultConfig {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-//        testInstrumentationRunner "com.joaquimley.transporteta.ui.test.TestRunner"
+        testInstrumentationRunner "com.joaquimley.transporteta.ui.test.TestRunner"
     }
 
     packagingOptions {
@@ -71,6 +71,7 @@ android {
     }
 }
 
+// Module configuration
 androidExtensions {
     experimental = true
 }
@@ -78,6 +79,10 @@ androidExtensions {
 dependencies {
     // Module
     implementation project(':sms')
+    // ACC
+    kapt deps.lifecycle.compiler
+    implementation deps.lifecycle.livedata
+    implementation deps.lifecycle.viewmodel
 
     // Javax
     implementation deps.javax.inject
@@ -86,9 +91,17 @@ dependencies {
     implementation deps.rxjava2
     implementation deps.rx_android
     // Kotlin
-    implementation deps.kotlin.stdlib
     implementation deps.kotlin.rx
-    // ACC
-    kapt deps.lifecycle.compiler
-    implementation deps.lifecycle.extensions
+    implementation deps.kotlin.stdlib
+
+    // Local unit tests
+    kaptTest deps.dagger.compiler
+    testImplementation deps.junit
+//    testImplementation deps.hamcrest
+    testImplementation deps.kotlin.test
+    testImplementation deps.mockito.kotlin
+    testImplementation deps.mockito.inline
+    testImplementation deps.lifecycle.testing
+    // Resolve conflicts between main and local unit tests
+    testImplementation deps.androidx.annotation
 }

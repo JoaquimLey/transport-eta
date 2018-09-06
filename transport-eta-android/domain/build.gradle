@@ -1,0 +1,21 @@
+apply plugin: 'kotlin'
+
+// Module configuration
+configurations.all {
+    resolutionStrategy {
+        force deps.kotlin.stdlib
+    }
+}
+
+
+dependencies {
+    // Javax
+    implementation deps.javax.inject
+    compileOnly deps.javax.annotation
+    // Kotlin
+    implementation deps.kotlin.rx
+    implementation deps.kotlin.stdlib
+    // Testing
+    testImplementation deps.junit
+    testImplementation deps.kotlin.test
+}

@@ -1,20 +1,20 @@
 package com.joaquimley.transporteta.presentation.home.favorite
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.sms.SmsController
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 import javax.inject.Inject
 
 /**
  * Created by joaquimley on 28/03/2018.
  */
-class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) : FavoritesViewModel(smsController) {
+class FavoritesViewModelImpl @Inject constructor(smsController: SmsController): FavoritesViewModel(smsController) {
 
     private var smsRequestDisposable: Disposable? = null
     private val acceptingRequestsLiveData = MutableLiveData<Boolean>()
@@ -37,11 +37,11 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) :
         smsRequestDisposable?.dispose()
     }
 
-    override fun getFavourites(): LiveData<Resource<List<FavoriteView>>> {
+    override fun getFavorites(): LiveData<Resource<List<FavoriteView>>> {
         return favouritesLiveData
     }
 
-    override fun getAcceptingRequests(): LiveData<Boolean> {
+    override fun isAcceptingRequests(): LiveData<Boolean> {
         return acceptingRequestsLiveData
     }
 
@@ -64,8 +64,8 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) :
         smsRequestDisposable = smsController.requestEta(code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({ acceptingRequestsLiveData.postValue(false) })
-                .doAfterTerminate({ acceptingRequestsLiveData.postValue(true) })
+                .doOnSubscribe { acceptingRequestsLiveData.postValue(false) }
+                .doAfterTerminate { acceptingRequestsLiveData.postValue(true) }
                 .subscribe({
                     // TODO Mapper from SmsModel to FavoriteViewObject
                     val newFavoriteView = FavoriteView(it.code, it.message, it.message, true)
@@ -84,7 +84,8 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) :
                     } else {
                         data.add(newFavoriteView)
                     }
-                    // TODO (possible caching this to local storage at this point)
+                    // TODO Possible caching this to local storage at this point (when mapper is used)
+                    // TODO And have favouritesLiveData actually bound to the cache instead of posting like this
 
                     favouritesLiveData.postValue(Resource.success(data))
                 }, { favouritesLiveData.postValue(Resource.error(it.message.orEmpty())) })

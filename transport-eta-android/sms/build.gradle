@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -57,7 +56,7 @@ android {
 
     /**
      * Prevent shipping the mock flavor with release variant
-     * read more at: https://developer.android.com/studio/build/build-variants.html
+     * https://developer.android.com/studio/build/build-variants.html
      */
     variantFilter { variant ->
         def names = variant.flavors*.name
@@ -69,9 +68,11 @@ android {
     }
 }
 
+// Module configuration
 androidExtensions {
     experimental = true
 }
+
 
 dependencies {
     // Javax
@@ -81,20 +82,20 @@ dependencies {
     implementation deps.rxjava2
     implementation deps.rx_android
     // Kotlin
-    implementation deps.kotlin.stdlib
     implementation deps.kotlin.rx
+    implementation deps.kotlin.stdlib
 
     /***********
      * Testing *
      ***********/
 
     // Dependencies for local unit tests
-    kaptTest deps.dagger.compiler
-    testImplementation deps.junit
-    testImplementation deps.hamcrest
-    testImplementation deps.kotlin.test
-    testImplementation deps.mockito.kotlin
-    testImplementation deps.mockito.inline
+//    kaptTest deps.dagger.compiler
+//    testImplementation deps.junit
+//    testImplementation deps.hamcrest
+//    testImplementation deps.kotlin.test
+//    testImplementation deps.mockito.kotlin
+//    testImplementation deps.mockito.inline
     // Resolve conflicts between main and local unit tests
-    testImplementation deps.support.annotations
+//    testImplementation deps.androidx.annotation
 }
