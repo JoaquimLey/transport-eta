@@ -41,10 +41,12 @@ versions.lifecycle = "2.0.0-alpha1"
 versions.navigation = "1.0.0-alpha01"
 versions.work_manager = "1.0.0-alpha02"
 
-// Utils
+// Android Utils
 versions.glide = "3.8.0"
 versions.timber = "4.6.0"
 versions.lottie = "2.5.1"
+
+// Networking
 versions.gson = "2.8.2"
 versions.okhttp = "3.8.1"
 versions.retrofit = "2.3.0"
