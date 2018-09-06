@@ -95,13 +95,13 @@ dependencies {
     implementation deps.kotlin.stdlib
 
     // Local unit tests
-//    kaptTest deps.dagger.compiler
-//    testImplementation deps.junit
+    kaptTest deps.dagger.compiler
+    testImplementation deps.junit
 //    testImplementation deps.hamcrest
-//    testImplementation deps.kotlin.test
-//    testImplementation deps.mockito.kotlin
-//    testImplementation deps.mockito.inline
-//    testImplementation deps.lifecycle.testing
+    testImplementation deps.kotlin.test
+    testImplementation deps.mockito.kotlin
+    testImplementation deps.mockito.inline
+    testImplementation deps.lifecycle.testing
     // Resolve conflicts between main and local unit tests
-//    testImplementation deps.androidx.annotation
+    testImplementation deps.androidx.annotation
 }

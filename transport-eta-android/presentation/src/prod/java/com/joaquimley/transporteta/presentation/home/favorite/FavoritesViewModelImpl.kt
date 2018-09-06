@@ -2,6 +2,7 @@ package com.joaquimley.transporteta.presentation.home.favorite
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.sms.SmsController
@@ -13,7 +14,7 @@ import javax.inject.Inject
 /**
  * Created by joaquimley on 28/03/2018.
  */
-class FavoritesViewModelImpl @Inject constructor(smsController: SmsController) : FavoritesViewModel(smsController) {
+class FavoritesViewModelImpl @Inject constructor(smsController: SmsController): FavoritesViewModel(smsController) {
 
     private var smsRequestDisposable: Disposable? = null
     private val acceptingRequestsLiveData = MutableLiveData<Boolean>()

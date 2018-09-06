@@ -9,9 +9,7 @@ import com.joaquimley.transporteta.presentation.model.FavoriteView
 import com.joaquimley.transporteta.sms.SmsController
 import com.joaquimley.transporteta.sms.model.SmsModel
 import com.joaquimley.transporteta.ui.testing.factory.ui.DataFactory
-import com.nhaarman.mockito_kotlin.KArgumentCaptor
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.KArgumentCaptor
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -24,7 +22,7 @@ import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Captor
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 
@@ -44,9 +42,9 @@ class FavoritesViewModelTest {
     private lateinit var captor: KArgumentCaptor<Int>
     private lateinit var favoritesViewModel: FavoritesViewModelImpl
 
-    private val single = Single.create<SmsModel>({ emitter ->
+    private val single = Single.create<SmsModel> { emitter ->
         smsResult.subscribe { emitter.onSuccess(it) }
-    })
+    }
 
     @Before
     fun setUp() {
@@ -169,11 +167,9 @@ class FavoritesViewModelTest {
         favoritesViewModel.onEtaRequested(TestModelsFactory.generateFavoriteView(code))
         // when
         smsResult.onNext(TestModelsFactory.generateSmsModel(code))
-        single.on
         // then
-        println("The data is ${favoritesViewModel.getFavorites().value?.data}")
-        assert(favoritesViewModel.getFavorites().value?.data?.filter { it.code ==  code}?.isNotEmpty()
-                ?: false)
+//        prin("The data is ${favoritesViewModel.getFavorites().value?.data}")
+        assert(favoritesViewModel.getFavorites().value?.data?.any { it.code ==  code} ?: false)
     }
 
     @Ignore("Ignored test: when sms is received correct data is passed -> Lacking implementation")

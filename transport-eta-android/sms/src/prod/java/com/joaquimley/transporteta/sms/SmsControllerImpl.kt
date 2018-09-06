@@ -37,12 +37,12 @@ class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: Sm
 
         this.busStopCode = busStopCode
         SmsManager.getDefault().sendTextMessage(smsBroadcastReceiver.serviceNumber, null, "C $busStopCode", null, null)
-        return Single.create<SmsModel>({ emitter ->
+        return Single.create<SmsModel> { emitter ->
             smsRequestDisposable = smsPublishSubject.subscribe({ sms ->
                 emitter.onSuccess(sms)
                 this.busStopCode = null
             }, { emitter.onError(it) })
-        }).doAfterTerminate({ smsRequestDisposable?.dispose() })
+        }.doAfterTerminate { smsRequestDisposable?.dispose() }
     }
 
     private fun observeToSmsBroadcastReceiverEvents() {
