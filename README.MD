@@ -80,6 +80,14 @@ Personal website:
 
 - Jetpack [Medium article](https://medium.com/@JoaquimLey/jetpack-series-1-androidx-a-headache-for-a-better-package-structure-62c3608596fd)
 
+#### Important references
+
+It would take substantially more time to setup this project without this reference projects
+
+- https://github.com/bufferapp/clean-architecture-components-boilerplate
+
+- https://github.com/googlesamples/android-architecture
+
 #### Contributing  
 Contributions are always welcome! Follow the "fork-and-pull" Git workflow.  
   
