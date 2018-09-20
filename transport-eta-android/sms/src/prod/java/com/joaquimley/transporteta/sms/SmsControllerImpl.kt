@@ -16,12 +16,18 @@ class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: Sm
 
     private var broadcastReceiverDisposable: Disposable? = null
     private var smsRequestDisposable: Disposable? = null
+
     private val smsPublishSubject: PublishSubject<SmsModel> = PublishSubject.create()
 
     private var busStopCode: Int? = null
 
     init {
         observeToSmsBroadcastReceiverEvents()
+    }
+
+    override fun dispose() {
+        broadcastReceiverDisposable?.dispose()
+        smsRequestDisposable?.dispose()
     }
 
     override fun invalidateRequest() {
@@ -52,22 +58,33 @@ class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: Sm
                     smsPublishSubject.onNext(SmsModel(busStopCode ?: -1, it))
                 }, { Log.e("SmsController", "Failed smsBroadcastReceiver.observeServiceSms(): ${it.message}") })
     }
-
-    override fun dispose() {
-        broadcastReceiverDisposable?.dispose()
-        smsRequestDisposable?.dispose()
-    }
 }
 
 
 /**
 
+Copenhagen:
+---------------------------------
+Send SMS to 1415 with the format:
+---------------------------------
+
+Start zone -> (Antal zoner (fra 2 til 8)
+illettype(voksen, arn tilkobsbillet, cykel-ogsa forkortet til v, , t, c)
+
+Example:
+"Norreport 3 voksen" eller "1 3 v" for tre zoner fra zone 1 (Norreport) for en voksen.
+
+Response
+esvar ekr aeftelses-sms med "JA" iden for 1 minut, og modtag herefter din billet
+
+
+Lisbon:
 ---------------------------------
 Send SMS to 3599 with the format:
 ---------------------------------
 
 C (SPACE) Bus_stop_code
-c
+
 ---------------------
 Sms response example:
 ---------------------

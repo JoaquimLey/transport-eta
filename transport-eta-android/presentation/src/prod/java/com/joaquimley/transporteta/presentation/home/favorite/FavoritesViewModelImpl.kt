@@ -50,7 +50,7 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController): 
 
     }
 
-    override fun cancelEtaRequest() {
+    override fun onCancelEtaRequest() {
         smsRequestDisposable?.dispose()
         smsController.invalidateRequest()
         acceptingRequestsLiveData.postValue(true)

@@ -1,11 +1,11 @@
-package org.buffer.android.boilerplate.domain.interactor
+package com.joaquimley.transporteta.domain.interactor.base
 
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import io.reactivex.schedulers.Schedulers
-import org.buffer.android.boilerplate.domain.executor.PostExecutionThread
-import org.buffer.android.boilerplate.domain.executor.ThreadExecutor
+import com.joaquimley.transporteta.domain.executor.PostExecutionThread
+import com.joaquimley.transporteta.domain.executor.ThreadExecutor
 
 /**
  * Abstract class for a UseCase that returns an instance of a [Completable].

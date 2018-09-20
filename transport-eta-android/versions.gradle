@@ -5,7 +5,7 @@
 ext.deps = [:]
 def versions = [:]
 
-// Plugins˙
+// Plugins
 versions.kotlin = "1.2.51"
 versions.android_gradle_plugin = '3.3.0-alpha03'
 

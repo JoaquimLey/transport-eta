@@ -11,15 +11,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.joaquimley.transporteta.R
-import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.model.FavoriteView
-import com.joaquimley.transporteta.ui.model.data.ResourceState
+import com.joaquimley.transporteta.presentation.data.ResourceState
 import com.joaquimley.transporteta.ui.util.extensions.*
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_favourites.*
@@ -130,9 +127,9 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun setupRequestSnackbar() {
-        requestingSnackbar = com.google.android.material.snackbar.Snackbar.make(favorites_fragment_container, R.string.info_requesting, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
+        requestingSnackbar = Snackbar.make(favorites_fragment_container, R.string.info_requesting, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
         requestingSnackbar.setAction(R.string.action_cancel) {
-            viewModel.cancelEtaRequest()
+            viewModel.onCancelEtaRequest()
             Toast.makeText(activity?.applicationContext, R.string.info_canceled, Toast.LENGTH_SHORT).show()
         }
     }

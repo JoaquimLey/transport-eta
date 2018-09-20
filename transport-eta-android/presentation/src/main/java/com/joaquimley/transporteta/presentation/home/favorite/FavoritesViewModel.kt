@@ -14,7 +14,7 @@ abstract class FavoritesViewModel(val smsController: SmsController): ViewModel()
 
     abstract fun retry()
 
-    abstract fun cancelEtaRequest()
+    abstract fun onCancelEtaRequest()
 
     abstract fun onEtaRequested(favourite: FavoriteView)
 }

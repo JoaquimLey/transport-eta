@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 /**
- * Module used to provide dependencies at an application-level.
+ * Module used to provide application-level dependencies.
  */
 @Module(subcomponents = [
     SmsControllerSubComponent::class

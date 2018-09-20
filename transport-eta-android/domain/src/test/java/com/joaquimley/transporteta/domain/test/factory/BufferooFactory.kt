@@ -1,6 +1,5 @@
 package org.buffer.android.boilerplate.domain.test.factory
 
-import org.buffer.android.boilerplate.domain.model.Bufferoo
 import org.buffer.android.boilerplate.domain.test.factory.DataFactory.Factory.randomLong
 import org.buffer.android.boilerplate.domain.test.factory.DataFactory.Factory.randomUuid
 

@@ -26,7 +26,8 @@ class TestApplication: Application(), HasActivityInjector {
     }
 
     companion object {
-        @JvmStatic fun appComponent(): TestAppComponent {
+        @JvmStatic
+        fun appComponent(): TestAppComponent {
             return (InstrumentationRegistry.getTargetContext().applicationContext as TestApplication).appComponent
         }
     }

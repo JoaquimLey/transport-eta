@@ -8,4 +8,6 @@ import kotlinx.android.parcel.Parcelize
  */
 
 @Parcelize
-data class FavoriteView(val code: Int = -1, val latestEta: String = "", val originalText: String = "", var isActionEnabled: Boolean = true) : Parcelable
+data class FavoriteView(val code: Int = -1, val latestEta: String = "",
+                        val originalText: String = "",
+                        var isActionEnabled: Boolean = true) : Parcelable

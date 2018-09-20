@@ -1,7 +1,5 @@
 package com.joaquimley.transporteta.presentation.data
 
-import com.joaquimley.transporteta.ui.model.data.ResourceState
-
 open class Resource<out T> constructor(val status: ResourceState, val data: T? = null, val message: String? = null) {
 
     companion object {
