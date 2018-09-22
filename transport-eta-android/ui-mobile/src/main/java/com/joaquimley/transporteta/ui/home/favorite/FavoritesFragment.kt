@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
-import com.joaquimley.transporteta.presentation.model.FavoriteView
+import com.joaquimley.transporteta.presentation.model.TransportView
 import com.joaquimley.transporteta.presentation.data.ResourceState
 import com.joaquimley.transporteta.ui.util.extensions.*
 import dagger.android.support.AndroidSupportInjection
@@ -75,7 +75,7 @@ class FavoritesFragment : Fragment() {
                 })
     }
 
-    private fun handleDataState(resourceState: ResourceState, data: List<FavoriteView>?, message: String?) {
+    private fun handleDataState(resourceState: ResourceState, data: List<TransportView>?, message: String?) {
         when (resourceState) {
             ResourceState.LOADING -> setupScreenForLoadingState(true)
             ResourceState.SUCCESS -> data?.let { setupScreenForSuccess(data) }
@@ -96,12 +96,12 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    private fun setupScreenForSuccess(favoriteViewList: List<FavoriteView>) {
+    private fun setupScreenForSuccess(transportViewList: List<TransportView>) {
         swipe_refresh?.isRefreshing = false
         progress_bar?.setVisible(false)
         message_view?.setVisible(false)
         recycler_view?.setVisible(true)
-        adapter.submitList(favoriteViewList)
+        adapter.submitList(transportViewList)
     }
 
     private fun setupScreenEmptyState() {

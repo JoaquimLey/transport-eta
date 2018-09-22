@@ -2,9 +2,8 @@ package com.joaquimley.transporteta.presentation.home.favorite
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.joaquimley.transporteta.presentation.data.Resource
-import com.joaquimley.transporteta.presentation.model.FavoriteView
+import com.joaquimley.transporteta.presentation.model.TransportView
 import com.joaquimley.transporteta.sms.SmsController
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -18,16 +17,16 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController): 
 
     private var smsRequestDisposable: Disposable? = null
     private val acceptingRequestsLiveData = MutableLiveData<Boolean>()
-    private val favouritesLiveData = MutableLiveData<Resource<List<FavoriteView>>>()
+    private val favouritesLiveData = MutableLiveData<Resource<List<TransportView>>>()
 
     init {
-        val currentValue = ArrayList<FavoriteView>()
-        currentValue.add(FavoriteView(1337, "This is mock data 1"))
-        currentValue.add(FavoriteView(1338, "This is mock data 2"))
-        currentValue.add(FavoriteView(1339, "This is mock data 3"))
-        currentValue.add(FavoriteView(1330, "This is mock data 4"))
-        currentValue.add(FavoriteView(1331, "This is mock data 5"))
-        currentValue.add(FavoriteView(1332, "This is mock data 6"))
+        val currentValue = ArrayList<TransportView>()
+        currentValue.add(TransportView(1337, "This is mock data 1"))
+        currentValue.add(TransportView(1338, "This is mock data 2"))
+        currentValue.add(TransportView(1339, "This is mock data 3"))
+        currentValue.add(TransportView(1330, "This is mock data 4"))
+        currentValue.add(TransportView(1331, "This is mock data 5"))
+        currentValue.add(TransportView(1332, "This is mock data 6"))
 
         favouritesLiveData.postValue(Resource.success(currentValue))
     }
@@ -37,7 +36,7 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController): 
         smsRequestDisposable?.dispose()
     }
 
-    override fun getFavorites(): LiveData<Resource<List<FavoriteView>>> {
+    override fun getFavorites(): LiveData<Resource<List<TransportView>>> {
         return favouritesLiveData
     }
 
@@ -56,7 +55,7 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController): 
         acceptingRequestsLiveData.postValue(true)
     }
 
-    override fun onEtaRequested(favourite: FavoriteView) {
+    override fun onEtaRequested(favourite: TransportView) {
         requestEta(favourite.code)
     }
 
@@ -68,7 +67,7 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController): 
                 .doAfterTerminate { acceptingRequestsLiveData.postValue(true) }
                 .subscribe({
                     // TODO Mapper from SmsModel to FavoriteViewObject
-                    val newFavoriteView = FavoriteView(it.code, it.message, it.message, true)
+                    val newFavoriteView = TransportView(it.code, it.message, it.message, true)
                     val data = getCurrentData().toMutableList()
 
                     var index = -1
@@ -91,7 +90,7 @@ class FavoritesViewModelImpl @Inject constructor(smsController: SmsController): 
                 }, { favouritesLiveData.postValue(Resource.error(it.message.orEmpty())) })
     }
 
-    private fun getCurrentData(): List<FavoriteView> {
+    private fun getCurrentData(): List<TransportView> {
         return favouritesLiveData.value?.data ?: emptyList()
     }
 }

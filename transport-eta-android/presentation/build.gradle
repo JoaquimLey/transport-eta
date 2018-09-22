@@ -79,6 +79,8 @@ androidExtensions {
 dependencies {
     // Module
     implementation project(':sms')
+    implementation project(':domain')
+
     // ACC
     kapt deps.lifecycle.compiler
     implementation deps.lifecycle.livedata

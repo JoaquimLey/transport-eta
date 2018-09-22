@@ -7,7 +7,7 @@ import org.buffer.android.boilerplate.domain.test.factory.DataFactory.Factory.ra
 /**
  * Factory class for [Transport] related instances
  */
-class TransportTestFactory {
+class TransportFactory {
 
     companion object Factory {
 

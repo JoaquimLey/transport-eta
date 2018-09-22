@@ -8,7 +8,7 @@ import com.joaquimley.transporteta.domain.repository.FavoritesRepository
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.Flowable
-import com.joaquimley.transporteta.domain.test.factory.TransportTestFactory
+import com.joaquimley.transporteta.domain.test.factory.TransportFactory
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Before
 import org.junit.Test
@@ -38,14 +38,14 @@ class GetFavoritesTest {
 
     @Test
     fun buildUseCaseObservableCompletes() {
-        stubTransportRepositoryGetFavorites(Flowable.just(TransportTestFactory.makeTransportList(2, true)))
+        stubTransportRepositoryGetFavorites(Flowable.just(TransportFactory.makeTransportList(2, true)))
         val testObserver = getFavoritesUseCase.buildUseCaseObservable().test()
         testObserver.assertComplete()
     }
 
     @Test
     fun buildUseCaseObservableReturnsData() {
-        val favoriteTransports = TransportTestFactory.makeTransportList(2)
+        val favoriteTransports = TransportFactory.makeTransportList(2)
         stubTransportRepositoryGetFavorites(Flowable.just(favoriteTransports))
         val testObserver = getFavoritesUseCase.buildUseCaseObservable().test()
         testObserver.assertValue(favoriteTransports)
