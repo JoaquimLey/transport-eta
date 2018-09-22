@@ -14,6 +14,6 @@ class GetFavoritesUseCase @Inject constructor(private val favoritesRepository: F
         FlowableUseCase<List<Transport>, Void?>(threadExecutor, postExecutionThread) {
 
     public override fun buildUseCaseObservable(params: Void?): Flowable<List<Transport>> {
-        return favoritesRepository.getFavorites()
+        return favoritesRepository.getAll()
     }
 }

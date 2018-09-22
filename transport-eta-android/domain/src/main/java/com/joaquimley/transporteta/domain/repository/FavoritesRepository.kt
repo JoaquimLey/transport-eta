@@ -15,7 +15,7 @@ interface FavoritesRepository {
 
     fun removeAsFavorite(transport: Transport): Completable
 
-    fun getFavorites(): Flowable<List<Transport>>
+    fun getAll(): Flowable<List<Transport>>
 
     fun clearFavorites(): Completable
 }

@@ -15,7 +15,13 @@ dependencies {
     // Kotlin
     implementation deps.kotlin.rx
     implementation deps.kotlin.stdlib
+
+    /***********
+     * Testing *
+     ***********/
+
     // Testing
     testImplementation deps.junit
     testImplementation deps.kotlin.test
+    testImplementation deps.mockito.kotlin
 }

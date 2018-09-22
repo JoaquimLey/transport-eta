@@ -94,6 +94,10 @@ dependencies {
     implementation deps.kotlin.rx
     implementation deps.kotlin.stdlib
 
+    /***********
+     * Testing *
+     ***********/
+
     // Local unit tests
     kaptTest deps.dagger.compiler
     testImplementation deps.junit
