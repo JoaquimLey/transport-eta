@@ -12,10 +12,11 @@ class MarkTransportAsFavoriteUseCase @Inject constructor(private val favoritesRe
                                                          threadExecutor: ThreadExecutor,
                                                          postExecutionThread: PostExecutionThread) :
         CompletableUseCase<Transport>(threadExecutor, postExecutionThread) {
+
     /**
      * Builds a [Completable] which will be used when the current [CompletableUseCase] is executed.
      */
-    override fun buildUseCaseObservable(params: Transport): Completable {
+    public override fun buildUseCaseObservable(params: Transport): Completable {
         return favoritesRepository.markAsFavorite(params)
     }
 }

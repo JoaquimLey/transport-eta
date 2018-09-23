@@ -9,11 +9,11 @@ import io.reactivex.Flowable
 import javax.inject.Inject
 
 class GetFavoritesUseCase @Inject constructor(private val favoritesRepository: FavoritesRepository,
-                                              threadExecutor: ThreadExecutor,
-                                              postExecutionThread: PostExecutionThread) :
-        FlowableUseCase<List<Transport>, Void?>(threadExecutor, postExecutionThread) {
+											  threadExecutor: ThreadExecutor,
+											  postExecutionThread: PostExecutionThread) :
+		FlowableUseCase<List<Transport>, Void?>(threadExecutor, postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: Void?): Flowable<List<Transport>> {
-        return favoritesRepository.getAll()
-    }
+	public override fun buildUseCaseObservable(params: Void?): Flowable<List<Transport>> {
+		return favoritesRepository.getAll()
+	}
 }

@@ -26,13 +26,12 @@ class GetFavoritesTest {
         mockThreadExecutor = mock()
         mockPostExecutionThread = mock()
         favoritesRepository = mock()
-        getFavoritesUseCase = GetFavoritesUseCase(favoritesRepository, mockThreadExecutor,
-                mockPostExecutionThread)
+        getFavoritesUseCase = GetFavoritesUseCase(favoritesRepository, mockThreadExecutor, mockPostExecutionThread)
     }
 
     @Test
     fun buildUseCaseObservableCallsRepository() {
-        getFavoritesUseCase.buildUseCaseObservable(null)
+        getFavoritesUseCase.buildUseCaseObservable()
         verify(favoritesRepository).getAll()
     }
 

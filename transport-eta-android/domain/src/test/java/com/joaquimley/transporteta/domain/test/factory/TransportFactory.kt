@@ -11,16 +11,16 @@ class TransportFactory {
 
     companion object Factory {
 
-        fun makeTransportList(count: Int, isFavorite: Boolean = false): List<Transport> {
+        fun makeTransportList(count: Int, isFavorite: Boolean = false, type: String = randomUuid()): List<Transport> {
             val transports = mutableListOf<Transport>()
             repeat(count) {
-                transports.add(makeTransport(isFavorite))
+                transports.add(makeTransport(isFavorite, type))
             }
             return transports
         }
 
-        fun makeTransport(isFavorite: Boolean = false, type: Transport.TransportType = Transport.TransportType.BUS): Transport {
-            return Transport(randomUuid(), randomUuid(), randomInt(), isFavorite, type)
+        fun makeTransport(isFavorite: Boolean = false, type: String = randomUuid()): Transport {
+            return Transport(randomUuid(), randomUuid(), randomInt(), randomUuid(), isFavorite, type)
         }
 
     }

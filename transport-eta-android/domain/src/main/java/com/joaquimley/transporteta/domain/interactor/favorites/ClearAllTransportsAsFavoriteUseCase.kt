@@ -17,7 +17,7 @@ class ClearAllTransportsAsFavoriteUseCase @Inject constructor(private val favori
     /**
      * Builds a [Completable] which will be used when the current [CompletableUseCase] is executed.
      */
-    override fun buildUseCaseObservable(params: Void?): Completable {
+    public override fun buildUseCaseObservable(params: Void?): Completable {
         return favoritesRepository.clearFavorites()
     }
 }
