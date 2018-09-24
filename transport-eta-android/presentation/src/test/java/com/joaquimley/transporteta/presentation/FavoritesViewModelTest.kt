@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.factory.TestModelsFactory
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelImpl
-import com.joaquimley.transporteta.presentation.model.FavoriteView
+import com.joaquimley.transporteta.presentation.model.TransportView
 import com.joaquimley.transporteta.sms.SmsController
 import com.joaquimley.transporteta.sms.model.SmsModel
 import com.joaquimley.transporteta.ui.testing.factory.ui.DataFactory
@@ -33,7 +33,7 @@ class FavoritesViewModelTest {
     @Rule @JvmField val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Captor private lateinit var argumentCaptor: ArgumentCaptor<Int>
-    @Mock private lateinit var observer: Observer<Resource<List<FavoriteView>>>
+    @Mock private lateinit var observer: Observer<Resource<List<TransportView>>>
     @Mock private lateinit var smsController: SmsController
     @Mock private lateinit var requestStatusObserver: Observer<Boolean>
 
@@ -63,7 +63,7 @@ class FavoritesViewModelTest {
     @Test
     fun `fetch eta triggers not accepting requests state`() {
         // given
-        val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
+        val favoriteView = TransportView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         // when
         favoritesViewModel.isAcceptingRequests().observeForever(requestStatusObserver)
         favoritesViewModel.onEtaRequested(favoriteView)
@@ -75,11 +75,11 @@ class FavoritesViewModelTest {
     @Throws(IllegalArgumentException::class)
     fun `when favorite eta request is canceled accepting requests is true`() {
         // given
-        val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
+        val favoriteView = TransportView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         favoritesViewModel.onEtaRequested(favoriteView)
         // when
         favoritesViewModel.isAcceptingRequests().observeForever(requestStatusObserver)
-        favoritesViewModel.cancelEtaRequest()
+        favoritesViewModel.onCancelEtaRequest()
         // then
         verify(requestStatusObserver).onChanged(true)
     }
@@ -88,10 +88,10 @@ class FavoritesViewModelTest {
     @Throws(IllegalArgumentException::class)
     fun `when favorite eta request is canceled smsController invalidate request is called`() {
         // given
-        val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
+        val favoriteView = TransportView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         favoritesViewModel.onEtaRequested(favoriteView)
         // when
-        favoritesViewModel.cancelEtaRequest()
+        favoritesViewModel.onCancelEtaRequest()
         // then
         verify(smsController, times(1)).invalidateRequest()
     }
@@ -100,7 +100,7 @@ class FavoritesViewModelTest {
     @Throws(IllegalArgumentException::class)
     fun `when favorite eta is requested smsController requestEta is called`() {
         // given
-        val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
+        val favoriteView = TransportView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         // when
         favoritesViewModel.onEtaRequested(favoriteView)
         // then
@@ -111,7 +111,7 @@ class FavoritesViewModelTest {
     @Throws(IllegalArgumentException::class)
     fun `when favorite eta is requested correct favorite code is passed to smsController`() {
         // given
-        val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
+        val favoriteView = TransportView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         // when
         favoritesViewModel.onEtaRequested(favoriteView)
         verify(smsController).requestEta(captor.capture())
@@ -123,7 +123,7 @@ class FavoritesViewModelTest {
     @Throws(IllegalArgumentException::class)
     fun `when sms is received triggers accepting requests state`() {
         // given
-        val favoriteView = FavoriteView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
+        val favoriteView = TransportView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         favoritesViewModel.onEtaRequested(favoriteView)
         // when
         favoritesViewModel.isAcceptingRequests().observeForever(requestStatusObserver)

@@ -2,17 +2,16 @@ package com.joaquimley.transporteta.ui.home.favorite
 
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.joaquimley.transporteta.R
-import com.joaquimley.transporteta.presentation.model.FavoriteView
+import com.joaquimley.transporteta.presentation.model.TransportView
 import com.joaquimley.transporteta.ui.util.extensions.load
 import kotlinx.android.synthetic.main.item_favorite.view.*
 
-class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
-    : ListAdapter<FavoriteView, androidx.recyclerview.widget.RecyclerView.ViewHolder>(FavoriteViewDiffCallback()) {
+class FavoritesAdapter(private val clickListener: (TransportView) -> Unit)
+    : ListAdapter<TransportView, androidx.recyclerview.widget.RecyclerView.ViewHolder>(FavoriteViewDiffCallback()) {
 
     override fun getItemViewType(position: Int): Int {
         return if (getItem(position) != null) {
@@ -51,18 +50,18 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
 
     inner class FavoriteViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
-        fun bind(favoriteView: FavoriteView) {
+        fun bind(transportView: TransportView) {
             itemView.avatar_image_view.load(R.drawable.station)
-            itemView.title_text_view.text = favoriteView.code.toString()
-            itemView.subtitle_text_view.text = favoriteView.latestEta
-            itemView.original_sms_text_view.text = favoriteView.originalText
-            favoriteView.isActionEnabled.let {
+            itemView.title_text_view.text = transportView.code.toString()
+            itemView.subtitle_text_view.text = transportView.latestEta
+            itemView.original_sms_text_view.text = transportView.originalText
+            transportView.isActionEnabled.let {
                 itemView.eta_button.isEnabled = it
                 itemView.eta_button.alpha = if (it) 1.0f else 0.3f
             }
 
             itemView.eta_button.setOnClickListener {
-                clickListener(favoriteView)
+                clickListener(transportView)
             }
         }
     }
@@ -72,12 +71,12 @@ class FavoritesAdapter(private val clickListener: (FavoriteView) -> Unit)
         const val VIEW_TYPE_FAVORITE = -2
     }
 
-    class FavoriteViewDiffCallback : DiffUtil.ItemCallback<FavoriteView>() {
-        override fun areItemsTheSame(oldItem: FavoriteView, newItem: FavoriteView): Boolean {
+    class FavoriteViewDiffCallback : DiffUtil.ItemCallback<TransportView>() {
+        override fun areItemsTheSame(oldItem: TransportView, newItem: TransportView): Boolean {
             return oldItem.code == newItem.code
         }
 
-        override fun areContentsTheSame(oldItem: FavoriteView, newItem: FavoriteView): Boolean {
+        override fun areContentsTheSame(oldItem: TransportView, newItem: TransportView): Boolean {
             return oldItem == newItem
         }
     }

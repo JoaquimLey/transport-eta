@@ -79,6 +79,8 @@ androidExtensions {
 dependencies {
     // Module
     implementation project(':sms')
+    implementation project(':domain')
+
     // ACC
     kapt deps.lifecycle.compiler
     implementation deps.lifecycle.livedata
@@ -93,6 +95,10 @@ dependencies {
     // Kotlin
     implementation deps.kotlin.rx
     implementation deps.kotlin.stdlib
+
+    /***********
+     * Testing *
+     ***********/
 
     // Local unit tests
     kaptTest deps.dagger.compiler

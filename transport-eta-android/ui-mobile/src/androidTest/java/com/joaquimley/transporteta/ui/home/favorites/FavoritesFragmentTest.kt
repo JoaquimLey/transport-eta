@@ -2,8 +2,6 @@ package com.joaquimley.transporteta.ui.home.favorites
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
@@ -16,15 +14,11 @@ import androidx.test.runner.AndroidJUnit4
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModel
-import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
-import com.joaquimley.transporteta.presentation.model.FavoriteView
+import com.joaquimley.transporteta.presentation.model.TransportView
 import com.joaquimley.transporteta.ui.di.module.TestFavoriteFragmentModule
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesAdapter
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
-import com.joaquimley.transporteta.ui.home.favorite.FavoritesViewModelProvider
-import com.joaquimley.transporteta.ui.test.TestApplication
 import com.joaquimley.transporteta.ui.test.util.RecyclerViewMatcher
-import com.joaquimley.transporteta.ui.test.util.ViewModelUtil
 import com.joaquimley.transporteta.ui.testing.TestFragmentActivity
 import com.joaquimley.transporteta.ui.testing.factory.TestModelsFactory
 import com.joaquimley.transporteta.ui.util.extensions.findViewById
@@ -52,7 +46,7 @@ class FavoritesFragmentTest {
 
     // LiveData
     private val requestsAvailable = MutableLiveData<Boolean>()
-    private val results = MutableLiveData<Resource<List<FavoriteView>>>()
+    private val results = MutableLiveData<Resource<List<TransportView>>>()
 
     @Before
     fun setup() {

@@ -6,9 +6,9 @@ import io.reactivex.Single
 
 interface SmsController {
 
-    fun requestEta(busStopCode: Int): Single<SmsModel>
+    fun dispose()
 
     fun invalidateRequest()
 
-    fun dispose()
+    fun requestEta(busStopCode: Int): Single<SmsModel>
 }
