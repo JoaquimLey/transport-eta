@@ -11,7 +11,7 @@ open class Resource<out T> constructor(val status: ResourceState, val data: T? =
             return Resource(ResourceState.EMPTY, null, null)
         }
 
-        fun <T> error(message: String): Resource<T> {
+        fun <T> error(message: String?): Resource<T> {
             return Resource(ResourceState.ERROR, null, message)
         }
 

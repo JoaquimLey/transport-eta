@@ -10,7 +10,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class UnmarkTransportAsFavoriteUseCase @Inject constructor(private val favoritesRepository: FavoritesRepository,
+class MarkTransportAsNoFavoriteUseCase @Inject constructor(private val favoritesRepository: FavoritesRepository,
                                                            threadExecutor: ThreadExecutor,
                                                            postExecutionThread: PostExecutionThread) :
         CompletableUseCase<Transport>(threadExecutor, postExecutionThread) {

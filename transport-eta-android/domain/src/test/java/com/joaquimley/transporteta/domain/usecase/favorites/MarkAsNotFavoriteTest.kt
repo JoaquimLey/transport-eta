@@ -2,7 +2,7 @@ package com.joaquimley.transporteta.domain.usecase.favorites
 
 import com.joaquimley.transporteta.domain.executor.PostExecutionThread
 import com.joaquimley.transporteta.domain.executor.ThreadExecutor
-import com.joaquimley.transporteta.domain.interactor.favorites.UnmarkTransportAsFavoriteUseCase
+import com.joaquimley.transporteta.domain.interactor.favorites.MarkTransportAsNoFavoriteUseCase
 import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.domain.repository.FavoritesRepository
 import com.joaquimley.transporteta.domain.test.factory.TransportFactory
@@ -13,9 +13,9 @@ import io.reactivex.Completable
 import org.junit.Before
 import org.junit.Test
 
-class UnmarkAsFavoriteTest {
+class MarkAsNotFavoriteTest {
 
-    private lateinit var unmarkTransportAsFavoriteUseCase: UnmarkTransportAsFavoriteUseCase
+    private lateinit var markTransportAsNoFavoriteUseCase: MarkTransportAsNoFavoriteUseCase
 
     private lateinit var mockThreadExecutor: ThreadExecutor
     private lateinit var mockPostExecutionThread: PostExecutionThread
@@ -26,13 +26,13 @@ class UnmarkAsFavoriteTest {
         mockThreadExecutor = mock()
         mockPostExecutionThread = mock()
         favoritesRepository = mock()
-        unmarkTransportAsFavoriteUseCase = UnmarkTransportAsFavoriteUseCase(favoritesRepository, mockThreadExecutor, mockPostExecutionThread)
+        markTransportAsNoFavoriteUseCase = MarkTransportAsNoFavoriteUseCase(favoritesRepository, mockThreadExecutor, mockPostExecutionThread)
     }
 
     @Test
     fun buildUseCaseObservableCallsRepository() {
         val transport = TransportFactory.makeTransport()
-        unmarkTransportAsFavoriteUseCase.buildUseCaseObservable(transport)
+        markTransportAsNoFavoriteUseCase.buildUseCaseObservable(transport)
         verify(favoritesRepository).removeAsFavorite(transport)
     }
 
@@ -40,7 +40,7 @@ class UnmarkAsFavoriteTest {
     fun buildUseCaseObservableCompletes() {
         val transport = TransportFactory.makeTransport()
         stubTransportRepositoryMarkAsFavorite(transport, Completable.complete())
-        val testObserver = unmarkTransportAsFavoriteUseCase.buildUseCaseObservable(transport).test()
+        val testObserver = markTransportAsNoFavoriteUseCase.buildUseCaseObservable(transport).test()
         testObserver.assertComplete()
     }
 
