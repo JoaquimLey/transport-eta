@@ -1,63 +1,120 @@
 package com.joaquimley.transporteta.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import com.joaquimley.transporteta.presentation.data.Resource
+import com.joaquimley.transporteta.domain.interactor.favorites.ClearAllTransportsAsFavoriteUseCase
+import com.joaquimley.transporteta.domain.interactor.favorites.GetFavoritesUseCase
+import com.joaquimley.transporteta.domain.interactor.favorites.MarkTransportAsFavoriteUseCase
+import com.joaquimley.transporteta.domain.interactor.favorites.MarkTransportAsNoFavoriteUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.CancelEtaRequestUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.RequestEtaUseCase
+import com.joaquimley.transporteta.domain.model.Transport
+import com.joaquimley.transporteta.domain.test.factory.TransportFactory
+import com.joaquimley.transporteta.presentation.data.ResourceState
 import com.joaquimley.transporteta.presentation.factory.TestModelsFactory
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelImpl
 import com.joaquimley.transporteta.presentation.model.TransportView
-import com.joaquimley.transporteta.sms.SmsController
-import com.joaquimley.transporteta.sms.model.SmsModel
 import com.joaquimley.transporteta.ui.testing.factory.ui.DataFactory
-import com.nhaarman.mockitokotlin2.KArgumentCaptor
-import io.reactivex.Single
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
+import com.nhaarman.mockitokotlin2.atLeast
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
+import io.reactivex.Flowable
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
-import org.junit.*
+import org.junit.Ignore
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.Captor
-import org.mockito.Mock
-import org.mockito.Mockito.*
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.verification.VerificationMode
 import java.util.*
 
 
 @RunWith(MockitoJUnitRunner::class)
 class FavoritesViewModelTest {
 
-    @Rule @JvmField val instantTaskExecutorRule = InstantTaskExecutorRule()
+    @Rule
+    @JvmField
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @Captor private lateinit var argumentCaptor: ArgumentCaptor<Int>
-    @Mock private lateinit var observer: Observer<Resource<List<TransportView>>>
-    @Mock private lateinit var smsController: SmsController
-    @Mock private lateinit var requestStatusObserver: Observer<Boolean>
+    private val mockGetFavoritesUseCase= mock<GetFavoritesUseCase>()
+    private val mockMarkTransportAsFavoriteUseCase= mock<MarkTransportAsFavoriteUseCase>()
+    private val mockMarkTransportAsNoFavoriteUseCase= mock<MarkTransportAsNoFavoriteUseCase>()
+    private val mockClearAllTransportsAsFavoriteUseCase= mock<ClearAllTransportsAsFavoriteUseCase>()
+    private val mockRequestEtaUseCase= mock<RequestEtaUseCase>()
+    private val mockCancelEtaRequestUseCase= mock<CancelEtaRequestUseCase>()
 
-    private val smsResult: PublishSubject<SmsModel> = PublishSubject.create()
+    private val viewModel = FavoritesViewModelImpl(
+                    mockGetFavoritesUseCase,
+                    mockMarkTransportAsFavoriteUseCase,
+                    mockMarkTransportAsNoFavoriteUseCase,
+                    mockClearAllTransportsAsFavoriteUseCase,
+                    mockRequestEtaUseCase,
+                    mockCancelEtaRequestUseCase)
+//
+//    @Captor
+//    private lateinit var argumentCaptor: ArgumentCaptor<Int>
+//    @Mock
+//    private lateinit var observer: Observer<Resource<List<TransportView>>>
+//    @Mock
+//    private lateinit var smsController: SmsController
+//    @Mock
+//    private lateinit var requestStatusObserver: Observer<Boolean>
+//
+//    private val smsResult: PublishSubject<SmsModel> = PublishSubject.create()
+//
+//    private lateinit var captor: KArgumentCaptor<Int>
+//    private val single = Single.create<SmsModel> { emitter ->
+//        smsResult.subscribe { emitter.onSuccess(it) }
+//    }
 
-    private lateinit var captor: KArgumentCaptor<Int>
-    private lateinit var favoritesViewModel: FavoritesViewModelImpl
 
-    private val single = Single.create<SmsModel> { emitter ->
-        smsResult.subscribe { emitter.onSuccess(it) }
+    @Test
+    fun getFavoritesIsCalledOnStart() {
+//        // Assemble
+//        val testData = TransportFactory.makeTransportList(3)
+//        // Act
+//        stubGetFavorites(Flowable.just(testData))
+        // Assert
+        verify(mockGetFavoritesUseCase, atLeast(1)).execute()
     }
 
-    @Before
-    fun setUp() {
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
-        captor = KArgumentCaptor(argumentCaptor, Int::class)
-        `when`(smsController.requestEta(anyInt())).thenReturn(single)
-
-        favoritesViewModel = FavoritesViewModelImpl(smsController)
+    @Test
+    fun getFavoritesReturnsCorrectStateOnSuccess() {
+        // Assemble
+        val testData = TransportFactory.makeTransportList(3)
+        // Act
+        stubGetFavorites(Flowable.just(testData))
+        // Assert
+        assert(viewModel.getFavorites().value?.status == ResourceState.SUCCESS)
     }
 
-    @After
-    fun tearDown() {
+    @Test
+    fun getFavoritesReturnsDataOnSuccess() {
+        // Assemble
+        val testData = TransportFactory.makeTransportList(3)
+        // Act
+        stubGetFavorites(Flowable.just(testData))
+        // Assert
+        assert(viewModel.getFavorites().value?.data == testData)
+    }
 
+    @Test
+    fun getFavoritesReturnsNoErrorMessageOnSuccess() {
+        // Assemble
+        val testData = TransportFactory.makeTransportList(3)
+        // Act
+        stubGetFavorites(Flowable.just(testData))
+        // Assert
+        assert(viewModel.getFavorites().value?.message == null)
+    }
+
+
+
+    private fun stubGetFavorites(flowable: Flowable<List<Transport>>) {
+        whenever(mockGetFavoritesUseCase.execute()).thenReturn(flowable)
     }
 
     @Test
@@ -169,7 +226,7 @@ class FavoritesViewModelTest {
         smsResult.onNext(TestModelsFactory.generateSmsModel(code))
         // then
 //        prin("The data is ${favoritesViewModel.getFavorites().value?.data}")
-        assert(favoritesViewModel.getFavorites().value?.data?.any { it.code ==  code} ?: false)
+        assert(favoritesViewModel.getFavorites().value?.data?.any { it.code == code } ?: false)
     }
 
     @Ignore("Ignored test: when sms is received correct data is passed -> Lacking implementation")
