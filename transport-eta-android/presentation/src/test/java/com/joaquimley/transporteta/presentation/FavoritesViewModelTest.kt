@@ -79,7 +79,7 @@ class FavoritesViewModelTest {
         favoritesViewModel.onEtaRequested(favoriteView)
         // when
         favoritesViewModel.isAcceptingRequests().observeForever(requestStatusObserver)
-        favoritesViewModel.onEtaRequestCancel()
+        favoritesViewModel.onEtaRequestCanceled()
         // then
         verify(requestStatusObserver).onChanged(true)
     }
@@ -91,7 +91,7 @@ class FavoritesViewModelTest {
         val favoriteView = TransportView(Random().nextInt(), UUID.randomUUID().toString(), UUID.randomUUID().toString())
         favoritesViewModel.onEtaRequested(favoriteView)
         // when
-        favoritesViewModel.onEtaRequestCancel()
+        favoritesViewModel.onEtaRequestCanceled()
         // then
         verify(smsController, times(1)).invalidateRequest()
     }

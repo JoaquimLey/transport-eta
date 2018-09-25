@@ -6,13 +6,15 @@ import com.joaquimley.transporteta.domain.interactor.favorites.ClearAllTransport
 import com.joaquimley.transporteta.domain.interactor.favorites.GetFavoritesUseCase
 import com.joaquimley.transporteta.domain.interactor.favorites.MarkTransportAsFavoriteUseCase
 import com.joaquimley.transporteta.domain.interactor.favorites.MarkTransportAsNoFavoriteUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.CancelEtaRequestUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.RequestEtaUseCase
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.mapper.TransportMapper
 import com.joaquimley.transporteta.presentation.model.TransportView
 import com.joaquimley.transporteta.presentation.util.extensions.error
+import com.joaquimley.transporteta.presentation.util.extensions.loading
 import com.joaquimley.transporteta.presentation.util.extensions.success
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import java.util.*
 import javax.inject.Inject
 
@@ -20,41 +22,47 @@ import javax.inject.Inject
  * Created by joaquimley on 28/03/2018.
  */
 internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesUseCase: GetFavoritesUseCase,
-																   markTransportAsFavoriteUseCase: MarkTransportAsFavoriteUseCase,
-																   markTransportAsNoFavoriteUseCase: MarkTransportAsNoFavoriteUseCase,
-																   clearAllTransportsAsFavoriteUseCase: ClearAllTransportsAsFavoriteUseCase,
-																   mapper: TransportMapper)
+                                                                   markTransportAsFavoriteUseCase: MarkTransportAsFavoriteUseCase,
+                                                                   markTransportAsNoFavoriteUseCase: MarkTransportAsNoFavoriteUseCase,
+                                                                   clearAllTransportsAsFavoriteUseCase: ClearAllTransportsAsFavoriteUseCase,
+                                                                   requestEtaUseCase: RequestEtaUseCase,
+                                                                   cancelEtaRequestUseCase: CancelEtaRequestUseCase,
+                                                                   mapper: TransportMapper)
 	: FavoritesViewModel(getFavoritesUseCase,
 		markTransportAsFavoriteUseCase,
 		markTransportAsNoFavoriteUseCase,
 		clearAllTransportsAsFavoriteUseCase,
+		requestEtaUseCase,
+		cancelEtaRequestUseCase,
 		mapper) {
 
 	private val compositeDisposable = CompositeDisposable()
-	private var smsRequestDisposable: Disposable? = null
 
 	private val acceptingRequestsLiveData = MutableLiveData<Boolean>()
 	private val favouritesLiveData = MutableLiveData<Resource<List<TransportView>>>()
 
 	init {
-		debugStuff()
+		fetchFavorites()
 	}
 
 	override fun onCleared() {
 		super.onCleared()
-		smsRequestDisposable?.dispose()
 		compositeDisposable.dispose()
+	}
+
+	override fun getFavorites(): LiveData<Resource<List<TransportView>>> {
+		return favouritesLiveData
 	}
 
 	override fun onRefresh() {
 		fetchFavorites()
 	}
 
-	override fun onEtaRequestCancel() {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	override fun onEtaRequested(transportView: TransportView) {
+		requestEtaUseCase.execute(transportView.code)
 	}
 
-	override fun onEtaRequested(transportView: TransportView) {
+	override fun onEtaRequestCanceled() {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
@@ -62,97 +70,40 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 		return acceptingRequestsLiveData
 	}
 
-	override fun markAsFavorite(transportView: TransportView, isFavorite: Boolean): LiveData<Resource<List<TransportView>>> {
+	override fun markAsFavorite(transportView: TransportView, isFavorite: Boolean) {
 		compositeDisposable.add(if (isFavorite) {
-			markTransportAsFavoriteUseCase.buildUseCaseObservable(mapper.toModel(transportView))
+			markTransportAsFavoriteUseCase.execute(mapper.toModel(transportView))
 		} else {
-			markTransportAsNoFavoriteUseCase.buildUseCaseObservable(mapper.toModel(transportView))
+			markTransportAsNoFavoriteUseCase.execute(mapper.toModel(transportView))
 		}.subscribe({
-
+			// Do something when done, update uiModel or should the repository do that?
 		}, {
-
+			// Handle error
 		}))
 	}
 
-	override fun getFavorites(): LiveData<Resource<List<TransportView>>> {
-		fetchFavorites()
-		return favouritesLiveData
-	}
+	override fun removeAllFavorites() {
+		compositeDisposable.add(
+				clearAllTransportsAsFavoriteUseCase.execute(null)
+						.doOnSubscribe { favouritesLiveData.loading() }
+						.subscribe({
+						}, {
 
-	override fun removeAllFavorites(): LiveData<Resource<List<TransportView>>> {
-		compositeDisposable.add(clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null).subscribe( {
-
-		}, {
-
-		}))
+						})
+		)
 	}
 
 	private fun fetchFavorites() {
-		compositeDisposable.add(getFavoritesUseCase.buildUseCaseObservable().subscribe({
-			favouritesLiveData.success(mapper.toView(it))
-		},{
-			favouritesLiveData.error(it)
-		}))
+		debugStuff()
+		compositeDisposable.add(
+				getFavoritesUseCase.execute()
+						.doOnSubscribe { favouritesLiveData.loading() }
+						.subscribe({
+							favouritesLiveData.success(mapper.toView(it))
+						}, {
+							favouritesLiveData.error(it)
+						}))
 	}
-//
-//	override fun getFavorites(): LiveData<Resourbce<List<TransportView>>> {
-//		return favouritesLiveData
-//	}
-//
-//	override fun isAcceptingRequests(): LiveData<Boolean> {
-//		return acceptingRequestsLiveData
-//	}
-//
-//	override fun onRefresh() {
-//		// TODO make request to local database for favorites
-//
-//	}
-//
-//	override fun onEtaRequestCancel() {
-//		smsRequestDisposable?.dispose()
-//		smsController.invalidateRequest()
-//		acceptingRequestsLiveData.postValue(true)
-//	}
-//
-//	override fun onEtaRequested(favourite: TransportView) {
-//		requestEta(favourite.code)
-//	}
-//
-//	private fun requestEta(code: Int) {
-//		smsRequestDisposable = smsController.requestEta(code)
-//				.subscribeOn(Schedulers.io())
-//				.observeOn(AndroidSchedulers.mainThread())
-//				.doOnSubscribe { acceptingRequestsLiveData.postValue(false) }
-//				.doAfterTerminate { acceptingRequestsLiveData.postValue(true) }
-//				.subscribe({
-//					// TODO Mapper from SmsModel to FavoriteViewObject
-//					val newFavoriteView = TransportView(it.code, it.message, it.message, true)
-//					val data = getCurrentData().toMutableList()
-//
-//					var index = -1
-//					for (view in data.withIndex()) {
-//						if (view.value.code == newFavoriteView.code) {
-//							index = view.index
-//							break
-//						}
-//					}
-//
-//					if (index != -1) {
-//						data[index] = newFavoriteView
-//					} else {
-//						data.add(newFavoriteView)
-//					}
-//					// TODO Possible caching this to local storage at this point (when mapper is used)
-//					// TODO And have favouritesLiveData actually bound to the cache instead of posting like this
-//
-//					favouritesLiveData.postValue(Resource.success(data))
-//				}, { favouritesLiveData.postValue(Resource.error(it.message.orEmpty())) })
-//	}
-//
-//	private fun getCurrentData(): List<TransportView> {
-//		return favouritesLiveData.value?.data ?: emptyList()
-//	}
-
 
 	@Deprecated("Remove after debug not needed")
 	private fun debugStuff() {
