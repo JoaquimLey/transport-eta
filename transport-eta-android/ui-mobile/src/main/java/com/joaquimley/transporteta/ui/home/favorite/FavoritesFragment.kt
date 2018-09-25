@@ -129,7 +129,7 @@ class FavoritesFragment : Fragment() {
     private fun setupRequestSnackbar() {
         requestingSnackbar = Snackbar.make(favorites_fragment_container, R.string.info_requesting, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
         requestingSnackbar.setAction(R.string.action_cancel) {
-            viewModel.onCancelEtaRequest()
+            viewModel.onEtaRequestCancel()
             Toast.makeText(activity?.applicationContext, R.string.info_canceled, Toast.LENGTH_SHORT).show()
         }
     }

@@ -20,9 +20,9 @@ abstract class FavoritesViewModel(protected val getFavoritesUseCase: GetFavorite
 
     abstract fun onRefresh()
 
-    abstract fun onCancelEtaRequest()
+    abstract fun onEtaRequested(transportView: TransportView)
 
-    abstract fun onEtaRequested(favourite: TransportView)
+    abstract fun onEtaRequestCancel()
 
     abstract fun isAcceptingRequests(): LiveData<Boolean>
 

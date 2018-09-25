@@ -50,11 +50,11 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 		fetchFavorites()
 	}
 
-	override fun onCancelEtaRequest() {
+	override fun onEtaRequestCancel() {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
-	override fun onEtaRequested(favourite: TransportView) {
+	override fun onEtaRequested(transportView: TransportView) {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
@@ -108,7 +108,7 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 //
 //	}
 //
-//	override fun onCancelEtaRequest() {
+//	override fun onEtaRequestCancel() {
 //		smsRequestDisposable?.dispose()
 //		smsController.invalidateRequest()
 //		acceptingRequestsLiveData.postValue(true)
