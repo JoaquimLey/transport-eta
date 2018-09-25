@@ -58,16 +58,25 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 		fetchFavorites()
 	}
 
+	override fun isAcceptingRequests(): LiveData<Boolean> {
+		return acceptingRequestsLiveData
+	}
+
 	override fun onEtaRequested(transportView: TransportView) {
-		requestEtaUseCase.execute(transportView.code)
+		compositeDisposable.add(requestEtaUseCase.execute(transportView.code).subscribe({
+			// TODO Handle the response (still not sure if it should return a model or just the answer
+		},{
+			// TODO handle request error
+		}))
 	}
 
 	override fun onEtaRequestCanceled() {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-	}
-
-	override fun isAcceptingRequests(): LiveData<Boolean> {
-		return acceptingRequestsLiveData
+		compositeDisposable.add(cancelEtaRequestUseCase.execute(null)
+				.subscribe({
+			// TODO Handle eta request cancelled (push something to the UI boie)
+		},{
+			// TODO Handle error
+		}))
 	}
 
 	override fun markAsFavorite(transportView: TransportView, isFavorite: Boolean) {
@@ -76,9 +85,9 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 		} else {
 			markTransportAsNoFavoriteUseCase.execute(mapper.toModel(transportView))
 		}.subscribe({
-			// Do something when done, update uiModel or should the repository do that?
+			// TODO Do something when done, update uiModel or should the repository do that?
 		}, {
-			// Handle error
+			// TODO Handle error
 		}))
 	}
 

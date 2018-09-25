@@ -14,7 +14,7 @@ interface TransportRepository {
 
     fun requestTransportEta(transportCode: Int): Single<Transport>
 
-    fun cancelTransportEtaRequest(transportCode: Int): Completable
+    fun cancelTransportEtaRequest(transportCode: Int?): Completable
 
     fun getTransport(transportId: String): Observable<Transport>
 

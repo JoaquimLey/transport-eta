@@ -24,11 +24,11 @@ abstract class FavoritesViewModel(protected val getFavoritesUseCase: GetFavorite
 
     abstract fun onRefresh()
 
+    abstract fun isAcceptingRequests(): LiveData<Boolean>
+
     abstract fun onEtaRequested(transportView: TransportView)
 
     abstract fun onEtaRequestCanceled()
-
-    abstract fun isAcceptingRequests(): LiveData<Boolean>
 
     abstract fun markAsFavorite(transportView: TransportView, isFavorite: Boolean)
 

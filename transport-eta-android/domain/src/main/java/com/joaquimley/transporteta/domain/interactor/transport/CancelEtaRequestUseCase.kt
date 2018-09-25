@@ -12,11 +12,11 @@ import javax.inject.Inject
 class CancelEtaRequestUseCase @Inject constructor(private val transportRepository: TransportRepository,
 												  threadExecutor: ThreadExecutor,
 												  postExecutionThread: PostExecutionThread) :
-		CompletableUseCase<Int>(threadExecutor, postExecutionThread) {
+		CompletableUseCase<Int?>(threadExecutor, postExecutionThread) {
 	/**
 	 * Builds a [Single] which will be used when the current [SingleUseCase] is executed.
 	 */
-	override fun buildUseCaseObservable(params: Int): Completable {
+	override fun buildUseCaseObservable(params: Int?): Completable {
 		return transportRepository.cancelTransportEtaRequest(params)
 	}
 }
