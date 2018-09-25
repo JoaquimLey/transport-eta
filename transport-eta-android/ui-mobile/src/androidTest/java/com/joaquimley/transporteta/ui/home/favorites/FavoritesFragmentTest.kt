@@ -121,7 +121,7 @@ class FavoritesFragmentTest {
         onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
         onView(withId(R.id.message_view)).check(matches(not(isDisplayed())))
 
-        // Snackbar is shown with retry button
+        // Snackbar is shown with onRefresh button
         onView(allOf(withId(R.id.snackbar_text), withText(errorMessage))).check(matches(isDisplayed()))
         onView(allOf(withId(R.id.snackbar_action), withText(R.string.action_retry))).check(matches(isDisplayed()))
     }

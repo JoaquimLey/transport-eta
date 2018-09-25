@@ -120,7 +120,7 @@ class FavoritesFragment : Fragment() {
         } else {
             message?.let {
                 com.google.android.material.snackbar.Snackbar.make(favorites_fragment_container, it, com.google.android.material.snackbar.Snackbar.LENGTH_LONG)
-                        .setAction(R.string.action_retry) { viewModel.retry() }
+                        .setAction(R.string.action_retry) { viewModel.onRefresh() }
                         .show()
             }
         }
@@ -153,7 +153,7 @@ class FavoritesFragment : Fragment() {
 
     private fun setupListeners() {
         // TODO emptyView.setListener(emptyListener)
-        swipe_refresh.setOnRefreshListener { viewModel.retry() }
+        swipe_refresh.setOnRefreshListener { viewModel.onRefresh() }
         fab.setOnClickListener { showAddFavoriteDialog() }
     }
 

@@ -30,7 +30,7 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 		clearAllTransportsAsFavoriteUseCase,
 		mapper) {
 
-	private val bag = CompositeDisposable()
+	private val compositeDisposable = CompositeDisposable()
 	private var smsRequestDisposable: Disposable? = null
 
 	private val acceptingRequestsLiveData = MutableLiveData<Boolean>()
@@ -40,26 +40,14 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 		debugStuff()
 	}
 
-	private fun debugStuff() {
-		val currentValue = ArrayList<TransportView>()
-		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1337, "This is mock data 1", Random().nextBoolean()))
-		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1338, "This is mock data 2", Random().nextBoolean()))
-		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1339, "This is mock data 3", Random().nextBoolean()))
-		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1330, "This is mock data 4", Random().nextBoolean()))
-		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1331, "This is mock data 5", Random().nextBoolean()))
-		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1332, "This is mock data 6", Random().nextBoolean()))
-
-		favouritesLiveData.postValue(Resource.success(currentValue))
-	}
-
 	override fun onCleared() {
 		super.onCleared()
 		smsRequestDisposable?.dispose()
-		bag.dispose()
+		compositeDisposable.dispose()
 	}
 
-	override fun retry() {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	override fun onRefresh() {
+		fetchFavorites()
 	}
 
 	override fun onCancelEtaRequest() {
@@ -75,7 +63,7 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 	}
 
 	override fun markAsFavorite(transportView: TransportView, isFavorite: Boolean): LiveData<Resource<List<TransportView>>> {
-		bag.add(if (isFavorite) {
+		compositeDisposable.add(if (isFavorite) {
 			markTransportAsFavoriteUseCase.buildUseCaseObservable(mapper.toModel(transportView))
 		} else {
 			markTransportAsNoFavoriteUseCase.buildUseCaseObservable(mapper.toModel(transportView))
@@ -92,11 +80,15 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 	}
 
 	override fun removeAllFavorites(): LiveData<Resource<List<TransportView>>> {
-		clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null).subscribe()
+		compositeDisposable.add(clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null).subscribe( {
+
+		}, {
+
+		}))
 	}
 
 	private fun fetchFavorites() {
-		bag.add(getFavoritesUseCase.buildUseCaseObservable().subscribe({
+		compositeDisposable.add(getFavoritesUseCase.buildUseCaseObservable().subscribe({
 			favouritesLiveData.success(mapper.toView(it))
 		},{
 			favouritesLiveData.error(it)
@@ -111,7 +103,7 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 //		return acceptingRequestsLiveData
 //	}
 //
-//	override fun retry() {
+//	override fun onRefresh() {
 //		// TODO make request to local database for favorites
 //
 //	}
@@ -160,4 +152,18 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 //	private fun getCurrentData(): List<TransportView> {
 //		return favouritesLiveData.value?.data ?: emptyList()
 //	}
+
+
+	@Deprecated("Remove after debug not needed")
+	private fun debugStuff() {
+		val currentValue = ArrayList<TransportView>()
+		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1337, "This is mock data 1", Random().nextBoolean()))
+		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1338, "This is mock data 2", Random().nextBoolean()))
+		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1339, "This is mock data 3", Random().nextBoolean()))
+		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1330, "This is mock data 4", Random().nextBoolean()))
+		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1331, "This is mock data 5", Random().nextBoolean()))
+		currentValue.add(TransportView("Hello ${System.currentTimeMillis()}", 1332, "This is mock data 6", Random().nextBoolean()))
+
+		favouritesLiveData.postValue(Resource.success(currentValue))
+	}
 }
