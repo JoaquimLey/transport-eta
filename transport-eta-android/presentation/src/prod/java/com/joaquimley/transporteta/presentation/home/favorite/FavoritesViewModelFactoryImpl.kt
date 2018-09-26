@@ -7,14 +7,15 @@ import com.joaquimley.transporteta.domain.interactor.favorites.MarkTransportAsNo
 import com.joaquimley.transporteta.domain.interactor.transport.CancelEtaRequestUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.RequestEtaUseCase
 import com.joaquimley.transporteta.presentation.mapper.TransportMapper
+import javax.inject.Inject
 
-class FavoritesViewModelFactoryImpl(getFavoritesUseCase: GetFavoritesUseCase,
-                                    markTransportAsFavoriteUseCase: MarkTransportAsFavoriteUseCase,
-                                    markTransportAsNotNoFavoriteUseCase: MarkTransportAsNoFavoriteUseCase,
-                                    clearAllTransportsAsFavoriteUseCase: ClearAllTransportsAsFavoriteUseCase,
-                                    requestEtaUseCase: RequestEtaUseCase,
-                                    cancelEtaRequestUseCase: CancelEtaRequestUseCase,
-                                    transportMapper: TransportMapper)
+class FavoritesViewModelFactoryImpl @Inject internal constructor(getFavoritesUseCase: GetFavoritesUseCase,
+                                                                 markTransportAsFavoriteUseCase: MarkTransportAsFavoriteUseCase,
+                                                                 markTransportAsNotNoFavoriteUseCase: MarkTransportAsNoFavoriteUseCase,
+                                                                 clearAllTransportsAsFavoriteUseCase: ClearAllTransportsAsFavoriteUseCase,
+                                                                 requestEtaUseCase: RequestEtaUseCase,
+                                                                 cancelEtaRequestUseCase: CancelEtaRequestUseCase,
+                                                                 transportMapper: TransportMapper)
     : FavoritesViewModelFactory(getFavoritesUseCase,
         markTransportAsFavoriteUseCase,
         markTransportAsNotNoFavoriteUseCase,

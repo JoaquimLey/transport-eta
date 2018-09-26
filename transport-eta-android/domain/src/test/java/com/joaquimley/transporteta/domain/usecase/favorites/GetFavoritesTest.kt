@@ -5,27 +5,24 @@ import com.joaquimley.transporteta.domain.executor.ThreadExecutor
 import com.joaquimley.transporteta.domain.interactor.favorites.GetFavoritesUseCase
 import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.domain.repository.FavoritesRepository
+import com.joaquimley.transporteta.domain.test.factory.TransportFactory
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import io.reactivex.Flowable
-import com.joaquimley.transporteta.domain.test.factory.TransportFactory
 import com.nhaarman.mockitokotlin2.whenever
+import io.reactivex.Flowable
 import org.junit.Before
 import org.junit.Test
 
 class GetFavoritesTest {
 
-    private lateinit var getFavoritesUseCase: GetFavoritesUseCase
+    private val mockThreadExecutor = mock<ThreadExecutor>()
+    private val mockPostExecutionThread = mock<PostExecutionThread>()
+    private val favoritesRepository = mock<FavoritesRepository>()
 
-    private lateinit var mockThreadExecutor: ThreadExecutor
-    private lateinit var mockPostExecutionThread: PostExecutionThread
-    private lateinit var favoritesRepository: FavoritesRepository
+    private lateinit var getFavoritesUseCase: GetFavoritesUseCase
 
     @Before
     fun setUp() {
-        mockThreadExecutor = mock()
-        mockPostExecutionThread = mock()
-        favoritesRepository = mock()
         getFavoritesUseCase = GetFavoritesUseCase(favoritesRepository, mockThreadExecutor, mockPostExecutionThread)
     }
 

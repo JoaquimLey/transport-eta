@@ -13,36 +13,33 @@ import org.junit.Test
 
 class ClearAllFavoritesTest {
 
-	private lateinit var clearAllTransportsAsFavoriteUseCase: ClearAllTransportsAsFavoriteUseCase
+    private val mockThreadExecutor = mock<ThreadExecutor>()
+    private val mockPostExecutionThread = mock<PostExecutionThread>()
+    private val favoritesRepository = mock<FavoritesRepository>()
 
-	private lateinit var mockThreadExecutor: ThreadExecutor
-	private lateinit var mockPostExecutionThread: PostExecutionThread
-	private lateinit var favoritesRepository: FavoritesRepository
+    private lateinit var clearAllTransportsAsFavoriteUseCase: ClearAllTransportsAsFavoriteUseCase
 
-	@Before
-	fun setUp() {
-		mockThreadExecutor = mock()
-		mockPostExecutionThread = mock()
-		favoritesRepository = mock()
-		clearAllTransportsAsFavoriteUseCase = ClearAllTransportsAsFavoriteUseCase(favoritesRepository,
-				mockThreadExecutor, mockPostExecutionThread)
-	}
+    @Before
+    fun setUp() {
+        clearAllTransportsAsFavoriteUseCase = ClearAllTransportsAsFavoriteUseCase(favoritesRepository,
+                mockThreadExecutor, mockPostExecutionThread)
+    }
 
-	@Test
-	fun buildUseCaseObservableCallsRepository() {
-		clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null)
-		verify(favoritesRepository).clearFavorites()
-	}
+    @Test
+    fun buildUseCaseObservableCallsRepository() {
+        clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null)
+        verify(favoritesRepository).clearFavorites()
+    }
 
-	@Test
-	fun buildUseCaseObservableCompletes() {
-		stubTransportRepositoryClearFavorites(Completable.complete())
-		val testObserver = clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null).test()
-		testObserver.assertComplete()
-	}
+    @Test
+    fun buildUseCaseObservableCompletes() {
+        stubTransportRepositoryClearFavorites(Completable.complete())
+        val testObserver = clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null).test()
+        testObserver.assertComplete()
+    }
 
 
-	private fun stubTransportRepositoryClearFavorites(completable: Completable) {
-		whenever(favoritesRepository.clearFavorites()).thenReturn(completable)
-	}
+    private fun stubTransportRepositoryClearFavorites(completable: Completable) {
+        whenever(favoritesRepository.clearFavorites()).thenReturn(completable)
+    }
 }

@@ -15,17 +15,14 @@ import org.junit.Test
 
 class MarkAsFavoriteTest {
 
-    private lateinit var markTransportAsFavoriteUseCase: MarkTransportAsFavoriteUseCase
+    private val mockThreadExecutor = mock<ThreadExecutor>()
+    private val mockPostExecutionThread = mock<PostExecutionThread>()
+    private val favoritesRepository = mock<FavoritesRepository>()
 
-    private lateinit var mockThreadExecutor: ThreadExecutor
-    private lateinit var mockPostExecutionThread: PostExecutionThread
-    private lateinit var favoritesRepository: FavoritesRepository
+    private lateinit var markTransportAsFavoriteUseCase: MarkTransportAsFavoriteUseCase
 
     @Before
     fun setUp() {
-        mockThreadExecutor = mock()
-        mockPostExecutionThread = mock()
-        favoritesRepository = mock()
         markTransportAsFavoriteUseCase = MarkTransportAsFavoriteUseCase(favoritesRepository, mockThreadExecutor, mockPostExecutionThread)
     }
 

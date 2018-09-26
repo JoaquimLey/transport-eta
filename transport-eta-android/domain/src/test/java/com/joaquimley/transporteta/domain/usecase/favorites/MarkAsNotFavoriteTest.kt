@@ -15,17 +15,14 @@ import org.junit.Test
 
 class MarkAsNotFavoriteTest {
 
-    private lateinit var markTransportAsNoFavoriteUseCase: MarkTransportAsNoFavoriteUseCase
+    private val mockThreadExecutor = mock<ThreadExecutor>()
+    private val mockPostExecutionThread = mock<PostExecutionThread>()
+    private val favoritesRepository = mock<FavoritesRepository>()
 
-    private lateinit var mockThreadExecutor: ThreadExecutor
-    private lateinit var mockPostExecutionThread: PostExecutionThread
-    private lateinit var favoritesRepository: FavoritesRepository
+    private lateinit var markTransportAsNoFavoriteUseCase: MarkTransportAsNoFavoriteUseCase
 
     @Before
     fun setUp() {
-        mockThreadExecutor = mock()
-        mockPostExecutionThread = mock()
-        favoritesRepository = mock()
         markTransportAsNoFavoriteUseCase = MarkTransportAsNoFavoriteUseCase(favoritesRepository, mockThreadExecutor, mockPostExecutionThread)
     }
 

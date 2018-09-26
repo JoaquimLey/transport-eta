@@ -103,7 +103,7 @@ internal class FavoritesViewModelImpl @Inject internal constructor(getFavoritesU
 	}
 
 	private fun fetchFavorites() {
-		debugStuff()
+//		debugStuff()
 		compositeDisposable.add(
 				getFavoritesUseCase.execute()
 						.doOnSubscribe { favouritesLiveData.loading() }

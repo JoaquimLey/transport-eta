@@ -1,6 +1,8 @@
 package com.joaquimley.transporteta.ui.di.component
 
 import android.app.Application
+import com.joaquimley.transporteta.domain.executor.PostExecutionThread
+import com.joaquimley.transporteta.domain.repository.FavoritesRepository
 import com.joaquimley.transporteta.ui.di.module.SmsControllerModule
 import com.joaquimley.transporteta.ui.di.module.TestActivityBindingModule
 import com.joaquimley.transporteta.ui.di.module.TestAppModule
@@ -18,6 +20,10 @@ import dagger.android.support.AndroidSupportInjectionModule
 ])
 @PerApplication
 interface TestAppComponent : AppComponent {
+
+    fun favoritesRepository(): FavoritesRepository
+
+    fun postExecutionThread(): PostExecutionThread
 
     @Component.Builder
     interface Builder {
