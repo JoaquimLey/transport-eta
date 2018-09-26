@@ -9,7 +9,7 @@ import com.joaquimley.transporteta.domain.interactor.transport.RequestEtaUseCase
 import com.joaquimley.transporteta.presentation.mapper.TransportMapper
 import javax.inject.Inject
 
-class FavoritesViewModelFactoryImpl @Inject internal constructor(getFavoritesUseCase: GetFavoritesUseCase,
+class FavoritesViewModelFactoryImpl @Inject constructor(getFavoritesUseCase: GetFavoritesUseCase,
                                                                  markTransportAsFavoriteUseCase: MarkTransportAsFavoriteUseCase,
                                                                  markTransportAsNotNoFavoriteUseCase: MarkTransportAsNoFavoriteUseCase,
                                                                  clearAllTransportsAsFavoriteUseCase: ClearAllTransportsAsFavoriteUseCase,

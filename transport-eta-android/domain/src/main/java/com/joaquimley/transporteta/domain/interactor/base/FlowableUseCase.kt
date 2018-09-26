@@ -15,7 +15,7 @@ abstract class FlowableUseCase<T, in Params> constructor(
         private val postExecutionThread: PostExecutionThread) {
 
     /**
-     * Builds a [Single] which will be used when the current [FlowableUseCase] is executed.
+     * Builds a [Flowable] which will be used when the current [FlowableUseCase] is executed.
      */
     protected abstract fun buildUseCaseObservable(params: Params? = null): Flowable<T>
 

@@ -35,11 +35,11 @@ versions.constraint_layout = "1.1.0"
 versions.recycler_view = "1.0.0-alpha2"
 
 // Architecture components
-versions.room = "2.0.0-alpha2"
-versions.paging = "2.0.0-alpha2"
-versions.lifecycle = "2.0.0-alpha1"
-versions.navigation = "1.0.0-alpha01"
-versions.work_manager = "1.0.0-alpha02"
+versions.room = "2.0.0-beta01"
+versions.paging = "2.0.0-beta01"
+versions.lifecycle = "2.0.0-beta01"
+versions.navigation = "1.0.0-alpha06"
+versions.work_manager = "1.0.0-alpha09"
 
 // Android Utils
 versions.glide = "3.8.0"

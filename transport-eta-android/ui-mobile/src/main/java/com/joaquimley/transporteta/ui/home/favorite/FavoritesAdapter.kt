@@ -54,7 +54,7 @@ class FavoritesAdapter(private val clickListener: (TransportView) -> Unit)
             itemView.avatar_image_view.load(R.drawable.station)
             itemView.title_text_view.text = transportView.code.toString()
             itemView.subtitle_text_view.text = transportView.latestEta
-            itemView.original_sms_text_view.text = transportView.originalText
+            itemView.original_sms_text_view.text = transportView.latestEta
             transportView.isActionEnabled.let {
                 itemView.eta_button.isEnabled = it
                 itemView.eta_button.alpha = if (it) 1.0f else 0.3f
