@@ -1,5 +1,6 @@
 package com.joaquimley.transporteta.presentation.home.favorite
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.joaquimley.transporteta.domain.interactor.favorites.ClearAllTransportsAsFavoriteUseCase
@@ -108,7 +109,7 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
                 getFavoritesUseCase.execute(null)
                         .doOnSubscribe { favouritesLiveData.loading() }
                         .subscribe({
-                            favouritesLiveData.success(it.map { mapper.toView(it) })
+                            favouritesLiveData.success(mapper.toView(it))
                         }, {
                             favouritesLiveData.error(it)
                         }))

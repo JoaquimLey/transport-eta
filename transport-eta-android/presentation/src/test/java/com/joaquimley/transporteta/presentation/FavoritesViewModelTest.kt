@@ -21,11 +21,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.Mockito
 
-@RunWith(JUnit4::class)
 class FavoritesViewModelTest {
 
     @Rule
@@ -42,24 +39,20 @@ class FavoritesViewModelTest {
     private val mockCancelEtaRequestUseCase = mock<CancelEtaRequestUseCase>()
     private val mockMapper = mock<TransportMapper>()
 
-//    private val favoritesMockObserver = mock<Observer<Resource<List<TransportView>>>>()
-    private val viewModel = FavoritesViewModelImpl(mockGetFavoritesUseCase,
-    mockMarkTransportAsFavoriteUseCase,
-    mockMarkTransportAsNoFavoriteUseCase,
-    mockClearAllTransportsAsFavoriteUseCase,
-    mockRequestEtaUseCase,
-    mockCancelEtaRequestUseCase,
-    mockMapper)
+        private val favoritesMockObserver = mock<Observer<Resource<List<TransportView>>>>()
+
+    private lateinit var viewModel: FavoritesViewModelImpl
+
 
     @Before
     fun setup() {
-//        viewModel = FavoritesViewModelImpl(mockGetFavoritesUseCase,
-//                mockMarkTransportAsFavoriteUseCase,
-//                mockMarkTransportAsNoFavoriteUseCase,
-//                mockClearAllTransportsAsFavoriteUseCase,
-//                mockRequestEtaUseCase,
-//                mockCancelEtaRequestUseCase,
-//                mockMapper)
+        viewModel = FavoritesViewModelImpl(mockGetFavoritesUseCase,
+                mockMarkTransportAsFavoriteUseCase,
+                mockMarkTransportAsNoFavoriteUseCase,
+                mockClearAllTransportsAsFavoriteUseCase,
+                mockRequestEtaUseCase,
+                mockCancelEtaRequestUseCase,
+                mockMapper)
     }
 
     @After
@@ -81,6 +74,20 @@ class FavoritesViewModelTest {
     fun getFavoritesTriggersLoadingState() {
         // Assemble
         robot.stubSuccessGetFavoritesUseCase()
+        viewModel.getFavorites().observeForever(favoritesMockObserver)
+        // Act
+        viewModel.getFavorites()
+        // Assert
+        verify(favoritesMockObserver).onChanged(Resource(ResourceState.LOADING))
+
+//        assert(viewModel.getFavorites().value?.status == ResourceState.LOADING)
+//        { "\nStatus was ${viewModel.getFavorites().value?.status}\nInstead of: LOADING" }
+    }
+
+    @Test
+    fun getFavoritesLoadingStateHasNoData() {
+        // Assemble
+        robot.stubSuccessGetFavoritesUseCase()
         // Act
         viewModel.getFavorites()
         // Assert
@@ -96,7 +103,7 @@ class FavoritesViewModelTest {
         // Assert
         assert(viewModel.getFavorites().value?.status == ResourceState.SUCCESS)
         // Fail reason
-        { "Status was ${viewModel.getFavorites().value?.status}\n Instead of: SUCCESS" }
+        { "\nStatus was ${viewModel.getFavorites().value?.status}\nInstead of: SUCCESS" }
     }
 
     @Test
@@ -110,7 +117,7 @@ class FavoritesViewModelTest {
         // Assert
         assert(viewModel.getFavorites().value?.data == stubbedMapperDataList)
         // Fail reason
-        { "Data was \n${viewModel.getFavorites().value?.data}\n instead of \n$stubbedMapperDataList" }
+        { "\nData was:\n${viewModel.getFavorites().value?.data}\nInstead of:\n$stubbedMapperDataList" }
     }
 
     @Test
@@ -122,7 +129,7 @@ class FavoritesViewModelTest {
         // Assert
         assert(viewModel.getFavorites().value?.message == null)
         // Fail reason
-        { "Message was ${viewModel.getFavorites().value?.message} instead of null" }
+        { "\nMessage was ${viewModel.getFavorites().value?.message}\nInstead of null" }
     }
 
     /**
@@ -159,15 +166,15 @@ class FavoritesViewModelTest {
 
         // Private robot implementations
         private fun stubTransportMapperToView(transport: Transport, transportView: TransportView) {
-            whenever(mockMapper.toView(transport)).thenReturn(transportView)
+            whenever(mockMapper.toView(transport)).then { transportView }
         }
 
         private fun stubTransportMapperToModel(transportView: TransportView, transport: Transport) {
-            whenever(mockMapper.toModel(transportView)).thenReturn(transport)
+            whenever(mockMapper.toModel(transportView)).then { transport }
         }
 
         private fun stubExecuteGetFavoritesUseCase(flowable: Flowable<List<Transport>>) {
-            Mockito.`when`(mockGetFavoritesUseCase.execute(anyOrNull())).thenReturn(flowable)
+            whenever(mockGetFavoritesUseCase.execute(anyOrNull())).then { flowable }
         }
     }
 
