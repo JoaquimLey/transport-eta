@@ -1,8 +1,8 @@
-package com.joaquimley.transporteta.domain.usecase.favorites
+package com.joaquimley.transporteta.domain.usecase.transport.favorites
 
 import com.joaquimley.transporteta.domain.executor.PostExecutionThread
 import com.joaquimley.transporteta.domain.executor.ThreadExecutor
-import com.joaquimley.transporteta.domain.interactor.favorites.ClearAllTransportsAsFavoriteUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.favorites.ClearAllTransportsAsFavoriteUseCase
 import com.joaquimley.transporteta.domain.repository.FavoritesRepository
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -11,7 +11,9 @@ import io.reactivex.Completable
 import org.junit.Before
 import org.junit.Test
 
-class ClearAllFavoritesTest {
+class ClearAllFavoritesUseCaseTest {
+
+    val robot = Robot()
 
     private val mockThreadExecutor = mock<ThreadExecutor>()
     private val mockPostExecutionThread = mock<PostExecutionThread>()
@@ -33,13 +35,19 @@ class ClearAllFavoritesTest {
 
     @Test
     fun buildUseCaseObservableCompletes() {
-        stubTransportRepositoryClearFavorites(Completable.complete())
+        // Assemble
+        robot.stubTransportRepositoryClearFavorites(Completable.complete())
+        // Act
         val testObserver = clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null).test()
+        // Assert
         testObserver.assertComplete()
     }
 
-
-    private fun stubTransportRepositoryClearFavorites(completable: Completable) {
-        whenever(favoritesRepository.clearFavorites()).thenReturn(completable)
+    inner class Robot {
+        fun stubTransportRepositoryClearFavorites(completable: Completable) {
+            whenever(favoritesRepository.clearFavorites()).thenReturn(completable)
+        }
     }
+
+
 }

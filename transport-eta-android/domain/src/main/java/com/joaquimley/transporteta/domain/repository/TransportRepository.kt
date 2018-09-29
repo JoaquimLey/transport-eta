@@ -12,7 +12,7 @@ import io.reactivex.Single
  */
 interface TransportRepository {
 
-    fun requestTransportEta(transportCode: Int): Single<Transport>
+    fun requestTransportEta(transportCode: Int): Observable<Transport>
 
     fun cancelTransportEtaRequest(transportCode: Int?): Completable
 

@@ -1,8 +1,8 @@
-package com.joaquimley.transporteta.domain.usecase.favorites
+package com.joaquimley.transporteta.domain.usecase.transport.favorites
 
 import com.joaquimley.transporteta.domain.executor.PostExecutionThread
 import com.joaquimley.transporteta.domain.executor.ThreadExecutor
-import com.joaquimley.transporteta.domain.interactor.favorites.GetFavoritesUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.favorites.GetFavoritesUseCase
 import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.domain.repository.FavoritesRepository
 import com.joaquimley.transporteta.domain.test.factory.TransportFactory
@@ -13,8 +13,9 @@ import io.reactivex.Flowable
 import org.junit.Before
 import org.junit.Test
 
-class GetFavoritesTest {
+class GetFavoritesUseCaseTest {
 
+    private val robot = Robot()
     private val mockThreadExecutor = mock<ThreadExecutor>()
     private val mockPostExecutionThread = mock<PostExecutionThread>()
     private val favoritesRepository = mock<FavoritesRepository>()
@@ -34,21 +35,32 @@ class GetFavoritesTest {
 
     @Test
     fun buildUseCaseObservableCompletes() {
-        stubTransportRepositoryGetFavorites(Flowable.just(TransportFactory.makeTransportList(2, true)))
+        // Assemble
+        robot.stubTransportRepositoryGetFavorites()
+        // Act
         val testObserver = getFavoritesUseCase.buildUseCaseObservable().test()
+        // Assert
         testObserver.assertComplete()
     }
 
     @Test
     fun buildUseCaseObservableReturnsData() {
-        val favoriteTransports = TransportFactory.makeTransportList(2)
-        stubTransportRepositoryGetFavorites(Flowable.just(favoriteTransports))
+        // Assemble
+        val favoriteTransports = robot.stubTransportRepositoryGetFavorites()
+        // Act
         val testObserver = getFavoritesUseCase.buildUseCaseObservable().test()
+        // Assert
         testObserver.assertValue(favoriteTransports)
     }
 
-    private fun stubTransportRepositoryGetFavorites(single: Flowable<List<Transport>>) {
-        whenever(favoritesRepository.getAll()).thenReturn(single)
+    inner class Robot {
+        fun stubTransportRepositoryGetFavorites(transportList: List<Transport> =
+                                                        TransportFactory.makeTransportList(2, true))
+                : List<Transport> {
+            whenever(favoritesRepository.getAll()).thenReturn(Flowable.just(transportList))
+            return transportList
+        }
     }
+
 
 }

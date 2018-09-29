@@ -2,10 +2,10 @@ package com.joaquimley.transporteta.presentation.home.favorite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.joaquimley.transporteta.domain.interactor.favorites.ClearAllTransportsAsFavoriteUseCase
-import com.joaquimley.transporteta.domain.interactor.favorites.GetFavoritesUseCase
-import com.joaquimley.transporteta.domain.interactor.favorites.MarkTransportAsFavoriteUseCase
-import com.joaquimley.transporteta.domain.interactor.favorites.MarkTransportAsNoFavoriteUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.favorites.ClearAllTransportsAsFavoriteUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.favorites.GetFavoritesUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTransportAsFavoriteUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTransportAsNoFavoriteUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.CancelEtaRequestUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.RequestEtaUseCase
 import com.joaquimley.transporteta.presentation.mapper.TransportMapper

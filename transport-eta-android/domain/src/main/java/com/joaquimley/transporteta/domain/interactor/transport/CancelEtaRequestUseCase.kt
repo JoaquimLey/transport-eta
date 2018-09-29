@@ -14,9 +14,9 @@ class CancelEtaRequestUseCase @Inject constructor(private val transportRepositor
 												  postExecutionThread: PostExecutionThread) :
 		CompletableUseCase<Int?>(threadExecutor, postExecutionThread) {
 	/**
-	 * Builds a [Single] which will be used when the current [SingleUseCase] is executed.
+	 * Builds a [Completable] which will be used when the current [Completable] is executed.
 	 */
-	override fun buildUseCaseObservable(params: Int?): Completable {
+	public override fun buildUseCaseObservable(params: Int?): Completable {
 		return transportRepository.cancelTransportEtaRequest(params)
 	}
 }
