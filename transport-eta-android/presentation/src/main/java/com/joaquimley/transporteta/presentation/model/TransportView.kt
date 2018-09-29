@@ -8,7 +8,8 @@ import kotlinx.android.parcel.Parcelize
  */
 
 @Parcelize
-data class TransportView(val id: String, val code: Int = -1, val latestEta: String = "", var isFavorite: Boolean, val type: Type = Type.BUS) : Parcelable {
+data class TransportView(val id: String, val code: Int = -1, val latestEta: String = "",
+                         var isFavorite: Boolean, val type: Type = Type.BUS) : Parcelable {
     enum class Type {
         BUS
     }

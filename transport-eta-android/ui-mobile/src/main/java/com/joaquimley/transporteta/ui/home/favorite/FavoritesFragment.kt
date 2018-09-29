@@ -29,10 +29,6 @@ import javax.inject.Inject
  */
 class FavoritesFragment : Fragment() {
 
-//    @Inject lateinit var viewModelProvider: FavoritesViewModelProvider
-//    private val viewModel by lazy { viewModelProvider(this) }
-
-
     @Inject lateinit var viewModelProvider: FavoritesViewModelFactory
     private val viewModel by lazy { viewModelProvider.create()}
 
@@ -70,8 +66,8 @@ class FavoritesFragment : Fragment() {
 
     private fun observeFavourites() {
         viewModel.getFavorites().observe(this,
-                Observer {
-                    it?.let { handleDataState(it.status, it.data, it.message) }
+                Observer { transportList ->
+                    transportList?.let { handleDataState(it.status, it.data, it.message) }
                 })
     }
 

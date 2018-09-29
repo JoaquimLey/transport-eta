@@ -11,9 +11,9 @@ import io.reactivex.Completable
 import org.junit.Before
 import org.junit.Test
 
-class ClearAllFavoritesUseCaseTest {
+class ClearAllTransportsAsFavoriteUseCaseTest {
 
-    val robot = Robot()
+    private val robot = Robot()
 
     private val mockThreadExecutor = mock<ThreadExecutor>()
     private val mockPostExecutionThread = mock<PostExecutionThread>()
@@ -28,12 +28,6 @@ class ClearAllFavoritesUseCaseTest {
     }
 
     @Test
-    fun buildUseCaseObservableCallsRepository() {
-        clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null)
-        verify(favoritesRepository).clearFavorites()
-    }
-
-    @Test
     fun buildUseCaseObservableCompletes() {
         // Assemble
         robot.stubTransportRepositoryClearFavorites(Completable.complete())
@@ -41,6 +35,12 @@ class ClearAllFavoritesUseCaseTest {
         val testObserver = clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null).test()
         // Assert
         testObserver.assertComplete()
+    }
+
+    @Test
+    fun buildUseCaseObservableCallsRepository() {
+        clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null)
+        verify(favoritesRepository).clearFavorites()
     }
 
     inner class Robot {

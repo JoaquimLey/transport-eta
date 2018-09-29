@@ -20,17 +20,17 @@ abstract class FavoritesViewModel(protected val getFavoritesUseCase: GetFavorite
                                   protected val cancelEtaRequestUseCase: CancelEtaRequestUseCase,
                                   protected val mapper: TransportMapper) : ViewModel() {
 
+    abstract fun isAcceptingRequests(): LiveData<Boolean>
+
     abstract fun onRefresh()
 
     abstract fun getFavorites(isForceRefresh: Boolean = false): LiveData<Resource<List<TransportView>>>
-
-    abstract fun isAcceptingRequests(): LiveData<Boolean>
 
     abstract fun onEtaRequested(transportView: TransportView)
 
     abstract fun onEtaRequestCanceled()
 
-    abstract fun markAsFavorite(transportView: TransportView, isFavorite: Boolean)
+    abstract fun onMarkAsFavorite(transportView: TransportView, isFavorite: Boolean)
 
     abstract fun removeAllFavorites()
 }

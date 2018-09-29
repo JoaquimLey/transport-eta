@@ -11,6 +11,10 @@ import com.joaquimley.transporteta.presentation.util.factory.DataFactory.randomU
 @RestrictTo(RestrictTo.Scope.TESTS)
 object TransportFactory {
 
+    fun makeTransport(code: Int): Transport {
+        return Transport(randomUuid(), randomUuid(), code, randomUuid(), true, "bus")
+    }
+
     fun makeTransport(isFavorite: Boolean = false, type: String = "bus"): Transport {
         return Transport(randomUuid(), randomUuid(), randomInt(), randomUuid(), isFavorite, type)
     }

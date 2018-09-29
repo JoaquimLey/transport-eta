@@ -2,12 +2,12 @@ package com.joaquimley.transporteta.presentation.home.favorite
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.joaquimley.transporteta.domain.interactor.transport.CancelEtaRequestUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.RequestEtaUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.ClearAllTransportsAsFavoriteUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.GetFavoritesUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTransportAsFavoriteUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTransportAsNoFavoriteUseCase
-import com.joaquimley.transporteta.domain.interactor.transport.CancelEtaRequestUseCase
-import com.joaquimley.transporteta.domain.interactor.transport.RequestEtaUseCase
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.mapper.TransportMapper
 import com.joaquimley.transporteta.presentation.model.TransportView
@@ -43,6 +43,7 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
     init {
         fetchFavorites()
     }
+
     override fun onCleared() {
         compositeDisposable.dispose()
         super.onCleared()
@@ -64,23 +65,35 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
     }
 
     override fun onEtaRequested(transportView: TransportView) {
-        compositeDisposable.add(requestEtaUseCase.execute(transportView.code).subscribe({
-            // TODO Handle the response (still not sure if it should return a model or just the answer
-        }, {
-            // TODO handle request error
-        }))
+        compositeDisposable.add(
+                requestEtaUseCase.execute(transportView.code)
+                        .doOnSubscribe { acceptingRequestsLiveData.postValue(false) }
+                        .subscribe({
+                            // TODO Handle the response (still not sure if it should return a model or just the answer
+                            acceptingRequestsLiveData.postValue(true)
+                        }, {
+                            // TODO handle request error
+
+                            acceptingRequestsLiveData.postValue(true)
+                        })
+        )
     }
 
     override fun onEtaRequestCanceled() {
         compositeDisposable.add(cancelEtaRequestUseCase.execute(null)
                 .subscribe({
                     // TODO Handle eta request cancelled (push something to the UI boie)
+                    acceptingRequestsLiveData.postValue(true)
                 }, {
+
+                    // Should we still set -> acceptingRequestsLiveData.postValue(true) ?
                     // TODO Handle error
+
                 }))
     }
 
-    override fun markAsFavorite(transportView: TransportView, isFavorite: Boolean) {
+    @Deprecated("we won't be using any non-favorite items for v1.0'")
+    override fun onMarkAsFavorite(transportView: TransportView, isFavorite: Boolean) {
         compositeDisposable.add(if (isFavorite) {
             markTransportAsFavoriteUseCase.execute(mapper.toModel(transportView))
         } else {
@@ -95,9 +108,7 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
     override fun removeAllFavorites() {
         compositeDisposable.add(
                 clearAllTransportsAsFavoriteUseCase.execute(null)
-                        .doOnSubscribe { favouritesLiveData.loading() }
-                        .subscribe({
-                        }, {
+                        .subscribe({}, {
 
                         })
         )

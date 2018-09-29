@@ -13,7 +13,6 @@ class HomeViewModelImpl : HomeViewModel() {
 
     override fun setSelectedScreen(navigationType: NavigationType) {
         if (selectedScreenLiveData.value != navigationType) {
-            // TODO Track -> e.g. navigationType.name clicked
             selectedScreenLiveData.postValue(navigationType)
         }
     }

@@ -14,9 +14,11 @@ import javax.inject.Singleton
 @Singleton
 class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: SmsBroadcastReceiver) : SmsController {
 
+
+    // TODO build a queue for requests
+
     private var broadcastReceiverDisposable: Disposable? = null
     private var smsRequestDisposable: Disposable? = null
-
     private val smsPublishSubject: PublishSubject<SmsModel> = PublishSubject.create()
 
     private var busStopCode: Int? = null

@@ -2,12 +2,12 @@ package com.joaquimley.transporteta.presentation.favorite
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.joaquimley.transporteta.domain.interactor.transport.CancelEtaRequestUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.RequestEtaUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.ClearAllTransportsAsFavoriteUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.GetFavoritesUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTransportAsFavoriteUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTransportAsNoFavoriteUseCase
-import com.joaquimley.transporteta.domain.interactor.transport.CancelEtaRequestUseCase
-import com.joaquimley.transporteta.domain.interactor.transport.RequestEtaUseCase
 import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.data.ResourceState
@@ -17,11 +17,10 @@ import com.joaquimley.transporteta.presentation.model.TransportView
 import com.joaquimley.transporteta.presentation.util.factory.DataFactory
 import com.joaquimley.transporteta.presentation.util.factory.TransportFactory
 import com.nhaarman.mockitokotlin2.*
+import io.reactivex.Completable
 import io.reactivex.Flowable
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import io.reactivex.Observable
+import org.junit.*
 
 class FavoritesViewModelTest {
 
@@ -40,6 +39,7 @@ class FavoritesViewModelTest {
     private val mockMapper = mock<TransportMapper>()
 
     private val favoritesMockObserver = mock<Observer<Resource<List<TransportView>>>>()
+    private val isAcceptingRequestsMockObserver = mock<Observer<Boolean>>()
 
     private lateinit var viewModel: FavoritesViewModelImpl
 
@@ -198,14 +198,85 @@ class FavoritesViewModelTest {
         { "\nData was:\n${viewModel.getFavorites().value?.data}\nInstead of:\n$stubbedMapperDataList" }
     }
 
+    @Test
+    fun clearAllFavoritesExecutesUseCase() {
+        // Assemble
+        robot.stubClearAllFavoritesSuccess()
+        // Act
+        viewModel.removeAllFavorites()
+        // Assert
+        verify(mockClearAllTransportsAsFavoriteUseCase, atLeastOnce()).execute(anyOrNull())
+        // Fail reason
+    }
+
+    @Test
+    @Ignore("Need to fix api, implementation is currently wrong")
+    fun clearAllFavoritesThrowsErrorWhenFails() {
+        // Assemble
+        val stubThrowable = robot.stubClearAllFavoritesError()
+        // Act
+        viewModel.removeAllFavorites()
+        // Assert
+        // TODO Fix the API in a way we can tell the UI the request failed
+        // TODO: Maybe viewModel.removeAllFavorites() should return a LiveData<Boolean>
+    }
+
+    @Test
+    fun onEtaRequestedExecutesUseCase() {
+        // Assemble
+        val transportView = TransportFactory.makeTransportView()
+        robot.stubRequestEtaUseCaseSuccess(transportView)
+        // Act
+        viewModel.onEtaRequested(transportView)
+        // Assert
+        verify(mockRequestEtaUseCase, atLeastOnce()).execute(transportView.code)
+    }
+
+    @Test
+    fun onEtaRequestedTriggersAcceptingRequestsFalse() {
+        // Assemble
+        val transportView = TransportFactory.makeTransportView()
+        robot.stubRequestEtaUseCaseSuccess(transportView)
+        viewModel.isAcceptingRequests().observeForever(isAcceptingRequestsMockObserver)
+        // Act
+        viewModel.onEtaRequested(transportView)
+        // Assert
+        verify(isAcceptingRequestsMockObserver).onChanged(false)
+    }
+
+    @Test
+    fun onEtaRequestedSuccessTriggersAcceptingRequestsTrue() {
+        // Assemble
+        val transportView = TransportFactory.makeTransportView()
+        robot.stubRequestEtaUseCaseSuccess(transportView)
+        // Act
+        viewModel.onEtaRequested(transportView)
+        // Assert
+        assert(viewModel.isAcceptingRequests().value == true)
+    }
+
     inner class Robot {
 
         // region Robot public API
+
+        fun stubRequestEtaUseCaseSuccess(transportView: TransportView = TransportFactory.makeTransportView()): Observable<Transport> {
+            return stubRequestEtaUseCase(transportView.code)
+        }
 
         fun stubGetFavoritesUseCaseSuccess(flowable: List<Transport>? = null, count: Int = 3): List<Transport> {
             val testData = flowable ?: TransportFactory.makeTransportList(count)
             stubExecuteGetFavoritesUseCase(Flowable.just(testData))
             return testData
+        }
+
+        fun stubClearAllFavoritesSuccess() {
+            stubExecuteClearAllTransportsAsFavoriteUseCase()
+        }
+
+        fun stubClearAllFavoritesError(errorMessage: String = DataFactory.randomString()): Throwable {
+            val throwable = Throwable(errorMessage)
+            stubExecuteClearAllTransportsAsFavoriteUseCase(Completable.error(throwable))
+            return throwable
         }
 
         fun stubGetFavoritesUseCaseError(message: String? = DataFactory.randomString()): Throwable {
@@ -230,6 +301,16 @@ class FavoritesViewModelTest {
 
         private fun stubExecuteGetFavoritesUseCase(flowable: Flowable<List<Transport>>) {
             whenever(mockGetFavoritesUseCase.execute(anyOrNull())).then { flowable }
+        }
+
+        private fun stubExecuteClearAllTransportsAsFavoriteUseCase(completable: Completable = Completable.complete()): Completable? {
+            whenever(mockClearAllTransportsAsFavoriteUseCase.execute(anyOrNull())).then { completable }
+            return completable
+        }
+
+        private fun stubRequestEtaUseCase(code: Int = DataFactory.randomInt(), observable: Observable<Transport> = Observable.just(TransportFactory.makeTransport(code))): Observable<Transport> {
+            whenever(mockRequestEtaUseCase.execute(code)).then { observable }
+            return observable
         }
 
         // endregion Robot internal implementation
