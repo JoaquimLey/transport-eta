@@ -1,4 +1,4 @@
-package com.joaquimley.transporteta.domain.interactor.favorites
+package com.joaquimley.transporteta.domain.interactor.transport.favorites
 
 import com.joaquimley.transporteta.domain.executor.PostExecutionThread
 import com.joaquimley.transporteta.domain.executor.ThreadExecutor

@@ -13,6 +13,7 @@ import dagger.Provides
 class SmsControllerModule {
 
     companion object {
+        // We should change this depending on flavor or city (currently hardcoded for Lisbon)
         const val SMS_SERVICE_NUMBER = "3599"
         const val SMS_CONDITION = "SMS@Carris"
     }

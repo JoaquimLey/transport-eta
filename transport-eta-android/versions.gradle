@@ -35,11 +35,11 @@ versions.constraint_layout = "1.1.0"
 versions.recycler_view = "1.0.0-alpha2"
 
 // Architecture components
-versions.room = "2.0.0-alpha2"
-versions.paging = "2.0.0-alpha2"
-versions.lifecycle = "2.0.0-alpha1"
-versions.navigation = "1.0.0-alpha01"
-versions.work_manager = "1.0.0-alpha02"
+versions.room = "2.0.0-beta01"
+versions.paging = "2.0.0-beta01"
+versions.lifecycle = "2.0.0-beta01"
+versions.navigation = "1.0.0-alpha06"
+versions.work_manager = "1.0.0-alpha09"
 
 // Android Utils
 versions.glide = "3.8.0"
@@ -157,11 +157,16 @@ deps.mockito = mockito
 
 def kotlin = [:]
 kotlin.rx = "io.reactivex.rxjava2:rxkotlin:$versions.kotlin_rx"
-kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
 kotlin.test = "org.jetbrains.kotlin:kotlin-test:$versions.kotlin"
+kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
 kotlin.junit = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 deps.kotlin = kotlin
+
+def rx = [:]
+rx.java2 = "io.reactivex.rxjava2:rxjava:$versions.rxjava2"
+rx.android = "io.reactivex.rxjava2:rxandroid:$versions.rx_android"
+deps.rx = rx
 
 def dexmaker = [:]
 dexmaker.stdlib = "com.google.dexmaker:dexmaker:$versions.dexmaker"
@@ -178,7 +183,6 @@ deps.timber = "com.jakewharton.timber:timber:$versions.timber"
 deps.junit = "junit:junit:$versions.junit"
 deps.mock_web_server = "com.squareup.okhttp3:mockwebserver:$versions.mockwebserver"
 deps.lottie = "com.airbnb.android:lottie:$versions.lottie"
-deps.rxjava2 = "io.reactivex.rxjava2:rxjava:$versions.rxjava2"
 deps.rx_android = "io.reactivex.rxjava2:rxandroid:$versions.rx_android"
 deps.hamcrest = "org.hamcrest:hamcrest-all:$versions.hamcrest"
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"

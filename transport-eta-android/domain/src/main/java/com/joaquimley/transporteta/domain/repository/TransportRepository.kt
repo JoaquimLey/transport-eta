@@ -2,6 +2,8 @@ package com.joaquimley.transporteta.domain.repository
 
 import com.joaquimley.transporteta.domain.model.Transport
 import io.reactivex.Completable
+import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * Interface defining methods for how the data layer can pass data to and from the Domain layer.
@@ -10,11 +12,15 @@ import io.reactivex.Completable
  */
 interface TransportRepository {
 
-    fun getTransport(transportId: String)
+    fun requestTransportEta(transportCode: Int): Observable<Transport>
 
-    fun saveTransport(favorite: Transport): Completable
+    fun cancelTransportEtaRequest(transportCode: Int?): Completable
 
-    fun saveTransports(favoriteList: List<Transport>): Completable
+    fun getTransport(transportId: String): Observable<Transport>
+
+    fun saveTransport(transport: Transport): Completable
+
+    fun saveTransport(transportList: List<Transport>): Completable
 
     fun deleteTransport(transport: Transport): Completable
 

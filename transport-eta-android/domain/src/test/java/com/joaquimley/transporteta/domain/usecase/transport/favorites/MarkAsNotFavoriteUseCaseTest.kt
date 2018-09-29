@@ -1,8 +1,8 @@
-package com.joaquimley.transporteta.domain.usecase.favorites
+package com.joaquimley.transporteta.domain.usecase.transport.favorites
 
 import com.joaquimley.transporteta.domain.executor.PostExecutionThread
 import com.joaquimley.transporteta.domain.executor.ThreadExecutor
-import com.joaquimley.transporteta.domain.interactor.favorites.MarkTransportAsNoFavoriteUseCase
+import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTransportAsNoFavoriteUseCase
 import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.domain.repository.FavoritesRepository
 import com.joaquimley.transporteta.domain.test.factory.TransportFactory
@@ -13,39 +13,47 @@ import io.reactivex.Completable
 import org.junit.Before
 import org.junit.Test
 
-class MarkAsNotFavoriteTest {
+class MarkAsNotFavoriteUseCaseTest {
+
+    private val robot = Robot()
+
+    private val mockThreadExecutor = mock<ThreadExecutor>()
+    private val mockPostExecutionThread = mock<PostExecutionThread>()
+    private val favoritesRepository = mock<FavoritesRepository>()
 
     private lateinit var markTransportAsNoFavoriteUseCase: MarkTransportAsNoFavoriteUseCase
 
-    private lateinit var mockThreadExecutor: ThreadExecutor
-    private lateinit var mockPostExecutionThread: PostExecutionThread
-    private lateinit var favoritesRepository: FavoritesRepository
-
     @Before
     fun setUp() {
-        mockThreadExecutor = mock()
-        mockPostExecutionThread = mock()
-        favoritesRepository = mock()
         markTransportAsNoFavoriteUseCase = MarkTransportAsNoFavoriteUseCase(favoritesRepository, mockThreadExecutor, mockPostExecutionThread)
     }
 
     @Test
     fun buildUseCaseObservableCallsRepository() {
+        // Assemble
         val transport = TransportFactory.makeTransport()
+        // Act
         markTransportAsNoFavoriteUseCase.buildUseCaseObservable(transport)
+        // Assert
         verify(favoritesRepository).removeAsFavorite(transport)
     }
 
     @Test
     fun buildUseCaseObservableCompletes() {
-        val transport = TransportFactory.makeTransport()
-        stubTransportRepositoryMarkAsFavorite(transport, Completable.complete())
+        // Assemble
+        val transport = robot.stubTransportRepositoryMarkAsFavorite()
+        // Act
         val testObserver = markTransportAsNoFavoriteUseCase.buildUseCaseObservable(transport).test()
+        // Assert
         testObserver.assertComplete()
     }
 
-    private fun stubTransportRepositoryMarkAsFavorite(transport: Transport, completable: Completable) {
-        whenever(favoritesRepository.removeAsFavorite(transport)).thenReturn(completable)
+    inner class Robot {
+        fun stubTransportRepositoryMarkAsFavorite(transport: Transport = TransportFactory.makeTransport(),
+                                                  completable: Completable = Completable.complete()): Transport {
+            whenever(favoritesRepository.removeAsFavorite(transport)).thenReturn(completable)
+            return transport
+        }
     }
 
 }

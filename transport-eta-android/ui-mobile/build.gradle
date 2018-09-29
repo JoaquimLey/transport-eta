@@ -80,6 +80,7 @@ androidExtensions {
 
 dependencies {
     // Modules
+    implementation project(':domain') // REMOVE AFTER HAVING :data layer
     implementation project(':sms')
     implementation project(':presentation')
     // AndroidX
@@ -102,8 +103,8 @@ dependencies {
     implementation deps.javax.inject
     compileOnly deps.javax.annotation
     // Rx
-    implementation deps.rxjava2
-    implementation deps.rx_android
+    implementation deps.rx.java2
+    implementation deps.rx.android
     // Kotlin
     implementation deps.kotlin.rx
     implementation deps.kotlin.stdlib

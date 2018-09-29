@@ -1,9 +1,9 @@
 package com.joaquimley.transporteta.presentation.data
 
-open class Resource<out T> constructor(val status: ResourceState, val data: T? = null, val message: String? = null) {
+data class Resource<out T> constructor(val status: ResourceState, val data: T? = null, val message: String? = null) {
 
     companion object {
-        fun <T> success(data: T): Resource<T> {
+        fun <T> success(data: T?): Resource<T> {
             return Resource(ResourceState.SUCCESS, data, null)
         }
 

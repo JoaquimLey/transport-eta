@@ -1,11 +1,13 @@
-package com.joaquimley.transporteta.ui.testing.factory.ui
+package com.joaquimley.transporteta.presentation.util.factory
 
+import androidx.annotation.RestrictTo
 import java.util.concurrent.ThreadLocalRandom
 
 /**
  * Factory class for data instances
  */
 
+@RestrictTo(RestrictTo.Scope.TESTS)
 object DataFactory {
 
     fun randomString(): String {
