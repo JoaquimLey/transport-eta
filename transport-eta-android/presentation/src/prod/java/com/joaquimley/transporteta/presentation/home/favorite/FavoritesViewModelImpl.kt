@@ -1,6 +1,5 @@
 package com.joaquimley.transporteta.presentation.home.favorite
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.joaquimley.transporteta.domain.interactor.favorites.ClearAllTransportsAsFavoriteUseCase
@@ -9,7 +8,6 @@ import com.joaquimley.transporteta.domain.interactor.favorites.MarkTransportAsFa
 import com.joaquimley.transporteta.domain.interactor.favorites.MarkTransportAsNoFavoriteUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.CancelEtaRequestUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.RequestEtaUseCase
-import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.mapper.TransportMapper
 import com.joaquimley.transporteta.presentation.model.TransportView
@@ -17,7 +15,6 @@ import com.joaquimley.transporteta.presentation.util.extensions.error
 import com.joaquimley.transporteta.presentation.util.extensions.loading
 import com.joaquimley.transporteta.presentation.util.extensions.success
 import io.reactivex.disposables.CompositeDisposable
-import java.util.*
 
 /**
  * Created by joaquimley on 28/03/2018.
@@ -44,20 +41,22 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
     private val favouritesLiveData = MutableLiveData<Resource<List<TransportView>>>()
 
     init {
-//        fetchFavorites()
+        fetchFavorites()
     }
-
     override fun onCleared() {
         compositeDisposable.dispose()
         super.onCleared()
     }
 
-    override fun getFavorites(): LiveData<Resource<List<TransportView>>> {
-        return favouritesLiveData
-    }
-
     override fun onRefresh() {
         fetchFavorites()
+    }
+
+    override fun getFavorites(isForceRefresh: Boolean): LiveData<Resource<List<TransportView>>> {
+        if (isForceRefresh) {
+            fetchFavorites()
+        }
+        return favouritesLiveData
     }
 
     override fun isAcceptingRequests(): LiveData<Boolean> {
@@ -114,17 +113,18 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
                             favouritesLiveData.error(it)
                         }))
     }
-
-    @Deprecated("Remove after debug not needed")
-    private fun debugStuff() {
-        val debugData = ArrayList<Transport>()
-        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1337, "This is mock data 1", Random().nextBoolean(), "bus"))
-        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1338, "This is mock data 2", Random().nextBoolean(), "bus"))
-        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1339, "This is mock data 3", Random().nextBoolean(), "bus"))
-        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1330, "This is mock data 4", Random().nextBoolean(), "bus"))
-        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1331, "This is mock data 5", Random().nextBoolean(), "bus"))
-        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1332, "This is mock data 6", Random().nextBoolean(), "bus"))
-
-//        favouritesLiveData.success(mapper.toView(debugData.toList()))
-    }
 }
+
+
+//    @Deprecated("Remove after debug not needed")
+//    private fun debugStuff() {
+//        val debugData = ArrayList<Transport>()
+//        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1337, "This is mock data 1", Random().nextBoolean(), "bus"))
+//        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1338, "This is mock data 2", Random().nextBoolean(), "bus"))
+//        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1339, "This is mock data 3", Random().nextBoolean(), "bus"))
+//        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1330, "This is mock data 4", Random().nextBoolean(), "bus"))
+//        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1331, "This is mock data 5", Random().nextBoolean(), "bus"))
+//        debugData.add(Transport("Hello ${System.currentTimeMillis()}", "ZeManel", 1332, "This is mock data 6", Random().nextBoolean(), "bus"))
+//
+////        favouritesLiveData.success(mapper.toView(debugData.toList()))
+//    }

@@ -20,9 +20,9 @@ abstract class FavoritesViewModel(protected val getFavoritesUseCase: GetFavorite
                                   protected val cancelEtaRequestUseCase: CancelEtaRequestUseCase,
                                   protected val mapper: TransportMapper) : ViewModel() {
 
-    abstract fun getFavorites(): LiveData<Resource<List<TransportView>>>
-
     abstract fun onRefresh()
+
+    abstract fun getFavorites(isForceRefresh: Boolean = false): LiveData<Resource<List<TransportView>>>
 
     abstract fun isAcceptingRequests(): LiveData<Boolean>
 

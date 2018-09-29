@@ -1,4 +1,4 @@
-package com.joaquimley.transporteta.presentation
+package com.joaquimley.transporteta.presentation.favorite
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
@@ -14,6 +14,7 @@ import com.joaquimley.transporteta.presentation.data.ResourceState
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelImpl
 import com.joaquimley.transporteta.presentation.mapper.TransportMapper
 import com.joaquimley.transporteta.presentation.model.TransportView
+import com.joaquimley.transporteta.presentation.util.factory.DataFactory
 import com.joaquimley.transporteta.presentation.util.factory.TransportFactory
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Flowable
@@ -21,7 +22,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
 
 class FavoritesViewModelTest {
 
@@ -39,13 +39,15 @@ class FavoritesViewModelTest {
     private val mockCancelEtaRequestUseCase = mock<CancelEtaRequestUseCase>()
     private val mockMapper = mock<TransportMapper>()
 
-        private val favoritesMockObserver = mock<Observer<Resource<List<TransportView>>>>()
+    private val favoritesMockObserver = mock<Observer<Resource<List<TransportView>>>>()
 
     private lateinit var viewModel: FavoritesViewModelImpl
 
 
     @Before
     fun setup() {
+        robot.stubGetFavoritesUseCaseSuccess()
+
         viewModel = FavoritesViewModelImpl(mockGetFavoritesUseCase,
                 mockMarkTransportAsFavoriteUseCase,
                 mockMarkTransportAsNoFavoriteUseCase,
@@ -57,49 +59,113 @@ class FavoritesViewModelTest {
 
     @After
     fun tearDown() {
+    }
 
+
+    @Test
+    fun favoritesDataIsFetchedAtStartup() {
+        // Assemble
+        robot.stubGetFavoritesUseCaseSuccess()
+        // Act
+        // -> No action
+        // Assert
+        verify(mockGetFavoritesUseCase, atLeastOnce()).execute(anyOrNull())
     }
 
     @Test
     fun getFavoritesExecutesGetFavoritesUseCase() {
         // Assemble
-        robot.stubSuccessGetFavoritesUseCase()
+        robot.stubGetFavoritesUseCaseSuccess()
         // Act
-        viewModel.getFavorites()
+        viewModel.getFavorites(true)
         // Assert
-        verify(mockGetFavoritesUseCase, atLeast(1)).execute(anyOrNull())
+        verify(mockGetFavoritesUseCase, atLeast(2)).execute(anyOrNull())
+    }
+
+    @Test
+    fun onRefreshTriggersNewDataFetch() {
+        // Assemble
+        robot.stubGetFavoritesUseCaseSuccess()
+        // Act
+        viewModel.onRefresh()
+        // Assert
+        verify(mockGetFavoritesUseCase, atLeast(2)).execute(anyOrNull())
     }
 
     @Test
     fun getFavoritesTriggersLoadingState() {
         // Assemble
-        robot.stubSuccessGetFavoritesUseCase()
+        robot.stubGetFavoritesUseCaseSuccess()
         viewModel.getFavorites().observeForever(favoritesMockObserver)
         // Act
-        viewModel.getFavorites()
+        viewModel.getFavorites(true) // Have to force new data load to trigger state
         // Assert
         verify(favoritesMockObserver).onChanged(Resource(ResourceState.LOADING))
-
-//        assert(viewModel.getFavorites().value?.status == ResourceState.LOADING)
-//        { "\nStatus was ${viewModel.getFavorites().value?.status}\nInstead of: LOADING" }
     }
 
     @Test
     fun getFavoritesLoadingStateHasNoData() {
         // Assemble
-        robot.stubSuccessGetFavoritesUseCase()
+        robot.stubGetFavoritesUseCaseSuccess()
+        viewModel.getFavorites().observeForever(favoritesMockObserver)
         // Act
-        viewModel.getFavorites()
+        viewModel.getFavorites(true) // Have to force new data load to trigger state
         // Assert
-        verify(mockGetFavoritesUseCase, atLeast(1)).execute(anyOrNull())
+        verify(favoritesMockObserver).onChanged(Resource(ResourceState.LOADING, null))
+    }
+
+    @Test
+    fun getFavoritesLoadingStateHasNoMessage() {
+        // Assemble
+        robot.stubGetFavoritesUseCaseSuccess()
+        // Act
+        viewModel.getFavorites().observeForever(favoritesMockObserver)
+        // Assert
+        verify(favoritesMockObserver).onChanged(Resource(ResourceState.LOADING, anyOrNull(), null))
+    }
+
+    @Test
+    fun getFavoritesReturnsCorrectStateOnError() {
+        // Assemble
+        robot.stubGetFavoritesUseCaseError()
+        // Act
+        viewModel.getFavorites(true)
+        // Assert
+        assert(viewModel.getFavorites().value?.status == ResourceState.ERROR)
+        // Fail reason
+        { "\nStatus was ${viewModel.getFavorites().value?.status}\nInstead of: ERROR" }
+    }
+
+    @Test
+    fun getFavoritesReturnsNoDataOnError() {
+        // Assemble
+        robot.stubGetFavoritesUseCaseError()
+        // Act
+        viewModel.getFavorites(true)
+        // Assert
+        assert(viewModel.getFavorites().value?.data == null)
+        // Fail reason
+        { "\nData was ${viewModel.getFavorites().value?.data}\nInstead of: null" }
+    }
+
+    @Test
+    fun getFavoritesReturnsCorrectMessageOnError() {
+        // Assemble
+        val throwable = robot.stubGetFavoritesUseCaseError()
+        // Act
+        viewModel.getFavorites(true)
+        // Assert
+        assert(viewModel.getFavorites().value?.message.equals(throwable.message))
+        // Fail reason
+        { "\nMessage was ${viewModel.getFavorites().value?.message}\nInstead of: ${throwable.message}" }
     }
 
     @Test
     fun getFavoritesReturnsCorrectStateOnSuccess() {
         // Assemble
-        robot.stubSuccessGetFavoritesUseCase()
+        robot.stubGetFavoritesUseCaseSuccess()
         // Act
-        viewModel.getFavorites()
+        viewModel.getFavorites(true)
         // Assert
         assert(viewModel.getFavorites().value?.status == ResourceState.SUCCESS)
         // Fail reason
@@ -107,76 +173,68 @@ class FavoritesViewModelTest {
     }
 
     @Test
-    fun getFavoritesReturnsDataOnSuccess() {
-        // Assemble
-        val useCaseData = TransportFactory.makeTransportList(5)
-        val stubbedMapperDataList = TransportFactory.makeTransportViewList(5)
-        robot.stubMapper(useCaseData, stubbedMapperDataList, true)
-        // Act
-        viewModel.getFavorites()
-        // Assert
-        assert(viewModel.getFavorites().value?.data == stubbedMapperDataList)
-        // Fail reason
-        { "\nData was:\n${viewModel.getFavorites().value?.data}\nInstead of:\n$stubbedMapperDataList" }
-    }
-
-    @Test
     fun getFavoritesReturnsNoErrorMessageOnSuccess() {
         // Assemble
-        robot.stubSuccessGetFavoritesUseCase()
+        robot.stubGetFavoritesUseCaseSuccess()
         // Act
-        viewModel.getFavorites()
+        viewModel.getFavorites(true)
         // Assert
         assert(viewModel.getFavorites().value?.message == null)
         // Fail reason
         { "\nMessage was ${viewModel.getFavorites().value?.message}\nInstead of null" }
     }
 
-    /**
-     * End of tests
-     */
+    @Test
+    fun getFavoritesReturnsCorrectDataOnSuccess() {
+        // Assemble
+        val useCaseData = TransportFactory.makeTransportList(5)
+        val stubbedMapperDataList = TransportFactory.makeTransportViewList(5)
+        robot.stubMapper(useCaseData, stubbedMapperDataList, true)
+        // Act
+        viewModel.getFavorites(true)
+        // Assert
+        assert(viewModel.getFavorites().value?.data == stubbedMapperDataList)
+        // Fail reason
+        { "\nData was:\n${viewModel.getFavorites().value?.data}\nInstead of:\n$stubbedMapperDataList" }
+    }
 
     inner class Robot {
-        fun stubSuccessGetFavoritesUseCase(flowable: List<Transport>? = null, count: Int = 3): List<Transport> {
-            // Assemble
+
+        // region Robot public API
+
+        fun stubGetFavoritesUseCaseSuccess(flowable: List<Transport>? = null, count: Int = 3): List<Transport> {
             val testData = flowable ?: TransportFactory.makeTransportList(count)
             stubExecuteGetFavoritesUseCase(Flowable.just(testData))
             return testData
         }
 
+        fun stubGetFavoritesUseCaseError(message: String? = DataFactory.randomString()): Throwable {
+            val throwable = Throwable(message)
+            stubExecuteGetFavoritesUseCase(Flowable.error(throwable))
+            return throwable
+        }
+
         fun stubMapper(transportList: List<Transport>, transportViewList: List<TransportView>, isStubGetFavoritesUseCase: Boolean = false) {
-            for (transport in transportList.withIndex()) {
-                stubTransportMapperToView(transport.value, transportViewList[transport.index])
-            }
-
+            stubTransportMapperToView(transportList, transportViewList)
             if (isStubGetFavoritesUseCase) {
-                robot.stubSuccessGetFavoritesUseCase(transportList)
+                robot.stubGetFavoritesUseCaseSuccess(transportList)
             }
         }
 
-        fun stubMapperToModel(transportViewList: List<TransportView>, transportList: List<Transport>, isStubGetFavoritesUseCase: Boolean = false) {
-            for (transportView in transportViewList.withIndex()) {
-                stubTransportMapperToModel(transportView.value, transportList[transportView.index])
-            }
+        // endregion Robot public API
 
-            if (isStubGetFavoritesUseCase) {
-                robot.stubSuccessGetFavoritesUseCase(transportList)
-            }
-        }
-
-        // Private robot implementations
-        private fun stubTransportMapperToView(transport: Transport, transportView: TransportView) {
+        // region Robot internal implementation
+        private fun stubTransportMapperToView(transport: List<Transport>, transportView: List<TransportView>) {
             whenever(mockMapper.toView(transport)).then { transportView }
-        }
-
-        private fun stubTransportMapperToModel(transportView: TransportView, transport: Transport) {
-            whenever(mockMapper.toModel(transportView)).then { transport }
         }
 
         private fun stubExecuteGetFavoritesUseCase(flowable: Flowable<List<Transport>>) {
             whenever(mockGetFavoritesUseCase.execute(anyOrNull())).then { flowable }
         }
+
+        // endregion Robot internal implementation
     }
+}
 
 //    @Test
 //    fun `fetch eta triggers not accepting requests state`() {
@@ -312,4 +370,4 @@ class FavoritesViewModelTest {
 //        testSubscriber.assertNoErrors()
 //        testSubscriber.assertReceivedOnNext(Arrays.asList(1))
 //    }
-}
+//}

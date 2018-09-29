@@ -11,6 +11,10 @@ import com.joaquimley.transporteta.presentation.util.factory.DataFactory.randomU
 @RestrictTo(RestrictTo.Scope.TESTS)
 object TransportFactory {
 
+    fun makeTransport(isFavorite: Boolean = false, type: String = "bus"): Transport {
+        return Transport(randomUuid(), randomUuid(), randomInt(), randomUuid(), isFavorite, type)
+    }
+
     fun makeTransportList(count: Int, isFavorite: Boolean = false, type: String = "bus"): List<Transport> {
         val transports = mutableListOf<Transport>()
         repeat(count) {
@@ -19,10 +23,10 @@ object TransportFactory {
         return transports
     }
 
-    fun makeTransport(isFavorite: Boolean = false, type: String = "bus"): Transport {
-        return Transport(randomUuid(), randomUuid(), randomInt(), randomUuid(), isFavorite, type)
-    }
 
+    fun makeTransportView(isFavorite: Boolean = false, type: TransportView.Type = TransportView.Type.BUS): TransportView {
+        return TransportView(randomUuid(), randomInt(), randomUuid(), isFavorite, type)
+    }
 
     fun makeTransportViewList(count: Int, isFavorite: Boolean = false, type: TransportView.Type = TransportView.Type.BUS): List<TransportView> {
         val transports = mutableListOf<TransportView>()
@@ -30,10 +34,6 @@ object TransportFactory {
             transports.add(makeTransportView(isFavorite, type))
         }
         return transports
-    }
-
-    fun makeTransportView(isFavorite: Boolean = false, type: TransportView.Type = TransportView.Type.BUS): TransportView {
-        return TransportView(randomUuid(), randomInt(), randomUuid(), isFavorite, type)
     }
 
 
