@@ -11,11 +11,11 @@ import io.reactivex.Flowable
  */
 interface FavoritesRepository {
 
-    fun markAsFavorite(favorite: Transport): Completable
+    fun markAsFavorite(transport: Transport): Completable
 
     fun removeAsFavorite(transport: Transport): Completable
 
     fun getAll(): Flowable<List<Transport>>
 
-    fun clearFavorites(): Completable
+    fun clearAll(): Completable
 }

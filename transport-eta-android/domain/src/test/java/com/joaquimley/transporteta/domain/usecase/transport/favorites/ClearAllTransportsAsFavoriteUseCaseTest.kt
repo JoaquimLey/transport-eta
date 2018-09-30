@@ -40,12 +40,12 @@ class ClearAllTransportsAsFavoriteUseCaseTest {
     @Test
     fun buildUseCaseObservableCallsRepository() {
         clearAllTransportsAsFavoriteUseCase.buildUseCaseObservable(null)
-        verify(favoritesRepository).clearFavorites()
+        verify(favoritesRepository).clearAll()
     }
 
     inner class Robot {
         fun stubTransportRepositoryClearFavorites(completable: Completable) {
-            whenever(favoritesRepository.clearFavorites()).thenReturn(completable)
+            whenever(favoritesRepository.clearAll()).thenReturn(completable)
         }
     }
 

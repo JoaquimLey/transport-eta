@@ -8,7 +8,7 @@ object TestModelsFactory {
 
     fun generateFavoriteView(busStopCode: Int? = null): TransportView {
         return TransportView(DataFactory.randomString(), busStopCode  ?: DataFactory.randomInt(),
-                DataFactory.randomString(), true, TransportView.Type.BUS, true)
+                DataFactory.randomString(), true, TransportView.Type.BUS)
     }
 
     fun generateFavoriteViewList(size: Int = 5): List<TransportView> {

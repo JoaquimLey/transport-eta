@@ -13,11 +13,14 @@ import dagger.android.support.AndroidSupportInjectionModule
     AppModule::class,
     ActivityBindingModule::class,
     AndroidSupportInjectionModule::class,
+    MapperModule::class,
     ViewModelModule::class,
     RepositoryModule::class,
+    DataSourceModule::class,
     SmsControllerModule::class
 ])
 interface AppComponent {
+
     @Component.Builder
     interface Builder {
         @BindsInstance
