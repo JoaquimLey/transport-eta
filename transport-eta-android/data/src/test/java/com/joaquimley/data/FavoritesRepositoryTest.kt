@@ -183,7 +183,7 @@ class FavoritesRepositoryTest {
     @Test
     fun clearAllCompletes() {
         // Assemble
-        robot.stubclearAllSuccess()
+        robot.stubClearAllSuccess()
         // Act
         val testObserver = favoritesRepository.clearAll().test()
         // Assert
@@ -193,7 +193,7 @@ class FavoritesRepositoryTest {
     @Test
     fun clearAllCallsCorrectTransportDataStoreMethod() {
         // Assemble
-        robot.stubclearAllSuccess()
+        robot.stubClearAllSuccess()
         // Act
         favoritesRepository.clearAll().test()
         // Assert
@@ -205,7 +205,7 @@ class FavoritesRepositoryTest {
     fun clearAllFailsThrowsException() {
         // Assemble
         val errorMessage = "Testing clearAll failed"
-        robot.stubclearAllFails(errorMessage)
+        robot.stubClearAllFails(errorMessage)
         // Act
         val testObserver = favoritesRepository.clearAll().test()
         // Assert
@@ -250,16 +250,15 @@ class FavoritesRepositoryTest {
             return throwable
         }
 
-        fun stubclearAllSuccess(completable: Completable = Completable.complete()) {
+        fun stubClearAllSuccess(completable: Completable = Completable.complete()) {
             whenever(mockTransportDataStore.clearAllFavorites()).then { completable }
         }
 
-        fun stubclearAllFails(message: String = randomUuid()): Throwable {
+        fun stubClearAllFails(message: String = randomUuid()): Throwable {
             val throwable = Throwable(message)
             whenever(mockTransportDataStore.clearAllFavorites()).then { Completable.error(throwable) }
             return throwable
         }
-
 
         fun stubTransportMapperToEntity(transport: List<Transport>, transportEntity: List<TransportEntity>) {
             whenever(mockMapper.toEntity(transport)).then { transportEntity }
