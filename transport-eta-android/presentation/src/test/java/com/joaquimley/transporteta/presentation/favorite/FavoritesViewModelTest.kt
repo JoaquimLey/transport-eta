@@ -67,7 +67,7 @@ class FavoritesViewModelTest {
         // Assemble
         robot.stubGetFavoritesUseCaseSuccess()
         // Act
-        // -> No action
+        // -> No action, this in reality whats being tested
         // Assert
         verify(mockGetFavoritesUseCase, atLeastOnce()).execute(anyOrNull())
     }
@@ -255,12 +255,29 @@ class FavoritesViewModelTest {
         assert(viewModel.isAcceptingRequests().value == true)
     }
 
+    @Test
+    fun onEtaRequestedFailedTriggersAcceptingRequestsTrue() {
+        // Assemble
+        val transportView = TransportFactory.makeTransportView()
+        robot.stubRequestEtaUseCaseFailed(transportView)
+        // Act
+        viewModel.onEtaRequested(transportView)
+        // Assert
+        assert(viewModel.isAcceptingRequests().value == true)
+    }
+
     inner class Robot {
 
         // region Robot public API
 
         fun stubRequestEtaUseCaseSuccess(transportView: TransportView = TransportFactory.makeTransportView()): Observable<Transport> {
             return stubRequestEtaUseCase(transportView.code)
+        }
+
+        fun stubRequestEtaUseCaseFailed(transportView: TransportView = TransportFactory.makeTransportView(), errorMessage: String = DataFactory.randomString()): Throwable {
+            val throwable = Throwable(errorMessage)
+            stubRequestEtaUseCase(transportView.code, Observable.error(throwable))
+            return throwable
         }
 
         fun stubGetFavoritesUseCaseSuccess(flowable: List<Transport>? = null, count: Int = 3): List<Transport> {

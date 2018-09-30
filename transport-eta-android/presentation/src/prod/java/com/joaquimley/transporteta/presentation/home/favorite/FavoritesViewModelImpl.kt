@@ -82,7 +82,7 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
     override fun onEtaRequestCanceled() {
         compositeDisposable.add(cancelEtaRequestUseCase.execute(null)
                 .subscribe({
-                    // TODO Handle eta request cancelled (push something to the UI boie)
+                    // TODO Handle eta request cancelled (push something to the UI)
                     acceptingRequestsLiveData.postValue(true)
                 }, {
 
