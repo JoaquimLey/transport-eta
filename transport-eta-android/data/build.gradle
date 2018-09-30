@@ -9,6 +9,9 @@ configurations.all {
 
 
 dependencies {
+    // Modules
+    implementation project(':domain')
+
     // Javax
     implementation deps.javax.inject
     compileOnly deps.javax.annotation
@@ -20,7 +23,8 @@ dependencies {
      * Testing *
      ***********/
 
+    // Testing
     testImplementation deps.junit
-    testImplementation deps.kotlin.test
     testImplementation deps.mockito.kotlin
+    testImplementation deps.mockito.inline
 }

@@ -80,8 +80,9 @@ androidExtensions {
 
 dependencies {
     // Modules
-    implementation project(':domain') // REMOVE AFTER HAVING :data layer
     implementation project(':sms')
+    implementation project(':data')
+    implementation project(':domain')
     implementation project(':presentation')
     // AndroidX
     implementation deps.androidx.slice

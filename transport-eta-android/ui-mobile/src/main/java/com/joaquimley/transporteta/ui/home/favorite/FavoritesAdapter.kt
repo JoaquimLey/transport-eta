@@ -40,9 +40,9 @@ class FavoritesAdapter(private val clickListener: (TransportView) -> Unit)
     }
 
     fun setActionEnabledStatus(isEnabled: Boolean) {
-        for (position in 0 until itemCount) {
-            getItem(position).isActionEnabled = isEnabled
-        }
+//        for (position in 0 until itemCount) {
+//            getItem(position).isActionEnabled = isEnabled
+//        }
         notifyDataSetChanged()
     }
 
@@ -55,10 +55,10 @@ class FavoritesAdapter(private val clickListener: (TransportView) -> Unit)
             itemView.title_text_view.text = transportView.code.toString()
             itemView.subtitle_text_view.text = transportView.latestEta
             itemView.original_sms_text_view.text = transportView.latestEta
-            transportView.isActionEnabled.let {
-                itemView.eta_button.isEnabled = it
-                itemView.eta_button.alpha = if (it) 1.0f else 0.3f
-            }
+//            transportView.isActionEnabled.let {
+//                itemView.eta_button.isEnabled = it
+//                itemView.eta_button.alpha = if (it) 1.0f else 0.3f
+//            }
 
             itemView.eta_button.setOnClickListener {
                 clickListener(transportView)
