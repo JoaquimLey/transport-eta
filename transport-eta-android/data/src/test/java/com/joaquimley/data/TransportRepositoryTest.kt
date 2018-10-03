@@ -35,7 +35,7 @@ class TransportRepositoryTest {
     }
 
     @Test
-    fun requestTransportEtaCompletes() {C
+    fun requestTransportEtaCompletes() {
         // Assemble
         val stubCode = 13
         val transport = TransportFactory.makeTransport(code = stubCode)
