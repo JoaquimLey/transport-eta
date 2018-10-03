@@ -1,38 +1,37 @@
 package com.joaquimley.data
 
+import com.joaquimley.data.mapper.TransportMapper
+import com.joaquimley.data.store.TransportDataStore
 import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.domain.repository.TransportRepository
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
 
-class TransportRepositoryImpl: TransportRepository {
+class TransportRepositoryImpl(private val transportDataStore: TransportDataStore,
+                              private val mapper: TransportMapper): TransportRepository {
 
     override fun requestTransportEta(transportCode: Int): Observable<Transport> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return transportDataStore.requestTransportEta(transportCode).map{ mapper.toModel(it)}
     }
 
     override fun cancelTransportEtaRequest(transportCode: Int?): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getTransport(transportId: String): Observable<Transport> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return transportDataStore.cancelTransportEtaRequest(transportCode)
     }
 
     override fun saveTransport(transport: Transport): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return transportDataStore.saveTransport(mapper.toEntity(transport))
     }
 
-    override fun saveTransport(transportList: List<Transport>): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun deleteTransport(transportId: String): Completable {
+        return transportDataStore.deleteTransport(transportId)
     }
 
-    override fun deleteTransport(transport: Transport): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getTransport(transportId: String): Observable<Transport> {
+        return transportDataStore.getTransport(transportId).map { mapper.toModel(it) }
     }
 
-    override fun deleteTransports(transport: List<Transport>): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getAll(): Flowable<List<Transport>> {
+        return transportDataStore.getAll().map { mapper.toModel(it) }
     }
-
 }

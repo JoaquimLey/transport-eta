@@ -6,6 +6,7 @@ import com.joaquimley.data.mapper.TransportMapper
 import com.joaquimley.data.model.TransportEntity
 import com.joaquimley.data.store.TransportDataStore
 import com.joaquimley.transporteta.domain.model.Transport
+import com.joaquimley.transporteta.domain.repository.FavoritesRepository
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -20,7 +21,7 @@ class FavoritesRepositoryTest {
     private val mockTransportDataStore = mock<TransportDataStore>()
     private val mockMapper = mock<TransportMapper>()
 
-    private lateinit var favoritesRepository: FavoritesRepositoryImpl
+    private lateinit var favoritesRepository: FavoritesRepository
 
 
     @Before
@@ -214,7 +215,6 @@ class FavoritesRepositoryTest {
 
     // endregion clearAll
 
-
     inner class Robot {
 
         fun stubDataStoreMarkAsFavoriteSuccess(transportEntity: TransportEntity = TransportFactory.makeTransportEntity(false), completable: Completable = Completable.complete()): TransportEntity {
@@ -275,7 +275,5 @@ class FavoritesRepositoryTest {
         fun stubTransportMapperToModel(transportEntity: TransportEntity, transport: Transport) {
             whenever(mockMapper.toModel(transportEntity)).then { transport }
         }
-
-
     }
 }

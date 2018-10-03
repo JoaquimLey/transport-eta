@@ -20,8 +20,8 @@ class TransportFactory {
             return transports
         }
 
-        fun makeTransport(isFavorite: Boolean = false, type: String = randomUuid()): Transport {
-            return Transport(randomUuid(), randomUuid(), randomInt(), randomUuid(), isFavorite, type)
+        fun makeTransport(isFavorite: Boolean = false, type: String = randomUuid(), code: Int = randomInt(), id: String = randomUuid()): Transport {
+            return Transport(id, randomUuid(), code, randomUuid(), isFavorite, type)
         }
 
         fun makeTransportEntityList(count: Int, isFavorite: Boolean = false, type: String = randomUuid()): List<TransportEntity> {
@@ -32,8 +32,8 @@ class TransportFactory {
             return transports
         }
 
-        fun makeTransportEntity(isFavorite: Boolean = false, type: String = randomUuid()): TransportEntity {
-            return TransportEntity(randomUuid(), randomUuid(), randomInt(), randomUuid(), isFavorite, type)
+        fun makeTransportEntity(isFavorite: Boolean = false, type: String = randomUuid(), code: Int = randomInt(), id: String = randomUuid()): TransportEntity {
+            return TransportEntity(id, randomUuid(), code, randomUuid(), isFavorite, type)
         }
 
     }

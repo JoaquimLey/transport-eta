@@ -14,9 +14,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.joaquimley.transporteta.R
+import com.joaquimley.transporteta.presentation.data.ResourceState
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.model.TransportView
-import com.joaquimley.transporteta.presentation.data.ResourceState
 import com.joaquimley.transporteta.ui.util.extensions.*
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_favourites.*
