@@ -2,6 +2,7 @@ package com.joaquimley.transporteta.domain.repository
 
 import com.joaquimley.transporteta.domain.model.Transport
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -16,13 +17,11 @@ interface TransportRepository {
 
     fun cancelTransportEtaRequest(transportCode: Int?): Completable
 
-    fun getTransport(transportId: String): Observable<Transport>
-
     fun saveTransport(transport: Transport): Completable
 
-    fun saveTransport(transportList: List<Transport>): Completable
+    fun deleteTransport(transportId: String): Completable
 
-    fun deleteTransport(transport: Transport): Completable
+    fun getTransport(transportId: String): Observable<Transport>
 
-    fun deleteTransports(transport: List<Transport>): Completable
+    fun getAll(): Flowable<List<Transport>>
 }

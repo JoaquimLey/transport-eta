@@ -15,17 +15,14 @@ interface TransportDataStore {
 
     fun clearAllFavorites(): Completable
 
-    fun getAll(): Flowable<List<TransportEntity>>
+    fun saveTransport(transport: TransportEntity): Completable
+
+    fun deleteTransport(transport: String): Completable
 
     fun getTransport(transportId: String): Observable<TransportEntity>
 
-    fun saveTransport(transport: TransportEntity): Completable
+    fun getAll(): Flowable<List<TransportEntity>>
 
-    fun saveTransport(transportList: List<TransportEntity>): Completable
-
-    fun deleteTransport(transport: TransportEntity): Completable
-
-    fun deleteTransport(transport: List<TransportEntity>): Completable
 
     // TODO Should these be in the [SmSController] instead?  [RequestEtaUseCase]
     fun requestTransportEta(transportCode: Int): Observable<TransportEntity>
