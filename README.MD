@@ -18,7 +18,7 @@ An utility app using an SMS based service (or the web) to request a more precise
 - Rx
 - Kotlin
 - Android Architecture Components
-- Firebase Suite (I'll integrate as much services as possible)
+- Firebase Suite
 - Tests  🙌
 
 -----------------------------
@@ -26,10 +26,10 @@ An utility app using an SMS based service (or the web) to request a more precise
 --------------------
 
 ## Why 🤔
-Since I'm always working on some side-projects, I decided to document the development on a live coding stream, this way I'll force myself into finishing more often, and maybe giving something back, or get some feedback from the community.
+Since I'm always working on some side-projects, I decided to document the progress live on a coding stream, this way I'll force myself into completing, while giving something back to a community that already thought me so much.
 
 ## Stream log
-#### Come and say Hi 👋, join me on stream [twitch.tv/joaquimley](http:twitch.tv/joaquimley): watch, help, and learn as I develop, make mistakes developing on this project
+##### Come and say Hi 👋, join me at [twitch.tv/joaquimley](http:twitch.tv/joaquimley): watch, help, and learn as I develop and make mistakes
 
 - Ep.1:  https://github.com/JoaquimLey/transport-eta/tree/4642c5fd6af9de3b258b179d0a7a8c69195fa293
 
@@ -97,12 +97,11 @@ It would take substantially more time to setup this project without this referen
 - https://github.com/googlesamples/android-architecture
 
 #### Contributing  
+
 Contributions are always welcome! Follow the "fork-and-pull" Git workflow.  
-  
+
 **Issues:**  
-Fell free to open a new issue. Follow the [ISSUE_TEMPLATE.MD](../master/ISSUE_TEMPLATE.MD)  
-  
-**Prevent** code-style related changes (at least run Ctrl+⌥+O, ⌥+⌘+L) before commiting.  
+Open a new issue. Follow the [ISSUE_TEMPLATE.MD](../master/ISSUE_TEMPLATE.MD)  
   
   
 ### License

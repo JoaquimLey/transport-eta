@@ -23,7 +23,6 @@ dependencies {
      * Testing *
      ***********/
 
-    // Testing
     testImplementation deps.junit
     testImplementation deps.mockito.kotlin
     testImplementation deps.mockito.inline

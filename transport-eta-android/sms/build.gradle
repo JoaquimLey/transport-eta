@@ -32,16 +32,16 @@ android {
         preDexLibraries true
     }
 
-    buildTypes {
-        debug {
-            testCoverageEnabled true
-        }
-
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+//    buildTypes {
+//        debug {
+//            testCoverageEnabled true
+//        }
+//
+//        release {
+//            minifyEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//    }
 
     flavorDimensions "environment"
     productFlavors {
@@ -89,13 +89,7 @@ dependencies {
      * Testing *
      ***********/
 
-    // Dependencies for local unit tests
-//    kaptTest deps.dagger.compiler
-//    testImplementation deps.junit
-//    testImplementation deps.hamcrest
-//    testImplementation deps.kotlin.test
-//    testImplementation deps.mockito.kotlin
-//    testImplementation deps.mockito.inline
-    // Resolve conflicts between main and local unit tests
-//    testImplementation deps.androidx.annotation
+    testImplementation deps.junit
+    testImplementation deps.mockito.kotlin
+    testImplementation deps.mockito.inline
 }

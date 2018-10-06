@@ -25,7 +25,7 @@ android {
 
     // Always show the result of every unit test, even if it passes.
     testOptions {
-//        execution 'ANDROID_TEST_ORCHESTRATOR'
+        execution 'ANDROID_TEST_ORCHESTRATOR'
         unitTests.all {
             testLogging {
                 events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
@@ -119,10 +119,6 @@ dependencies {
     /***********
      * Testing *
      ***********/
-    // Local unit tests
-//    testImplementation deps.mockito.kotlin
-//    testImplementation deps.mockito.inline
-//    testImplementation deps.arch_core.testing
 
     // Unit tests
     kaptTest deps.dagger.compiler
@@ -139,6 +135,7 @@ dependencies {
     androidTestImplementation deps.mockito.core
     androidTestImplementation deps.mockito.android
 //    androidTestImplementation deps.dexmaker.linkedin_inline
+
     // Android Testing Support runner and rules & AAC
     androidTestUtil deps.atsl.orchestrator
     androidTestImplementation deps.atsl.rules
