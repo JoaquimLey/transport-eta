@@ -190,9 +190,9 @@ deps.jacoco_android_plugin = "com.dicedmelon.gradle:jacoco-android:$versions.jac
 ext.deps = deps
 
 def build_versions = [:]
-build_versions.compile_sdk = 'android-P'
+build_versions.compile_sdk = 28
 build_versions.min_sdk = 19
-build_versions.target_sdk = 27
+build_versions.target_sdk = 28
 ext.build_versions = build_versions
 
 def app_version = [:]
