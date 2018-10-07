@@ -16,6 +16,7 @@ import dagger.android.support.AndroidSupportInjectionModule
     MapperModule::class,
     ViewModelModule::class,
     RepositoryModule::class,
+    DataStoreModule::class,
     DataSourceModule::class,
     SmsControllerModule::class
 ])
