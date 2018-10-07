@@ -7,19 +7,19 @@ import io.reactivex.Observable
 
 interface TransportDataStore {
 
-    fun markAsFavorite(transport: TransportEntity): Completable
+    fun markAsFavorite(transportEntity: TransportEntity): Completable
 
-    fun removeAsFavorite(transport: TransportEntity): Completable
+    fun removeAsFavorite(transportEntity: TransportEntity): Completable
 
     fun getAllFavorites(): Flowable<List<TransportEntity>>
 
     fun clearAllFavorites(): Completable
 
-    fun saveTransport(transport: TransportEntity): Completable
+    fun saveTransport(transportEntity: TransportEntity): Completable
 
-    fun deleteTransport(transport: String): Completable
+    fun deleteTransport(transportEntityId: String): Completable
 
-    fun getTransport(transportId: String): Observable<TransportEntity>
+    fun getTransport(transportEntityId: String): Observable<TransportEntity>
 
     fun getAll(): Flowable<List<TransportEntity>>
 

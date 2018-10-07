@@ -17,7 +17,7 @@ class SmsControllerTest {
     private val robot = Robot()
     private val mockSmsBroadcastReceiver = mock<SmsBroadcastReceiver>()
 
-    lateinit var smsController: SmsController
+    private lateinit var smsController: SmsController
 
     @Before
     fun setup() {
