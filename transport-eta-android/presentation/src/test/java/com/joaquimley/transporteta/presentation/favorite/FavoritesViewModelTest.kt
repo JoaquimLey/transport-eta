@@ -12,7 +12,7 @@ import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.presentation.data.Resource
 import com.joaquimley.transporteta.presentation.data.ResourceState
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelImpl
-import com.joaquimley.transporteta.presentation.mapper.TransportMapper
+import com.joaquimley.transporteta.presentation.mapper.PresentationTransportMapper
 import com.joaquimley.transporteta.presentation.model.TransportView
 import com.joaquimley.transporteta.presentation.util.factory.DataFactory
 import com.joaquimley.transporteta.presentation.util.factory.TransportFactory
@@ -36,7 +36,7 @@ class FavoritesViewModelTest {
     private val mockClearAllTransportsAsFavoriteUseCase = mock<ClearAllTransportsAsFavoriteUseCase>()
     private val mockRequestEtaUseCase = mock<RequestEtaUseCase>()
     private val mockCancelEtaRequestUseCase = mock<CancelEtaRequestUseCase>()
-    private val mockMapper = mock<TransportMapper>()
+    private val mockMapper = mock<PresentationTransportMapper>()
 
     private val favoritesMockObserver = mock<Observer<Resource<List<TransportView>>>>()
     private val isAcceptingRequestsMockObserver = mock<Observer<Boolean>>()

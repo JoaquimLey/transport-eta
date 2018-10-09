@@ -1,6 +1,6 @@
 package com.joaquimley.data
 
-import com.joaquimley.data.mapper.TransportMapper
+import com.joaquimley.data.mapper.DataTransportMapper
 import com.joaquimley.data.store.TransportDataStore
 import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.domain.repository.TransportRepository
@@ -9,7 +9,7 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 
 class TransportRepositoryImpl(private val transportDataStore: TransportDataStore,
-                              private val mapper: TransportMapper): TransportRepository {
+                              private val mapper: DataTransportMapper): TransportRepository {
 
     override fun requestTransportEta(transportCode: Int): Observable<Transport> {
         return transportDataStore.requestTransportEta(transportCode).map{ mapper.toModel(it)}

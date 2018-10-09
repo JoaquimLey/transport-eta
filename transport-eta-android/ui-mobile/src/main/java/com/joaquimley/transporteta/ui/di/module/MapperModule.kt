@@ -1,6 +1,7 @@
 package com.joaquimley.transporteta.ui.di.module
 
-import com.joaquimley.transporteta.presentation.mapper.TransportMapper
+import com.joaquimley.data.mapper.DataTransportMapper
+import com.joaquimley.transporteta.presentation.mapper.PresentationTransportMapper
 import dagger.Module
 import dagger.Provides
 
@@ -8,8 +9,13 @@ import dagger.Provides
 class MapperModule {
 
     @Provides
-    fun transportMapper(): TransportMapper {
-        return TransportMapper()
+    fun presentationTransportMapper(): PresentationTransportMapper {
+        return PresentationTransportMapper()
+    }
+
+    @Provides
+    fun dataTransportMapper(): DataTransportMapper {
+        return DataTransportMapper()
     }
 
 }

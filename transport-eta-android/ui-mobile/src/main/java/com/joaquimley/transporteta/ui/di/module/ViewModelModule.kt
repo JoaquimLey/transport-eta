@@ -8,7 +8,7 @@ import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTra
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTransportAsNoFavoriteUseCase
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactoryImpl
-import com.joaquimley.transporteta.presentation.mapper.TransportMapper
+import com.joaquimley.transporteta.presentation.mapper.PresentationTransportMapper
 import dagger.Module
 import dagger.Provides
 
@@ -23,7 +23,7 @@ class ViewModelModule {
             clearAllTransportsAsFavoriteUseCase: ClearAllTransportsAsFavoriteUseCase,
             requestEtaUseCase: RequestEtaUseCase,
             cancelEtaRequestUseCase: CancelEtaRequestUseCase,
-            mapper: TransportMapper): FavoritesViewModelFactory {
+            mapper: PresentationTransportMapper): FavoritesViewModelFactory {
 
         return FavoritesViewModelFactoryImpl(getFavoritesUseCase,
                 markTransportAsFavoriteUseCase,

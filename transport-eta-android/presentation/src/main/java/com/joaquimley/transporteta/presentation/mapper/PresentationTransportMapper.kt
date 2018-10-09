@@ -3,7 +3,7 @@ package com.joaquimley.transporteta.presentation.mapper
 import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.presentation.model.TransportView
 
-class TransportMapper {
+class PresentationTransportMapper {
 
     fun toView(from: List<Transport>): List<TransportView> {
         return from.map { toView(it) }

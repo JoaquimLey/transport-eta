@@ -3,7 +3,7 @@ package com.joaquimley.data.mapper
 import com.joaquimley.data.model.TransportEntity
 import com.joaquimley.transporteta.domain.model.Transport
 
-class TransportMapper {
+class DataTransportMapper {
 
     fun toEntity(from: List<Transport>): List<TransportEntity> {
         return from.map { toEntity(it) }
