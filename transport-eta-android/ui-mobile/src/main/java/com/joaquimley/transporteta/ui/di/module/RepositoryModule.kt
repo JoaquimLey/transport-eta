@@ -4,7 +4,7 @@ import com.joaquimley.transporteta.domain.repository.FavoritesRepository
 import com.joaquimley.data.FavoritesRepositoryImpl
 import com.joaquimley.transporteta.domain.repository.TransportRepository
 import com.joaquimley.data.TransportRepositoryImpl
-import com.joaquimley.data.mapper.TransportMapper
+import com.joaquimley.data.mapper.DataTransportMapper
 import com.joaquimley.data.store.TransportDataStore
 import com.joaquimley.transporteta.ui.di.scope.PerApplication
 import dagger.Module
@@ -15,14 +15,14 @@ class RepositoryModule {
 
     @Provides
     @PerApplication
-    fun provideFavoritesRepository(transportDataStore: TransportDataStore, transportMapper: TransportMapper): FavoritesRepository {
-        return FavoritesRepositoryImpl(transportDataStore, transportMapper)
+    fun provideFavoritesRepository(transportDataStore: TransportDataStore, dataTransportMapper: DataTransportMapper): FavoritesRepository {
+        return FavoritesRepositoryImpl(transportDataStore, dataTransportMapper)
     }
 
     @Provides
     @PerApplication
-    fun provideTransportRepository(transportDataStore: TransportDataStore, transportMapper: TransportMapper): TransportRepository {
-        return TransportRepositoryImpl(transportDataStore,transportMapper)
+    fun provideTransportRepository(transportDataStore: TransportDataStore, dataTransportMapper: DataTransportMapper): TransportRepository {
+        return TransportRepositoryImpl(transportDataStore,dataTransportMapper)
     }
 
 

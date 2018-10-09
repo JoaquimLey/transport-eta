@@ -9,7 +9,7 @@ import com.joaquimley.transporteta.domain.interactor.transport.favorites.GetFavo
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTransportAsFavoriteUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTransportAsNoFavoriteUseCase
 import com.joaquimley.transporteta.presentation.data.Resource
-import com.joaquimley.transporteta.presentation.mapper.TransportMapper
+import com.joaquimley.transporteta.presentation.mapper.PresentationTransportMapper
 import com.joaquimley.transporteta.presentation.model.TransportView
 import com.joaquimley.transporteta.presentation.util.extensions.error
 import com.joaquimley.transporteta.presentation.util.extensions.loading
@@ -25,7 +25,7 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
                                       clearAllTransportsAsFavoriteUseCase: ClearAllTransportsAsFavoriteUseCase,
                                       requestEtaUseCase: RequestEtaUseCase,
                                       cancelEtaRequestUseCase: CancelEtaRequestUseCase,
-                                      mapper: TransportMapper)
+                                      mapper: PresentationTransportMapper)
 
     : FavoritesViewModel(getFavoritesUseCase,
         markTransportAsFavoriteUseCase,

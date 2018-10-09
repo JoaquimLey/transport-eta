@@ -29,6 +29,8 @@ import javax.inject.Inject
  */
 class FavoritesFragment : Fragment() {
 
+    // Inspiration for UI https://www.behance.net/gallery/69860023/Bust-app
+
     @Inject lateinit var viewModelProvider: FavoritesViewModelFactory
     private val viewModel by lazy { viewModelProvider.create()}
 

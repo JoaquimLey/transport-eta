@@ -17,7 +17,7 @@ class TransportDataStoreImpl(private val frameworkLocalStorage: FrameworkLocalSt
     }
 
     override fun getAllFavorites(): Flowable<List<TransportEntity>> {
-        return Flowable.error(NotImplementedError("Won't be ready for v1.0"))
+        return frameworkLocalStorage.getAll().toFlowable()
     }
 
     override fun clearAllFavorites(): Completable {

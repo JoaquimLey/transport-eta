@@ -1,19 +1,20 @@
-package com.joaquimley.data.mapper
+package com.joaquimley.transporteta.presentation.mapper
 
-import com.joaquimley.data.factory.TransportFactory
-import com.joaquimley.data.model.TransportEntity
 import com.joaquimley.transporteta.domain.model.Transport
+import com.joaquimley.transporteta.presentation.model.TransportView
+import com.joaquimley.transporteta.presentation.util.factory.TransportFactory
 import org.junit.Before
 import org.junit.Test
 
-class TransportMapperTest {
+
+class PresentationTransportMapperTest {
 
     private val robot = Robot()
-    private lateinit var mapper: TransportMapper
+    private lateinit var mapper: PresentationTransportMapper
 
     @Before
     fun setup() {
-        mapper = TransportMapper()
+        mapper = PresentationTransportMapper()
     }
 
     @Test
@@ -21,7 +22,7 @@ class TransportMapperTest {
         // Assemble
         val stubbed = TransportFactory.makeTransport()
         // Act
-        val mapped = mapper.toEntity(stubbed)
+        val mapped = mapper.toView(stubbed)
         // Assert
         assert(robot.areItemsTheSame(stubbed, mapped))
     }
@@ -31,7 +32,7 @@ class TransportMapperTest {
         // Assemble
         val stubbed = TransportFactory.makeTransportList(5)
         // Act
-        val mapped = mapper.toEntity(stubbed)
+        val mapped = mapper.toView(stubbed)
         // Assert
         assert(robot.areItemsInListTheSame(stubbed, mapped))
     }
@@ -39,7 +40,7 @@ class TransportMapperTest {
     @Test
     fun fromViewToModel() {
         // Assemble
-        val stubbed = TransportFactory.makeTransportEntity()
+        val stubbed = TransportFactory.makeTransportView()
         // Act
         val mapped = mapper.toModel(stubbed)
         // Assert
@@ -49,7 +50,7 @@ class TransportMapperTest {
     @Test
     fun fromViewListToModelList() {
         // Assemble
-        val stubbed = TransportFactory.makeTransportEntityList(5)
+        val stubbed = TransportFactory.makeTransportViewList(5)
         // Act
         val mapped = mapper.toModel(stubbed)
         // Assert
@@ -57,7 +58,7 @@ class TransportMapperTest {
     }
 
     inner class Robot {
-        fun areItemsInListTheSame(transportList: List<Transport>, transportViewList: List<TransportEntity>): Boolean {
+        fun areItemsInListTheSame(transportList: List<Transport>, transportViewList: List<TransportView>): Boolean {
             for (transport in transportList.withIndex()) {
                 if (!areItemsTheSame(transportList[transport.index], transportViewList[transport.index])) {
                     return false
@@ -66,12 +67,13 @@ class TransportMapperTest {
             return true
         }
 
-        fun areItemsTheSame(transport: Transport, transportView: TransportEntity): Boolean {
+        fun areItemsTheSame(transport: Transport, transportView: TransportView): Boolean {
             return transport.id == transportView.id &&
                     transport.code == transportView.code &&
                     transport.latestEta == transportView.latestEta &&
                     transport.isFavorite == transportView.isFavorite &&
-                    transport.type.equals(transportView.type)
+                    transport.type == transportView.type.name.toLowerCase()
         }
     }
+
 }

@@ -50,13 +50,54 @@ class TransportDataStoreTest {
     }
 
     @Test
-    fun getAllFavoritesThrowsNotYetImplemented() {
+    fun getAllFavoritesCompletes() {
         // Assemble
-
+        robot.stubFrameworkLocalStorageGetAllSuccess()
         // Act
-        val result = transportDataStore.getAllFavorites().test()
+        val testObserver = transportDataStore.getAllFavorites().test()
         // Assert
-        result.assertError(NotImplementedError::class.java)
+        testObserver.assertComplete()
+    }
+
+    /**
+     * Should use SharedPreferences for v1.0 only
+     */
+    @Test
+    fun getAllFavoritesCorrectMethodOnFrameworkLocalStorage() {
+        // Assemble
+        robot.stubFrameworkLocalStorageGetAllSuccess()
+        // Act
+        transportDataStore.getAllFavorites()
+        // Assert
+        verify(mockFrameworkLocalStorage, times(1)).getAll()
+    }
+
+    // TODO: Missing correct data returned test
+//    @Test
+//    fun getAllFavoritesReturnsCorrectData() {
+        // Assemble
+//        val transportList = TransportFactory.makeTransportList(5, true)
+//        val transportEntityList = TransportFactory.makeTransportEntityList(5, true)
+//        robot.stubTransportMapperToModel(transportEntityList, transportList)
+//        robot.stubDataStoreGetAllFavoritesSuccess(transportEntityList)
+        // Act
+//        val returnedData = favoritesRepository.getAll().test()
+        // Assert
+//        returnedData.assertResult(transportList)
+//    }
+
+    /**
+     * Should use SharedPreferences for v1.0 only
+     */
+    @Test
+    fun getAllFavoritesFailsThrowsException() {
+        // Assemble
+        val errorMessage = "Testing Get All fails"
+        robot.stubFrameworkLocalStorageGetAllFails(errorMessage)
+        // Act
+        val testObserver = transportDataStore.getAllFavorites().test()
+        // Assert
+        testObserver.assertErrorMessage(errorMessage)
     }
 
 
@@ -187,6 +228,20 @@ class TransportDataStoreTest {
         testObserver.assertComplete()
     }
 
+    // TODO: Missing correct data returned test
+    @Test
+    fun getTransportReturnsCorrectData() {
+        // Assemble
+//        val transportList = TransportFactory.makeTransportList(5, true)
+//        val transportEntityList = TransportFactory.makeTransportEntityList(5, true)
+//        robot.stubTransportMapperToModel(transportEntityList, transportList)
+//        robot.stubDataStoreGetAllFavoritesSuccess(transportEntityList)
+        // Act
+//        val returnedData = favoritesRepository.getAll().test()
+        // Assert
+//        returnedData.assertResult(transportList)
+    }
+
     /**
      * Should use SharedPreferences for v1.0 only
      */
@@ -238,6 +293,20 @@ class TransportDataStoreTest {
         transportDataStore.getAll()
         // Assert
         verify(mockFrameworkLocalStorage, times(1)).getAll()
+    }
+
+    // TODO: Missing correct data returned test
+    @Test
+    fun getAllReturnsCorrectData() {
+        // Assemble
+//        val transportList = TransportFactory.makeTransportList(5, true)
+//        val transportEntityList = TransportFactory.makeTransportEntityList(5, true)
+//        robot.stubTransportMapperToModel(transportEntityList, transportList)
+//        robot.stubDataStoreGetAllFavoritesSuccess(transportEntityList)
+        // Act
+//        val returnedData = favoritesRepository.getAll().test()
+        // Assert
+//        returnedData.assertResult(transportList)
     }
 
     /**

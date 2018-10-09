@@ -8,7 +8,7 @@ import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTra
 import com.joaquimley.transporteta.domain.interactor.transport.favorites.MarkTransportAsNoFavoriteUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.CancelEtaRequestUseCase
 import com.joaquimley.transporteta.domain.interactor.transport.RequestEtaUseCase
-import com.joaquimley.transporteta.presentation.mapper.TransportMapper
+import com.joaquimley.transporteta.presentation.mapper.PresentationTransportMapper
 
 abstract class FavoritesViewModelFactory(private val getFavoritesUseCase: GetFavoritesUseCase,
                                          private val markTransportAsFavoriteUseCase: MarkTransportAsFavoriteUseCase,
@@ -16,7 +16,7 @@ abstract class FavoritesViewModelFactory(private val getFavoritesUseCase: GetFav
                                          private val clearAllTransportsAsFavoriteUseCase: ClearAllTransportsAsFavoriteUseCase,
                                          private val requestEtaUseCase: RequestEtaUseCase,
                                          private val cancelEtaRequestUseCase: CancelEtaRequestUseCase,
-                                         private val mapper: TransportMapper) : ViewModelProvider.Factory {
+                                         private val mapper: PresentationTransportMapper) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -39,5 +39,5 @@ abstract class FavoritesViewModelFactory(private val getFavoritesUseCase: GetFav
                         clearAllTransportsAsFavoriteUseCase: ClearAllTransportsAsFavoriteUseCase,
                         requestEtaUseCase: RequestEtaUseCase,
                         cancelEtaRequestUseCase: CancelEtaRequestUseCase,
-                        transportMapper: TransportMapper): FavoritesViewModel
+                        presentationTransportMapper: PresentationTransportMapper): FavoritesViewModel
 }

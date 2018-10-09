@@ -2,7 +2,7 @@ package com.joaquimley.data
 
 import com.joaquimley.data.factory.DataFactory
 import com.joaquimley.data.factory.TransportFactory
-import com.joaquimley.data.mapper.TransportMapper
+import com.joaquimley.data.mapper.DataTransportMapper
 import com.joaquimley.data.model.TransportEntity
 import com.joaquimley.data.store.TransportDataStore
 import com.joaquimley.transporteta.domain.model.Transport
@@ -20,7 +20,7 @@ class TransportRepositoryTest {
     private val robot = Robot()
 
     private val mockTransportDataStore = mock<TransportDataStore>()
-    private val mockMapper = mock<TransportMapper>()
+    private val mockMapper = mock<DataTransportMapper>()
 
     private lateinit var transportRepository: TransportRepository
 
