@@ -82,6 +82,7 @@ dependencies {
     // Modules
     implementation project(':sms')
     implementation project(':data')
+    implementation project(':data-sharedpreferences')
     implementation project(':domain')
     implementation project(':presentation')
     // AndroidX

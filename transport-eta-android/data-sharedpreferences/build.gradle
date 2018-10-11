@@ -74,7 +74,7 @@ androidExtensions {
 
 dependencies {
     // Module
-    implementation project(':domain')
+    implementation project(':data')
 
     // ACC
     kapt deps.lifecycle.compiler

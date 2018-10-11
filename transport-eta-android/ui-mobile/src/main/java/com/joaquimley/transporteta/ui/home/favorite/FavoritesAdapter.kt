@@ -1,5 +1,6 @@
 package com.joaquimley.transporteta.ui.home.favorite
 
+import android.util.Log
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import android.view.LayoutInflater
@@ -40,10 +41,11 @@ class FavoritesAdapter(private val clickListener: (TransportView) -> Unit)
     }
 
     fun setActionEnabledStatus(isEnabled: Boolean) {
+        Log.e("To remove", "Hi $isEnabled")
 //        for (position in 0 until itemCount) {
 //            getItem(position).isActionEnabled = isEnabled
 //        }
-        notifyDataSetChanged()
+//        notifyDataSetChanged()
     }
 
     inner class ProgressViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
