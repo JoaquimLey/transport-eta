@@ -75,3 +75,5 @@ proguard/
  
 # OS
 .DS_Store
+bitrise.yml
+gradle.deps
