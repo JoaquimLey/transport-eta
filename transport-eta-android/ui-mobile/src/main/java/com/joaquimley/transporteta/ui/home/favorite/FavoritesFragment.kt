@@ -32,10 +32,7 @@ import javax.inject.Inject
  */
 class FavoritesFragment : Fragment() {
 
-    // Inspiration for UI https://www.behance.net/gallery/69860023/Bust-app
-
-    @Inject
-    lateinit var viewModelProvider: FavoritesViewModelFactory
+    @Inject lateinit var viewModelProvider: FavoritesViewModelFactory
     private val viewModel by lazy { viewModelProvider.create() }
 
     private lateinit var adapter: FavoritesAdapter
@@ -47,6 +44,7 @@ class FavoritesFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?):
+            // TODO Inspiration for UI https://www.behance.net/gallery/69860023/Bust-app
             View = inflater.inflate(R.layout.fragment_favourites, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

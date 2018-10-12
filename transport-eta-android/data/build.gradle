@@ -11,7 +11,6 @@ configurations.all {
 dependencies {
     // Modules
     implementation project(':domain')
-
     // Javax
     implementation deps.javax.inject
     compileOnly deps.javax.annotation
