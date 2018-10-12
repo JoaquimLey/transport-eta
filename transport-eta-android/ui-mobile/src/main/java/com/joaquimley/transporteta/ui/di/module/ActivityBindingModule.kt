@@ -1,7 +1,7 @@
 package com.joaquimley.transporteta.ui.di.module
 
-import com.joaquimley.transporteta.ui.home.HomeActivity
 import com.joaquimley.transporteta.ui.di.scope.PerActivity
+import com.joaquimley.transporteta.ui.home.HomeActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
