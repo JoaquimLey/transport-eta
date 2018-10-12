@@ -3,6 +3,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs'
+
 android {
     compileSdkVersion build_versions.compile_sdk
     defaultConfig {
@@ -95,11 +96,11 @@ androidExtensions {
 
 dependencies {
     // Modules
+    implementation project(':presentation')
+    implementation project(':domain')
     implementation project(':sms')
     implementation project(':data')
     implementation project(':data-sharedpreferences')
-    implementation project(':domain')
-    implementation project(':presentation')
     // AndroidX
     implementation deps.androidx.slice
     implementation deps.androidx.core_ktx
