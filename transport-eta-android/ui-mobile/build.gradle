@@ -3,7 +3,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs'
-
 android {
     compileSdkVersion build_versions.compile_sdk
     defaultConfig {
@@ -47,7 +46,26 @@ android {
         ignoreWarnings true
     }
 
+    /**
+     * Prevent shipping the mock flavor with release variant
+     * https://developer.android.com/studio/build/build-variants.html
+     */
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        // To check for a certain build type, use variant.buildType.name == "<buildType>"
+        if (names.contains("mock") && variant.buildType.name == "release") {
+            // Gradle ignores any variants that satisfy the conditions above.
+            setIgnore(true)
+        }
+    }
+
     buildTypes {
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
         debug {
             versionNameSuffix "-dev"
             applicationIdSuffix ".debug"
@@ -55,12 +73,9 @@ android {
             testCoverageEnabled true
         }
 
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 }
+
 
 // Module configuration
 configurations.all {

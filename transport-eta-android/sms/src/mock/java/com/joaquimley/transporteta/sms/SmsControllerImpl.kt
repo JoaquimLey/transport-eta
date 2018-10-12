@@ -16,7 +16,7 @@ import javax.inject.Singleton
 open class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: SmsBroadcastReceiver) : SmsController {
 
     init {
-        smsBroadcastReceiver.
+
     }
 
     override fun dispose() {

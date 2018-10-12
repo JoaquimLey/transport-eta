@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    publishNonDefault true
+
     compileSdkVersion build_versions.target_sdk
     defaultConfig {
         minSdkVersion build_versions.min_sdk
@@ -30,7 +32,6 @@ android {
         disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
     }
 
-
     dexOptions {
         preDexLibraries true
     }
@@ -48,6 +49,10 @@ android {
 
     flavorDimensions "environment"
     productFlavors {
+        mock {
+            dimension "environment"
+        }
+
         prod {
             dimension "environment"
         }
