@@ -32,16 +32,16 @@ android {
         preDexLibraries true
     }
 
-//    buildTypes {
-//        debug {
-//            testCoverageEnabled true
-//        }
-//
-//        release {
-//            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//        }
-//    }
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 
     flavorDimensions "environment"
     productFlavors {

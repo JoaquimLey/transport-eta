@@ -1,0 +1,107 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion build_versions.target_sdk
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        testInstrumentationRunner "com.joaquimley.transporteta.ui.test.TestRunner"
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'
+        // Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+
+    dexOptions {
+        preDexLibraries true
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "environment"
+    productFlavors {
+        mock {
+            dimension "environment"
+        }
+
+        prod {
+            dimension "environment"
+        }
+    }
+
+    /**
+     * Prevent shipping the mock flavor with release variant
+     * read more at: https://developer.android.com/studio/build/build-variants.html
+     */
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        // To check for a certain build type, use variant.buildType.name == "<buildType>"
+        if (names.contains("mock") && variant.buildType.name == "release") {
+            // Gradle ignores any variants that satisfy the conditions above.
+            setIgnore(true)
+        }
+    }
+}
+
+// Module configuration
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    // Module
+    implementation project(':data')
+    // ACC
+    kapt deps.lifecycle.compiler
+    implementation deps.lifecycle.livedata
+    implementation deps.lifecycle.viewmodel
+    // Javax
+    implementation deps.javax.inject
+    compileOnly deps.javax.annotation
+    // Rx
+    implementation deps.rx.java2
+    implementation deps.rx.android
+    // Kotlin
+    implementation deps.kotlin.rx
+    implementation deps.kotlin.stdlib
+
+    /***********
+     * Testing *
+     ***********/
+
+    // Local unit tests
+    kaptTest deps.dagger.compiler
+    testImplementation deps.kotlin.junit
+    testImplementation deps.mockito.kotlin
+    testImplementation deps.mockito.inline
+    testImplementation deps.lifecycle.testing
+    // Resolve conflicts between main and local unit tests
+    testImplementation deps.androidx.annotation
+}

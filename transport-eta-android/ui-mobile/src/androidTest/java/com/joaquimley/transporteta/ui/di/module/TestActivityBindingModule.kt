@@ -8,7 +8,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class TestActivityBindingModule {
 
-    @PerActivity // HomeFragmentBuildersModule::class
+    @PerActivity // HomeActivityFragmentBuildersModule::class
     @ContributesAndroidInjector(modules = [
         TestFragmentActivityModule::class,
         TestFragmentsBuildersModule::class

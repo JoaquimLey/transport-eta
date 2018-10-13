@@ -29,8 +29,8 @@ class TestFavoriteFragmentModule {
 //    }
 
     @Provides
-    fun provideFavoritesViewModelFactory(smsController: SmsController): FavoritesViewModelFactory {
-        return FavoritesViewModelFactoryImpl(smsController)
+    fun provideFavoritesViewModelFactory(): FavoritesViewModelFactory {
+        return favoritesViewModelFactory
 //        return favoritesViewModelFactory
     }
 

@@ -1,7 +1,7 @@
 package com.joaquimley.transporteta.ui.di.module
 
-import com.joaquimley.transporteta.ui.home.HomeActivity
 import com.joaquimley.transporteta.ui.di.scope.PerActivity
+import com.joaquimley.transporteta.ui.home.HomeActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -10,8 +10,8 @@ abstract class ActivityBindingModule {
 
     @PerActivity
     @ContributesAndroidInjector(modules = [
-        HomeActivityModule::class,
-        HomeFragmentBuildersModule::class
+        HomeActivityModule::class
+//        HomeActivityFragmentBuildersModule::class
     ])
     abstract fun bindHomeActivity(): HomeActivity
 }

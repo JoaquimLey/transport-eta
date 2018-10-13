@@ -51,10 +51,6 @@ android {
         prod {
             dimension "environment"
         }
-
-        mock {
-            dimension "environment"
-        }
     }
 
     /**
@@ -79,12 +75,10 @@ androidExtensions {
 dependencies {
     // Module
     implementation project(':domain')
-
     // ACC
     kapt deps.lifecycle.compiler
     implementation deps.lifecycle.livedata
     implementation deps.lifecycle.viewmodel
-
     // Javax
     implementation deps.javax.inject
     compileOnly deps.javax.annotation

@@ -2,7 +2,7 @@ package com.joaquimley.transporteta.ui.di.module
 
 import android.app.Application
 import android.content.Context
-import com.joaquimley.data.executor.ThreadExecutorImpl
+import com.joaquimley.transporteta.data.executor.ThreadExecutorImpl
 import com.joaquimley.transporteta.domain.executor.PostExecutionThread
 import com.joaquimley.transporteta.domain.executor.ThreadExecutor
 import com.joaquimley.transporteta.ui.UiThread

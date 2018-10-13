@@ -1,1 +1,1 @@
-include ':ui-mobile', ':sms', ':presentation', ':domain', ':data'
+include ':ui-mobile', ':sms', ':presentation', ':domain', ':data', ':data-sharedpreferences'

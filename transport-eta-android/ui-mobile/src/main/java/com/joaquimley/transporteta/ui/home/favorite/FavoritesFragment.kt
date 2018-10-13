@@ -12,7 +12,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.joaquimley.transporteta.R
 import com.joaquimley.transporteta.presentation.data.ResourceState
 import com.joaquimley.transporteta.presentation.home.favorite.FavoritesViewModelFactory
@@ -29,10 +32,8 @@ import javax.inject.Inject
  */
 class FavoritesFragment : Fragment() {
 
-    // Inspiration for UI https://www.behance.net/gallery/69860023/Bust-app
-
     @Inject lateinit var viewModelProvider: FavoritesViewModelFactory
-    private val viewModel by lazy { viewModelProvider.create()}
+    private val viewModel by lazy { viewModelProvider.create() }
 
     private lateinit var adapter: FavoritesAdapter
     private lateinit var requestingSnackbar: Snackbar
@@ -43,6 +44,7 @@ class FavoritesFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?):
+            // TODO Inspiration for UI https://www.behance.net/gallery/69860023/Bust-app
             View = inflater.inflate(R.layout.fragment_favourites, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -117,15 +119,15 @@ class FavoritesFragment : Fragment() {
             message_view?.setVisible(true)
         } else {
             message?.let {
-                com.google.android.material.snackbar.Snackbar.make(favorites_fragment_container, it, com.google.android.material.snackbar.Snackbar.LENGTH_LONG)
-                        .setAction(R.string.action_retry) { viewModel.onRefresh() }
+                com.google.android.material.snackbar.Snackbar.make(favorites_fragment_container, it, LENGTH_LONG)
+                        .setAction(R.string.action_retry) { _ -> viewModel.onRefresh() }
                         .show()
             }
         }
     }
 
     private fun setupRequestSnackbar() {
-        requestingSnackbar = Snackbar.make(favorites_fragment_container, R.string.info_requesting, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
+        requestingSnackbar = Snackbar.make(favorites_fragment_container, R.string.info_requesting, LENGTH_INDEFINITE)
         requestingSnackbar.setAction(R.string.action_cancel) {
             viewModel.onEtaRequestCanceled()
             Toast.makeText(activity?.applicationContext, R.string.info_canceled, Toast.LENGTH_SHORT).show()
@@ -165,22 +167,22 @@ class FavoritesFragment : Fragment() {
             val dialog = builder.create()
             dialog.show()
 
-            val busStopTitleEditText: com.google.android.material.textfield.TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
-            val busStopCodeEditText: com.google.android.material.textfield.TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
-            busStopCodeEditText?.onChange {
-                if (!TextUtils.isEmpty(it)) {
+//            val busStopTitleEditText: com.google.android.material.textfield.TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
+            val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
+            busStopCodeEditText?.onChange { currentText ->
+                if (!TextUtils.isEmpty(currentText)) {
                     busStopCodeEditText.error = null
                 }
             }
 
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { _ ->
                 if (TextUtils.isEmpty(busStopCodeEditText?.text)) {
                     busStopCodeEditText?.error = getString(R.string.error_create_favorite_code_required)
                 }
             }
 
-            context?.let { ContextCompat.getColor(it, R.color.colorLightGrey) }?.let { dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(it) }
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
+            context?.let { context -> ContextCompat.getColor(context, R.color.colorLightGrey) }?.let { dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(it) }
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener { _ ->
                 dialog.dismiss()
             }
 
@@ -188,7 +190,8 @@ class FavoritesFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic fun newInstance(): FavoritesFragment {
+        @JvmStatic
+        fun newInstance(): FavoritesFragment {
             val fragment = FavoritesFragment()
 //            val args = Bundle()
 //            fragment.arguments = args

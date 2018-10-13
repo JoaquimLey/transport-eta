@@ -23,6 +23,19 @@ android {
         missingDimensionStrategy 'environment', ['prod', 'mock']
     }
 
+    /**
+     * Prevent shipping the mock flavor with release variant
+     * https://developer.android.com/studio/build/build-variants.html
+     */
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        // To check for a certain build type, use variant.buildType.name == "<buildType>"
+        if (names.contains("mock") && variant.buildType.name == "release") {
+            // Gradle ignores any variants that satisfy the conditions above.
+            setIgnore(true)
+        }
+    }
+
     // Always show the result of every unit test, even if it passes.
     testOptions {
         execution 'ANDROID_TEST_ORCHESTRATOR'
@@ -45,9 +58,15 @@ android {
         quiet true
         abortOnError false
         ignoreWarnings true
+        checkDependencies true
     }
 
     buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
         debug {
             versionNameSuffix "-dev"
             applicationIdSuffix ".debug"
@@ -55,12 +74,9 @@ android {
             testCoverageEnabled true
         }
 
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 }
+
 
 // Module configuration
 configurations.all {
@@ -80,10 +96,11 @@ androidExtensions {
 
 dependencies {
     // Modules
+    implementation project(':presentation')
+    implementation project(':domain')
     implementation project(':sms')
     implementation project(':data')
-    implementation project(':domain')
-    implementation project(':presentation')
+    implementation project(':data-sharedpreferences')
     // AndroidX
     implementation deps.androidx.slice
     implementation deps.androidx.core_ktx
