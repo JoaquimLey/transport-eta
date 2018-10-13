@@ -7,7 +7,7 @@ import com.joaquimley.transporteta.domain.model.Transport
 
 /**
  * Factory class for [Transport] related instances
-*/
+ */
 class TransportFactory {
 
     companion object Factory {

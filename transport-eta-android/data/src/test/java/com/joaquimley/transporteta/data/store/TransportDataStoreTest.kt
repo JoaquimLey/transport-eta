@@ -74,14 +74,14 @@ class TransportDataStoreTest {
     // TODO: Missing correct data returned test
 //    @Test
 //    fun getAllFavoritesReturnsCorrectData() {
-        // Assemble
+    // Assemble
 //        val transportList = TransportFactory.makeTransportList(5, true)
 //        val transportEntityList = TransportFactory.makeTransportEntityList(5, true)
 //        robot.stubTransportMapperToModel(transportEntityList, transportList)
 //        robot.stubDataStoreGetAllFavoritesSuccess(transportEntityList)
-        // Act
+    // Act
 //        val returnedData = favoritesRepository.getAll().test()
-        // Assert
+    // Assert
 //        returnedData.assertResult(transportList)
 //    }
 

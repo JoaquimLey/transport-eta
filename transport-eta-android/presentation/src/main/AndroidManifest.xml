@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.joaquimley.transporteta.presentation"/>
+<manifest package="com.joaquimley.transporteta.presentation"/>
