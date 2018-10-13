@@ -1,12 +1,11 @@
-package com.joaquimley.data.store
+package com.joaquimley.transporteta.data.store
 
-import com.joaquimley.data.factory.DataFactory
-import com.joaquimley.data.factory.TransportFactory
-import com.joaquimley.data.model.TransportEntity
-import com.joaquimley.data.source.FrameworkLocalStorage
+import com.joaquimley.transporteta.data.factory.DataFactory
+import com.joaquimley.transporteta.data.factory.TransportFactory
+import com.joaquimley.transporteta.data.model.TransportEntity
+import com.joaquimley.transporteta.data.source.FrameworkLocalStorage
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
 import org.junit.After
 import org.junit.Before

@@ -1,7 +1,7 @@
 package com.joaquimley.transporteta.sharedpreferences
 
-import com.joaquimley.data.model.TransportEntity
-import com.joaquimley.data.source.FrameworkLocalStorage
+import com.joaquimley.transporteta.data.model.TransportEntity
+import com.joaquimley.transporteta.data.source.FrameworkLocalStorage
 import io.reactivex.Completable
 import io.reactivex.Single
 

@@ -1,6 +1,6 @@
-package com.joaquimley.data.mapper
+package com.joaquimley.transporteta.data.mapper
 
-import com.joaquimley.data.model.TransportEntity
+import com.joaquimley.transporteta.data.model.TransportEntity
 import com.joaquimley.transporteta.domain.model.Transport
 
 class DataTransportMapper {

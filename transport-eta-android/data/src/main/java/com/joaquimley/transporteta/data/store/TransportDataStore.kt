@@ -1,6 +1,6 @@
-package com.joaquimley.data.store
+package com.joaquimley.transporteta.data.store
 
-import com.joaquimley.data.model.TransportEntity
+import com.joaquimley.transporteta.data.model.TransportEntity
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable

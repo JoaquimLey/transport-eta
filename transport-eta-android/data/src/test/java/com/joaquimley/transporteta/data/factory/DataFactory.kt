@@ -1,4 +1,4 @@
-package com.joaquimley.data.factory
+package com.joaquimley.transporteta.data.factory
 
 import java.util.concurrent.ThreadLocalRandom
 

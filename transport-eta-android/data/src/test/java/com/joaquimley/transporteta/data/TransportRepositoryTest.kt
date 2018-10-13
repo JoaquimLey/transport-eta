@@ -1,10 +1,10 @@
-package com.joaquimley.data
+package com.joaquimley.transporteta.data
 
-import com.joaquimley.data.factory.DataFactory
-import com.joaquimley.data.factory.TransportFactory
-import com.joaquimley.data.mapper.DataTransportMapper
-import com.joaquimley.data.model.TransportEntity
-import com.joaquimley.data.store.TransportDataStore
+import com.joaquimley.transporteta.data.factory.DataFactory
+import com.joaquimley.transporteta.data.factory.TransportFactory
+import com.joaquimley.transporteta.data.mapper.DataTransportMapper
+import com.joaquimley.transporteta.data.model.TransportEntity
+import com.joaquimley.transporteta.data.store.TransportDataStore
 import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.domain.repository.TransportRepository
 import com.nhaarman.mockitokotlin2.*

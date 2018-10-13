@@ -10,8 +10,8 @@ abstract class ActivityBindingModule {
 
     @PerActivity
     @ContributesAndroidInjector(modules = [
-        HomeActivityModule::class,
-        HomeActivityFragmentBuildersModule::class
+        HomeActivityModule::class
+//        HomeActivityFragmentBuildersModule::class
     ])
     abstract fun bindHomeActivity(): HomeActivity
 }

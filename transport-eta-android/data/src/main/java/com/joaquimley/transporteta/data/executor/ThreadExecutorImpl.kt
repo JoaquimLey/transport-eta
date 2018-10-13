@@ -1,4 +1,4 @@
-package com.joaquimley.data.executor
+package com.joaquimley.transporteta.data.executor
 
 import com.joaquimley.transporteta.domain.executor.ThreadExecutor
 import java.util.concurrent.LinkedBlockingQueue

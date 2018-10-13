@@ -1,7 +1,7 @@
-package com.joaquimley.data.mapper
+package com.joaquimley.transporteta.data.mapper
 
-import com.joaquimley.data.factory.TransportFactory
-import com.joaquimley.data.model.TransportEntity
+import com.joaquimley.transporteta.data.factory.TransportFactory
+import com.joaquimley.transporteta.data.model.TransportEntity
 import com.joaquimley.transporteta.domain.model.Transport
 import org.junit.Before
 import org.junit.Test

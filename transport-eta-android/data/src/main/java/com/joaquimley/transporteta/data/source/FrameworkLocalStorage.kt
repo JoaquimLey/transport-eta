@@ -1,6 +1,6 @@
-package com.joaquimley.data.source
+package com.joaquimley.transporteta.data.source
 
-import com.joaquimley.data.model.TransportEntity
+import com.joaquimley.transporteta.data.model.TransportEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 

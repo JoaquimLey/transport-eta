@@ -1,7 +1,7 @@
-package com.joaquimley.data
+package com.joaquimley.transporteta.data
 
-import com.joaquimley.data.mapper.DataTransportMapper
-import com.joaquimley.data.store.TransportDataStore
+import com.joaquimley.transporteta.data.mapper.DataTransportMapper
+import com.joaquimley.transporteta.data.store.TransportDataStore
 import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.domain.repository.TransportRepository
 import io.reactivex.Completable

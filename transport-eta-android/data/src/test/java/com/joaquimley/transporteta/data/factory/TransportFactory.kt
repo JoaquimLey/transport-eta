@@ -1,13 +1,13 @@
-package com.joaquimley.data.factory
+package com.joaquimley.transporteta.data.factory
 
-import com.joaquimley.data.factory.DataFactory.Factory.randomInt
-import com.joaquimley.data.factory.DataFactory.Factory.randomUuid
-import com.joaquimley.data.model.TransportEntity
+import com.joaquimley.transporteta.data.factory.DataFactory.Factory.randomInt
+import com.joaquimley.transporteta.data.factory.DataFactory.Factory.randomUuid
+import com.joaquimley.transporteta.data.model.TransportEntity
 import com.joaquimley.transporteta.domain.model.Transport
 
 /**
  * Factory class for [Transport] related instances
- */
+*/
 class TransportFactory {
 
     companion object Factory {
