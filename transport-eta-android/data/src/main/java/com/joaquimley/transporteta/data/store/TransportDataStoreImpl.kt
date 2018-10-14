@@ -5,8 +5,12 @@ import com.joaquimley.transporteta.data.source.FrameworkLocalStorage
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TransportDataStoreImpl(private val frameworkLocalStorage: FrameworkLocalStorage): TransportDataStore {
+@Singleton
+class TransportDataStoreImpl @Inject constructor(private val frameworkLocalStorage: FrameworkLocalStorage)
+    : TransportDataStore {
 
     override fun markAsFavorite(transportEntity: TransportEntity): Completable {
         return Completable.error(NotImplementedError("Won't be ready for v1.0"))
@@ -33,7 +37,7 @@ class TransportDataStoreImpl(private val frameworkLocalStorage: FrameworkLocalSt
     }
 
     override fun getTransport(transportEntityId: String): Observable<TransportEntity> {
-        return  frameworkLocalStorage.getTransport(transportEntityId).toObservable()
+        return frameworkLocalStorage.getTransport(transportEntityId).toObservable()
     }
 
     override fun getAll(): Flowable<List<TransportEntity>> {
