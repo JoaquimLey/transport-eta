@@ -39,6 +39,8 @@ class FrameworkLocalStorageImpl @Inject constructor(private val context: Context
         val list = mutableListOf<TransportEntity>()
         list.add(TransportEntity("hi", "mock", 2, "latestEta 12324", true, "bus"))
         list.add(TransportEntity("there", "mock", 23, "latestEta 123", true, "bus"))
+        list.add(TransportEntity("world", "mock", 25, "latestEta 12454", true, "bus"))
+        list.add(TransportEntity("sup", "mock", 29, "latestEta 675", true, "bus"))
         return Single.just(list)
     }
 

@@ -3,6 +3,7 @@ package com.joaquimley.transporteta.ui.di.module
 import android.content.Context
 import com.joaquimley.transporteta.data.source.FrameworkLocalStorage
 import com.joaquimley.transporteta.sharedpreferences.FrameworkLocalStorageImpl
+import com.joaquimley.transporteta.sharedpreferences.mapper.SharedPrefTransportMapper
 import com.joaquimley.transporteta.ui.di.qualifier.AndroidContext
 import com.joaquimley.transporteta.ui.di.scope.PerApplication
 import dagger.Module
@@ -13,8 +14,9 @@ class DataSourceModule {
 
     @Provides
     @PerApplication
-    fun provideSharedPreferencesDataSource(@AndroidContext.ApplicationContext applicationContext: Context): FrameworkLocalStorage {
-        return FrameworkLocalStorageImpl(applicationContext)
+    fun provideSharedPreferencesDataSource(@AndroidContext.ApplicationContext applicationContext: Context,
+                                           sharedPrefTransportMapper: SharedPrefTransportMapper): FrameworkLocalStorage {
+        return FrameworkLocalStorageImpl(applicationContext, sharedPrefTransportMapper)
     }
 
 //    @Provides

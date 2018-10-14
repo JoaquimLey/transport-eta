@@ -110,26 +110,26 @@ class TransportDataStoreTest {
         result.assertError(NotImplementedError::class.java)
     }
 
-//    @Test
-//    fun requestTransportEtaThrowsNotYetImplemented() {
-//        // Assemble
-//
-//        // Act
-//        val result = transportDataStore.requestTransportEta(DataFactory.randomInt()).test()
-//        // Assert
-//        result.assertError(NotImplementedError::class.java)
-//    }
-//
-//
-//    @Test
-//    fun cancelTransportEtaRequestThrowsNotYetImplemented() {
-//        // Assemble
-//
-//        // Act
-//        val result = transportDataStore.cancelTransportEtaRequest(DataFactory.randomInt()).test()
-//        // Assert
-//        result.assertError(NotImplementedError::class.java)
-//    }
+    @Test
+    fun requestTransportEtaThrowsNotYetImplemented() {
+        // Assemble
+
+        // Act
+        val result = transportDataStore.requestTransportEta(DataFactory.randomInt()).test()
+        // Assert
+        result.assertError(NotImplementedError::class.java)
+    }
+
+
+    @Test
+    fun cancelTransportEtaRequestThrowsNotYetImplemented() {
+        // Assemble
+
+        // Act
+        val result = transportDataStore.cancelTransportEtaRequest(DataFactory.randomInt()).test()
+        // Assert
+        result.assertError(NotImplementedError::class.java)
+    }
 
 
     /**
