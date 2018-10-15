@@ -28,8 +28,8 @@ An utility app using an SMS based service (or the web) to request a more precise
 ## Why 🤔
 Since I'm always working on some side-projects, I decided to document the progress live on a coding stream, this way I'll force myself into completing, while giving something back to a community that already thought me so much.
 
-## Stream log
-##### Come and say Hi 👋, join me at [twitch.tv/joaquimley](http:twitch.tv/joaquimley): watch, help, and learn as I develop and make mistakes
+## Stream PR log
+##### Come and say Hi 👋 and be part of the develpoment live at [twitch.tv/joaquimley](http:twitch.tv/joaquimley)
 
 - Ep.1:  https://github.com/JoaquimLey/transport-eta/tree/4642c5fd6af9de3b258b179d0a7a8c69195fa293
 
@@ -61,7 +61,7 @@ Since I'm always working on some side-projects, I decided to document the progre
 
 - Ep.15: https://github.com/JoaquimLey/transport-eta/pull/70
 
-- Ep.15: https://github.com/JoaquimLey/transport-eta/pull/74
+- Ep.16: https://github.com/JoaquimLey/transport-eta/pull/74
 
 
 ## About the author
@@ -92,7 +92,7 @@ Personal website:
 
 #### Important references
 
-It would take substantially more time to setup this project without this reference projects
+It would take substantially more time to setup this project without this reference projects, so a special thanks to:
 
 - https://github.com/bufferapp/clean-architecture-components-boilerplate
 
