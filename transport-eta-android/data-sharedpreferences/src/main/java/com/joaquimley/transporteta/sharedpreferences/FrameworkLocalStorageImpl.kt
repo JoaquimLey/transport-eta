@@ -1,6 +1,6 @@
 package com.joaquimley.transporteta.sharedpreferences
 
-import android.content.Context
+import android.content.SharedPreferences
 import com.joaquimley.transporteta.data.model.TransportEntity
 import com.joaquimley.transporteta.data.source.FrameworkLocalStorage
 import com.joaquimley.transporteta.sharedpreferences.mapper.SharedPrefTransportMapper
@@ -12,10 +12,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FrameworkLocalStorageImpl @Inject constructor(context: Context,
+class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreferences: SharedPreferences,
                                                     private val mapper: SharedPrefTransportMapper) : FrameworkLocalStorage {
 
-    private val sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
     private val sharedPreferencesObservable: PublishSubject<List<TransportEntity>> = PublishSubject.create()
 
     init {
@@ -24,7 +23,9 @@ class FrameworkLocalStorageImpl @Inject constructor(context: Context,
     }
 
     override fun saveTransport(transportEntity: TransportEntity): Completable {
-        return Completable.complete()
+        return Completable.fromAction {
+            saveToSharedPrefs(mapper.toSharedPref(transportEntity))
+        }
     }
 
     override fun deleteTransport(transportEntityId: String): Completable {
@@ -51,32 +52,37 @@ class FrameworkLocalStorageImpl @Inject constructor(context: Context,
     private fun observeSharedPreferencesChanges() {
         sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
             if (key != SHARED_PREFERENCES_LAST_UPDATED) {
-                sharedPreferencesObservable.onNext(loadAll())
+                loadAll()
             }
         }
     }
 
-    private fun loadAll(): List<TransportEntity> {
+    private fun loadAll() {
         val data = mutableListOf<TransportEntity>()
-        data.add(mapper.toEntity(get(Slot.ONE)))
-        data.add(mapper.toEntity(get(Slot.TWO)))
-        data.add(mapper.toEntity(get(Slot.THREE)))
-        return data
+        getFromSharedPrefs(Slot.ONE)?.let { data.add(mapper.toEntity(it)) }
+        getFromSharedPrefs(Slot.TWO)?.let { data.add(mapper.toEntity(it)) }
+        getFromSharedPrefs(Slot.THREE)?.let { data.add(mapper.toEntity(it)) }
+        sharedPreferencesObservable.onNext(data)
     }
 
-    private fun get(key: Slot): SharedPrefTransport {
-        return mapper.fromCacheString(sharedPreferences.getString(key.name, ""))
+    private fun saveToSharedPrefs(sharedPrefTransport: SharedPrefTransport) {
+        // TODO
+    }
+
+    private fun getFromSharedPrefs(slot: Slot): SharedPrefTransport? {
+        sharedPreferences.getString(slot.name, null)?.let {
+            return mapper.fromCacheString(it)
+        } ?: return null
     }
 
     companion object {
-        private const val SHARED_PREFERENCES_NAME = "com.joaquimley.transporteta.sharedpreferences"
         private const val SHARED_PREFERENCES_LAST_UPDATED = "sharedpreferences.last_updated"
     }
 
     enum class Slot(name: String) {
         ONE("transport_eta_fav_1"),
         TWO("transport_eta_fav_2"),
-        THREE("transport_eta_fav_3")
+        THREE("transport_eta_fav_3"),
     }
 
     // TODO - Still not sure this is needed
@@ -84,7 +90,7 @@ class FrameworkLocalStorageImpl @Inject constructor(context: Context,
      * Store and retrieve the last time data was cached
      */
 //var lastUpdated: Long
-//    get() = sharedPreferences.getLong(FrameworkLocalStorageImpl.SHARED_PREFERENCES_LAST_UPDATED, 0)
+//    getFromSharedPrefs() = sharedPreferences.getLong(FrameworkLocalStorageImpl.SHARED_PREFERENCES_LAST_UPDATED, 0)
 //    set(lastUpdated) = sharedPreferences.edit().putLong(FrameworkLocalStorageImpl.SHARED_PREFERENCES_LAST_UPDATED, lastUpdated).apply()
 }
 
