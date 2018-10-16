@@ -2,12 +2,13 @@
 
 <a alt='Watch the Stream' href='https://twitch.tv/joaquimley' target='_blank' align='left'><img align='right' height='50' style='border:0px;height:50px;' src='art/follow_me_twitch_badge.png?v=0' border='0' /></a>
 
-<a alt='Available soon' href='' target='_blank' align='left'><img align='right' height='36' style='border:0px;height:36px;' src='art/googleplay_soon.png?v=0' border='0' /></a>
+<a alt='Available soon' align='left'><img align='right' height='36' style='border:0px;height:36px;' src='art/googleplay_soon.png?v=0' border='0' /></a>
 
 # Transport ETA
-[![License Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=true)](http://www.apache.org/licenses/LICENSE-2.0)
+
+![production version](https://img.shields.io/badge/playstore-unreleased-lightgrey.svg?style=true)
 ![minSdkVersion 19](https://img.shields.io/badge/minSdkVersion-19-yellow.svg?style=true)
-![compileSdkVersion 27](https://img.shields.io/badge/compileSdkVersion-28-green.svg?style=true)
+![compileSdkVersion 28](https://img.shields.io/badge/compileSdkVersion-28-green.svg?style=true)
 [![Build Status](https://app.bitrise.io/app/f75916759d698e6e/status.svg?token=nCaNQBZcMNPMckWWwn8Gxg&branch=develop)](https://app.bitrise.io/app/f75916759d698e6e)
 [![codecov](https://codecov.io/gh/JoaquimLey/transport-eta/branch/develop/graph/badge.svg)](https://codecov.io/gh/JoaquimLey/transport-eta)
 

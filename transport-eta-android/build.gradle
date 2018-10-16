@@ -4,11 +4,9 @@ buildscript {
     addRepos(repositories)
     dependencies {
         classpath deps.kotlin.plugin
+        classpath deps.kotlin.serialization_plugin
         classpath deps.navigation.safe_args
         classpath deps.android_gradle_plugin
-    }
-    repositories {
-        google()
     }
 }
 

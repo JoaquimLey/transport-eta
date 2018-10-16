@@ -6,7 +6,8 @@ ext.deps = [:]
 def versions = [:]
 
 // Plugins
-versions.kotlin = "1.2.51"
+versions.kotlin = "1.2.60"
+versions.kotlin_serialization = "0.6.1"
 versions.android_gradle_plugin = '3.3.0-alpha03'
 
 // Javax
@@ -161,6 +162,8 @@ kotlin.test = "org.jetbrains.kotlin:kotlin-test:$versions.kotlin"
 kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
 kotlin.junit = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+kotlin.serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions.kotlin_serialization"
+kotlin.serialization_plugin = "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$versions.kotlin_serialization"
 deps.kotlin = kotlin
 
 def rx = [:]
@@ -203,5 +206,6 @@ ext.app_version = app_version
 static def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
+    handler.maven { url "https://kotlin.bintray.com/kotlinx" }
 }
 ext.addRepos = this.&addRepos

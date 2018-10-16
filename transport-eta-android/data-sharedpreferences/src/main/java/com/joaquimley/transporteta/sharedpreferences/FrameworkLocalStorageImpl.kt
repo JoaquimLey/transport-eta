@@ -12,11 +12,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FrameworkLocalStorageImpl @Inject constructor(private val context: Context,
-                                                    private val sharedPrefTransportMapper: SharedPrefTransportMapper) : FrameworkLocalStorage {
+class FrameworkLocalStorageImpl @Inject constructor(context: Context,
+                                                    private val mapper: SharedPrefTransportMapper) : FrameworkLocalStorage {
 
     private val sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-    private val sharedPreferencesObservable: PublishSubject<List<SharedPrefTransport>> = PublishSubject.create()
+    private val sharedPreferencesObservable: PublishSubject<List<TransportEntity>> = PublishSubject.create()
 
     init {
         observeSharedPreferencesChanges()
@@ -56,15 +56,16 @@ class FrameworkLocalStorageImpl @Inject constructor(private val context: Context
         }
     }
 
-    private fun loadAll(): List<SharedPrefTransport> {
-        val data = mutableListOf<SharedPrefTransport>()
-        val sharedPrefTransport1 = sharedPreferences.getString(Slot.ONE.name, "")
-        val sharedPrefTransport2 = sharedPreferences.getString(Slot.TWO.name, "")
-        val sharedPrefTransport3 = sharedPreferences.getString(Slot.THREE.name, "")
-        // TODO
-
-
+    private fun loadAll(): List<TransportEntity> {
+        val data = mutableListOf<TransportEntity>()
+        data.add(mapper.toEntity(get(Slot.ONE)))
+        data.add(mapper.toEntity(get(Slot.TWO)))
+        data.add(mapper.toEntity(get(Slot.THREE)))
         return data
+    }
+
+    private fun get(key: Slot): SharedPrefTransport {
+        return mapper.fromCacheString(sharedPreferences.getString(key.name, ""))
     }
 
     companion object {
