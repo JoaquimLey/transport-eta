@@ -94,4 +94,3 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
 //    set(lastUpdated) = sharedPreferences.edit().putLong(FrameworkLocalStorageImpl.SHARED_PREFERENCES_LAST_UPDATED, lastUpdated).apply()
 }
 
-

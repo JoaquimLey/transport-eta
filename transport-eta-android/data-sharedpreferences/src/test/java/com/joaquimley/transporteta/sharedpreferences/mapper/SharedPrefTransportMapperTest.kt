@@ -1,13 +1,9 @@
 package com.joaquimley.transporteta.sharedpreferences.mapper
 
-import com.joaquimley.transporteta.data.factory.TransportFactory
-import com.joaquimley.transporteta.data.mapper.DataTransportMapper
-import com.joaquimley.transporteta.data.model.TransportEntity
 import org.junit.Before
-import org.junit.Test
 
 
-// TODO big because nothing has been tested or implemented ¯\_(ツ)_/¯¯
+// TODO Nothing has been tested or implemented ¯\_(ツ)_/¯¯
 class SharedPrefTransportMapperTest {
 
     private val robot = Robot()
