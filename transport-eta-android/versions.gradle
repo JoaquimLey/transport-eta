@@ -6,7 +6,8 @@ ext.deps = [:]
 def versions = [:]
 
 // Plugins
-versions.kotlin = "1.2.51"
+versions.kotlin = "1.2.60"
+versions.kotlin_serialization = "0.6.1"
 versions.android_gradle_plugin = '3.3.0-alpha03'
 
 // Javax
@@ -60,7 +61,7 @@ versions.mockito = "2.19.1"
 versions.mockito_kotlin = "2.0.0-RC1"
 versions.atsl_rules = "1.0.1"
 versions.atsl_runner = "1.0.2"
-versions.robolectric = "3.4.2"
+versions.robolectric = "3.8" // "4.0-beta-2-SNAPSHOT" // "3.8"
 versions.dexmaker_linkedin = "2.19.0"
 versions.dexmaker_linkedin_inline = "2.19.0"
 
@@ -148,6 +149,8 @@ atsl.rules = "com.android.support.test:rules:$versions.atsl_runner"
 atsl.orchestrator = "com.android.support.test:orchestrator:$versions.atsl_runner"
 deps.atsl = atsl
 
+deps.robolectric = "org.robolectric:robolectric:$versions.robolectric"
+
 def mockito = [:]
 mockito.core = "org.mockito:mockito-core:$versions.mockito"
 mockito.inline = "org.mockito:mockito-inline:$versions.mockito"
@@ -161,6 +164,8 @@ kotlin.test = "org.jetbrains.kotlin:kotlin-test:$versions.kotlin"
 kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
 kotlin.junit = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+kotlin.serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions.kotlin_serialization"
+kotlin.serialization_plugin = "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$versions.kotlin_serialization"
 deps.kotlin = kotlin
 
 def rx = [:]
@@ -175,7 +180,6 @@ dexmaker.linkedin = "com.linkedin.dexmaker:dexmaker-mockito:$versions.dexmaker_l
 dexmaker.linkedin_inline = "com.linkedin.dexmaker:dexmaker-mockito-inline:$versions.dexmaker_linkedin_inline"
 deps.dexmaker = dexmaker
 
-deps.robolectric = "org.robolectric:robolectric:$versions.robolectric"
 deps.assertj = "org.assertj:assertj-core:$versions.assertj"
 deps.glide = "com.github.bumptech.glide:glide:$versions.glide"
 deps.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
@@ -203,5 +207,7 @@ ext.app_version = app_version
 static def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
+    handler.maven { url "https://kotlin.bintray.com/kotlinx" }
+    handler.maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
 ext.addRepos = this.&addRepos

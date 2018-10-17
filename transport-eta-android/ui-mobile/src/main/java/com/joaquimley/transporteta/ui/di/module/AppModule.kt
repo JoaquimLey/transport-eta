@@ -10,6 +10,7 @@ import com.joaquimley.transporteta.ui.di.component.ControllerSubComponent
 import com.joaquimley.transporteta.ui.di.component.DataSubComponent
 import com.joaquimley.transporteta.ui.di.component.RepositorySubComponent
 import com.joaquimley.transporteta.ui.di.component.ViewModelSubComponent
+import com.joaquimley.transporteta.ui.di.qualifier.AndroidContext
 import com.joaquimley.transporteta.ui.di.scope.PerApplication
 import dagger.Module
 import dagger.Provides
@@ -39,6 +40,7 @@ class AppModule {
 
     @Provides
     @PerApplication
+    @AndroidContext.ApplicationContext
     fun provideContext(app: Application): Context {
         return app
     }

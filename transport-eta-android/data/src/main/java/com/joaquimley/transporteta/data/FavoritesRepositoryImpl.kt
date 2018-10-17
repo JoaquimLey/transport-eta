@@ -6,9 +6,12 @@ import com.joaquimley.transporteta.domain.model.Transport
 import com.joaquimley.transporteta.domain.repository.FavoritesRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class FavoritesRepositoryImpl(private val transportDataStore: TransportDataStore,
-                              private val mapper: DataTransportMapper) : FavoritesRepository {
+@Singleton
+class FavoritesRepositoryImpl @Inject constructor(private val transportDataStore: TransportDataStore,
+                                                  private val mapper: DataTransportMapper) : FavoritesRepository {
 
     override fun markAsFavorite(transport: Transport): Completable {
         return transportDataStore.markAsFavorite(mapper.toEntity(transport))
