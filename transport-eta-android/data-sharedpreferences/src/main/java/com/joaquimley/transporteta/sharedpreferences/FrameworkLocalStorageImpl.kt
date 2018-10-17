@@ -18,8 +18,8 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     private val sharedPreferencesObservable: PublishSubject<List<TransportEntity>> = PublishSubject.create()
 
     init {
-        observeSharedPreferencesChanges()
         loadAll()
+        observeSharedPreferencesChanges()
     }
 
     override fun saveTransport(transportEntity: TransportEntity): Completable {
@@ -46,7 +46,9 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     }
 
     override fun clearAll(): Completable {
-        return Completable.complete()
+        return Completable.fromAction {
+
+        }
     }
 
     private fun observeSharedPreferencesChanges() {
@@ -66,7 +68,9 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     }
 
     private fun saveToSharedPrefs(sharedPrefTransport: SharedPrefTransport) {
-        // TODO
+        sharedPreferences.edit()
+                .putString(Slot.ONE.name, mapper.toCacheString(sharedPrefTransport))
+                .apply()
     }
 
     private fun getFromSharedPrefs(slot: Slot): SharedPrefTransport? {
@@ -84,13 +88,4 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
         TWO("transport_eta_fav_2"),
         THREE("transport_eta_fav_3"),
     }
-
-    // TODO - Still not sure this is needed
-    /**
-     * Store and retrieve the last time data was cached
-     */
-//var lastUpdated: Long
-//    getFromSharedPrefs() = sharedPreferences.getLong(FrameworkLocalStorageImpl.SHARED_PREFERENCES_LAST_UPDATED, 0)
-//    set(lastUpdated) = sharedPreferences.edit().putLong(FrameworkLocalStorageImpl.SHARED_PREFERENCES_LAST_UPDATED, lastUpdated).apply()
 }
-
