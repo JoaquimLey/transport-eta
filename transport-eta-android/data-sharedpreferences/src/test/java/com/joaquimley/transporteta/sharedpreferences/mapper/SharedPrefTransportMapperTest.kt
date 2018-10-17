@@ -1,9 +1,12 @@
 package com.joaquimley.transporteta.sharedpreferences.mapper
 
+import com.joaquimley.transporteta.data.model.TransportEntity
+import com.joaquimley.transporteta.sharedpreferences.factory.SharedPrefTransportFactory
+import com.joaquimley.transporteta.sharedpreferences.model.SharedPrefTransport
 import org.junit.Before
+import org.junit.Test
 
 
-// TODO Nothing has been tested or implemented ¯\_(ツ)_/¯¯
 class SharedPrefTransportMapperTest {
 
     private val robot = Robot()
@@ -14,62 +17,99 @@ class SharedPrefTransportMapperTest {
         mapper = SharedPrefTransportMapper()
     }
 
-//    @Test
-//    fun fromModelToView() {
-//        // Assemble
-//        val stubbed = TransportFactory.makeTransport()
-//        // Act
-//        val mapped = mapper.toEntity(stubbed)
-//        // Assert
-//        assert(robot.areItemsTheSame(stubbed, mapped))
-//    }
-//
-//    @Test
-//    fun fromModelListToViewList() {
-//        // Assemble
-//        val stubbed = TransportFactory.makeTransportList(5)
-//        // Act
-//        val mapped = mapper.toEntity(stubbed)
-//        // Assert
-//        assert(robot.areItemsInListTheSame(stubbed, mapped))
-//    }
-//
-//    @Test
-//    fun fromViewToModel() {
-//        // Assemble
-//        val stubbed = TransportFactory.makeTransportEntity()
-//        // Act
-//        val mapped = mapper.toModel(stubbed)
-//        // Assert
-//        assert(robot.areItemsTheSame(mapped, stubbed))
-//    }
-//
-//    @Test
-//    fun fromViewListToModelList() {
-//        // Assemble
-//        val stubbed = TransportFactory.makeTransportEntityList(5)
-//        // Act
-//        val mapped = mapper.toModel(stubbed)
-//        // Assert
-//        assert(robot.areItemsInListTheSame(mapped, stubbed))
-//    }
+    @Test
+    fun fromCacheStringToModel() {
+        // Assemble
+        val stubbedSharedPrefTransport = SharedPrefTransportFactory.makeSharedPrefTransport()
+        val stringCounterPart = SharedPrefTransportFactory.makeSharedPrefTransportString(stubbedSharedPrefTransport.id, stubbedSharedPrefTransport.name,
+                stubbedSharedPrefTransport.code, stubbedSharedPrefTransport.latestEta, stubbedSharedPrefTransport.isFavorite,
+                stubbedSharedPrefTransport.type, stubbedSharedPrefTransport.lastUpdated, stubbedSharedPrefTransport.slot)
+        // Act
+        val modelMappedFromString = mapper.fromCacheString(stringCounterPart)
+
+        // Assert
+        assert(robot.areItemsTheSame(modelMappedFromString, stubbedSharedPrefTransport))
+    }
+
+    @Test
+    fun fromModelToCacheString() {
+        // Assemble
+        val stubbedSharedPrefTransport = SharedPrefTransportFactory.makeSharedPrefTransport()
+        val stringCounterPart = SharedPrefTransportFactory.makeSharedPrefTransportString(stubbedSharedPrefTransport.id, stubbedSharedPrefTransport.name,
+                stubbedSharedPrefTransport.code, stubbedSharedPrefTransport.latestEta, stubbedSharedPrefTransport.isFavorite,
+                stubbedSharedPrefTransport.type, stubbedSharedPrefTransport.lastUpdated, stubbedSharedPrefTransport.slot)
+        // Act
+        val mappedString = mapper.toCacheString(stubbedSharedPrefTransport)
+
+        // Assert
+        assert(robot.areItemsTheSame(mappedString, stringCounterPart))
+    }
+
+    @Test
+    fun fromEntityToModel() {
+        // Assemble
+        val stubbed = SharedPrefTransportFactory.makeTransportEntity()
+        // Act
+        val mapped = mapper.toSharedPref(stubbed)
+        // Assert
+        assert(robot.areItemsTheSame(mapped, stubbed))
+    }
+
+    @Test
+    fun fromEntityListToModelList() {
+        // Assemble
+        val stubbed = SharedPrefTransportFactory.makeTransportEntityList(5)
+        // Act
+        val mapped = mapper.toSharedPref(stubbed)
+        // Assert
+        assert(robot.areItemsTheSame(mapped, stubbed))
+    }
+
+    @Test
+    fun fromModelToEntity() {
+        // Assemble
+        val stubbed = SharedPrefTransportFactory.makeSharedPrefTransport()
+        // Act
+        val mapped = mapper.toEntity(stubbed)
+        // Assert
+        assert(robot.areItemsTheSame(stubbed, mapped))
+    }
+
+    @Test
+    fun fromModelListToEntityList() {
+        // Assemble
+        val stubbed = SharedPrefTransportFactory.makeSharedPrefTransportList(5)
+        // Act
+        val mapped = mapper.toEntity(stubbed)
+        // Assert
+        assert(robot.areItemsTheSame(stubbed, mapped))
+    }
 
     inner class Robot {
-//        fun areItemsInListTheSame(transportList: List<Transport>, transportViewList: List<TransportEntity>): Boolean {
-//            for (transport in transportList.withIndex()) {
-//                if (!areItemsTheSame(transportList[transport.index], transportViewList[transport.index])) {
-//                    return false
-//                }
-//            }
-//            return true
-//        }
-//
-//        fun areItemsTheSame(transport: Transport, transportView: TransportEntity): Boolean {
-//            return transport.id == transportView.id &&
-//                    transport.code == transportView.code &&
-//                    transport.latestEta == transportView.latestEta &&
-//                    transport.isFavorite == transportView.isFavorite &&
-//                    transport.type.equals(transportView.type)
-//        }
+
+        fun areItemsTheSame(sharedPrefTransportStringLeft: String, sharedPrefTransportStringRight: String): Boolean {
+            return sharedPrefTransportStringLeft == sharedPrefTransportStringRight
+        }
+
+        fun areItemsTheSame(sharedPrefTransportLeft: SharedPrefTransport, sharedPrefTransportRight: SharedPrefTransport): Boolean {
+            return sharedPrefTransportLeft == sharedPrefTransportRight
+        }
+
+        fun areItemsTheSame(sharedPrefTransport: SharedPrefTransport, transportEntity: TransportEntity): Boolean {
+            return sharedPrefTransport.id == transportEntity.id &&
+                    sharedPrefTransport.code == transportEntity.code &&
+                    sharedPrefTransport.latestEta == transportEntity.latestEta &&
+                    transportEntity.isFavorite == transportEntity.isFavorite &&
+                    sharedPrefTransport.type == transportEntity.type
+        }
+
+        fun areItemsTheSame(sharedPrefTransportList: List<SharedPrefTransport>, transportEntity: List<TransportEntity>): Boolean {
+            for (transport in sharedPrefTransportList.withIndex()) {
+                if (!areItemsTheSame(sharedPrefTransportList[transport.index], transportEntity[transport.index])) {
+                    return false
+                }
+            }
+            return true
+        }
     }
 }

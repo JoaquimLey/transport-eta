@@ -15,23 +15,18 @@ class SharedPrefTransportMapper {
     }
 
     fun toSharedPref(from: List<TransportEntity>): List<SharedPrefTransport> {
-        // TODO
         return from.map { toSharedPref(it) }
     }
 
     fun toSharedPref(from: TransportEntity): SharedPrefTransport {
-
-//         TODO
         return SharedPrefTransport(from.id, from.name, from.code, from.latestEta, from.isFavorite, from.type, 1312, "")
     }
 
     fun toEntity(from: List<SharedPrefTransport>): List<TransportEntity> {
-        // TODO
         return from.map { toEntity(it) }
     }
 
     fun toEntity(from: SharedPrefTransport): TransportEntity {
-        // TODO
         return TransportEntity(from.id, from.name, from.code, from.latestEta, from.isFavorite, from.type)
     }
 }
