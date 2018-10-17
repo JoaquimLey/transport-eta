@@ -26,7 +26,7 @@ class SharedPrefTransportFactory {
             return SharedPrefTransport(id, randomUuid(), code, randomUuid(), isFavorite, type, randomLong(), slot.name)
         }
         
-        fun makeSharedPrefTransportString(id: String = randomUuid(), transportName: String = randomUuid(), code: Int, latestEta: String, isFavorite: Boolean, type: String = "bus", lastUpdated: Long, slot: String = "ONE"): String {
+        fun makeSharedPrefTransportString(id: String = randomUuid(), transportName: String = randomUuid(), code: Int = randomInt(), latestEta: String = randomUuid(), isFavorite: Boolean = true, type: String = "bus", lastUpdated: Long = randomLong(), slot: String = "ONE"): String {
             return "{\"id\":\"$id\",\"name\":\"$transportName\",\"code\":$code,\"latestEta\":\"$latestEta\",\"isFavorite\":$isFavorite,\"type\":\"$type\",\"lastUpdated\":$lastUpdated,\"slot\":\"$slot\"}"
         }
 
