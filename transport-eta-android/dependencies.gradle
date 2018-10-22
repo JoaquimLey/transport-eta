@@ -61,7 +61,7 @@ versions.mockito = "2.19.1"
 versions.mockito_kotlin = "2.0.0-RC1"
 versions.atsl_rules = "1.0.1"
 versions.atsl_runner = "1.0.2"
-versions.robolectric = "3.8" // "4.0-beta-2-SNAPSHOT" // "3.8"
+versions.robolectric = "4.0-beta-2-SNAPSHOT" // "3.8"
 versions.dexmaker_linkedin = "2.19.0"
 versions.dexmaker_linkedin_inline = "2.19.0"
 
@@ -207,7 +207,10 @@ ext.app_version = app_version
 static def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
+
+    // For Kotlinx serialization
     handler.maven { url "https://kotlin.bintray.com/kotlinx" }
+    // For Robolectric 4.0-snapshot
     handler.maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
 ext.addRepos = this.&addRepos

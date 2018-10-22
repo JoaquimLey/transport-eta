@@ -15,6 +15,9 @@ import javax.inject.Singleton
 class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreferences: SharedPreferences,
                                                     private val mapper: SharedPrefTransportMapper) : FrameworkLocalStorage {
 
+
+    private val data = HashMap<Slot, SharedPrefTransport?>()
+
     private val sharedPreferencesObservable: PublishSubject<List<TransportEntity>> = PublishSubject.create()
 
     init {
@@ -24,7 +27,9 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
 
     override fun saveTransport(transportEntity: TransportEntity): Completable {
         return Completable.fromAction {
-            saveToSharedPrefs(mapper.toSharedPref(transportEntity))
+            if (saveToSharedPrefs(mapper.toSharedPref(transportEntity)).not()) {
+                Completable.error(Throwable("All slots filled"))
+            }
         }
     }
 
@@ -60,21 +65,51 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     }
 
     private fun loadAll() {
-        val data = mutableListOf<TransportEntity>()
-        getFromSharedPrefs(Slot.ONE)?.let { data.add(mapper.toEntity(it)) }
-        getFromSharedPrefs(Slot.TWO)?.let { data.add(mapper.toEntity(it)) }
-        getFromSharedPrefs(Slot.THREE)?.let { data.add(mapper.toEntity(it)) }
-        sharedPreferencesObservable.onNext(data)
+        data[Slot.ONE] = getFromSharedPrefs(Slot.ONE)
+        data[Slot.TWO] = getFromSharedPrefs(Slot.TWO)
+        data[Slot.THREE] = getFromSharedPrefs(Slot.THREE)
+
+        sharedPreferencesObservable
+                .onNext(data.values.filterNotNull().map { mapper.toEntity(it) })
     }
 
-    private fun saveToSharedPrefs(sharedPrefTransport: SharedPrefTransport) {
-        sharedPreferences.edit()
-                .putString(Slot.ONE.name, mapper.toCacheString(sharedPrefTransport))
-                .apply()
+    private fun saveToSharedPrefs(sharedPrefTransport: SharedPrefTransport): Boolean {
+        return when {
+//            data[Slot.ONE] == null -> {
+            getFromSharedPrefs(Slot.ONE) == null -> {
+                sharedPreferences.edit()
+                        .putString(Slot.ONE.slotName, mapper.toCacheString(sharedPrefTransport))
+                        .apply()
+                true
+            }
+
+//            data[Slot.TWO] == null -> {
+            getFromSharedPrefs(Slot.TWO) == null -> {
+                sharedPreferences.edit()
+                        .putString(Slot.TWO.slotName, mapper.toCacheString(sharedPrefTransport))
+                        .apply()
+                true
+            }
+
+
+//            data[Slot.THREE] == null -> {
+            getFromSharedPrefs(Slot.THREE) == null -> {
+                sharedPreferences.edit()
+                        .putString(Slot.THREE.slotName, mapper.toCacheString(sharedPrefTransport))
+                        .apply()
+                true
+            }
+
+            else -> {
+                // All slots are filled
+                false
+
+            }
+        }
     }
 
     private fun getFromSharedPrefs(slot: Slot): SharedPrefTransport? {
-        sharedPreferences.getString(slot.name, null)?.let {
+        sharedPreferences.getString(slot.slotName, null)?.let {
             return mapper.fromCacheString(it)
         } ?: return null
     }
@@ -83,7 +118,7 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
         private const val SHARED_PREFERENCES_LAST_UPDATED = "sharedpreferences.last_updated"
     }
 
-    enum class Slot(name: String) {
+    enum class Slot(val slotName: String) {
         ONE("transport_eta_fav_1"),
         TWO("transport_eta_fav_2"),
         THREE("transport_eta_fav_3"),
