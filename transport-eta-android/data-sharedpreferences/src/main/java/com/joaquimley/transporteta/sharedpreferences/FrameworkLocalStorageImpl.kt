@@ -28,7 +28,7 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     override fun saveTransport(transportEntity: TransportEntity): Completable {
         return Completable.fromAction {
             if (saveToSharedPrefs(mapper.toSharedPref(transportEntity)).not()) {
-                Completable.error(Throwable("All slots filled"))
+                throw Throwable("All slots filled")
             }
         }
     }
@@ -65,53 +65,34 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     }
 
     private fun loadAll() {
-        data[Slot.ONE] = getFromSharedPrefs(Slot.ONE)
-        data[Slot.TWO] = getFromSharedPrefs(Slot.TWO)
-        data[Slot.THREE] = getFromSharedPrefs(Slot.THREE)
+        getFromSharedPrefs(Slot.ONE)?.let { data[Slot.ONE] = mapper.fromCacheString(it) }
+        getFromSharedPrefs(Slot.TWO)?.let { data[Slot.TWO] = mapper.fromCacheString(it) }
+        getFromSharedPrefs(Slot.THREE)?.let { data[Slot.THREE] = mapper.fromCacheString(it) }
 
         sharedPreferencesObservable
                 .onNext(data.values.filterNotNull().map { mapper.toEntity(it) })
     }
 
     private fun saveToSharedPrefs(sharedPrefTransport: SharedPrefTransport): Boolean {
+        return getFreeSlot()?.let {
+            sharedPreferences.edit()
+                    .putString(it.slotName, mapper.toCacheString(sharedPrefTransport))
+                    .apply()
+            true
+        } ?: false
+    }
+
+    private fun getFreeSlot(): Slot? {
         return when {
-//            data[Slot.ONE] == null -> {
-            getFromSharedPrefs(Slot.ONE) == null -> {
-                sharedPreferences.edit()
-                        .putString(Slot.ONE.slotName, mapper.toCacheString(sharedPrefTransport))
-                        .apply()
-                true
-            }
-
-//            data[Slot.TWO] == null -> {
-            getFromSharedPrefs(Slot.TWO) == null -> {
-                sharedPreferences.edit()
-                        .putString(Slot.TWO.slotName, mapper.toCacheString(sharedPrefTransport))
-                        .apply()
-                true
-            }
-
-
-//            data[Slot.THREE] == null -> {
-            getFromSharedPrefs(Slot.THREE) == null -> {
-                sharedPreferences.edit()
-                        .putString(Slot.THREE.slotName, mapper.toCacheString(sharedPrefTransport))
-                        .apply()
-                true
-            }
-
-            else -> {
-                // All slots are filled
-                false
-
-            }
+            getFromSharedPrefs(Slot.ONE) == null -> Slot.ONE
+            getFromSharedPrefs(Slot.TWO) == null -> Slot.TWO
+            getFromSharedPrefs(Slot.THREE) == null -> Slot.THREE
+            else -> null
         }
     }
 
-    private fun getFromSharedPrefs(slot: Slot): SharedPrefTransport? {
-        sharedPreferences.getString(slot.slotName, null)?.let {
-            return mapper.fromCacheString(it)
-        } ?: return null
+    private fun getFromSharedPrefs(slot: Slot): String? {
+        return sharedPreferences.getString(slot.slotName, null)
     }
 
     companion object {
