@@ -95,6 +95,24 @@ class FrameworkLocalStorageTest {
     }
 
     @Test
+    fun saveTransportSavesToCorrectToSlotOneWhenAllSlotsAreFree() {
+        // Assemble
+        // All Slots are free
+        robot.stubSharedPrefGetFromSlotIsEmpty(slot = FrameworkLocalStorageImpl.Slot.ONE)
+        robot.stubSharedPrefGetFromSlotIsEmpty(slot = FrameworkLocalStorageImpl.Slot.TWO)
+        robot.stubSharedPrefGetFromSlotIsEmpty(slot = FrameworkLocalStorageImpl.Slot.THREE)
+
+        val stubEntity = SharedPrefTransportFactory.makeTransportEntity()
+        val stubModel = robot.stubMapperFromEntityToModel(stubEntity)
+        val stubString = robot.stubMapperFromModelToString(stubModel)
+        robot.stubSharedPrefSaveToSlotSuccess(stubString, FrameworkLocalStorageImpl.Slot.ONE)
+        // Act
+        frameworkLocalStorage.saveTransport(stubEntity).test()
+        // Assert
+        verify(mockSharedPreferencesEditor, times(1)).putString(FrameworkLocalStorageImpl.Slot.ONE.slotName, stubString)
+    }
+
+    @Test
     fun saveTransportSavesToCorrectSlotWhenSlotOneIsFree() {
         // Assemble
         // Slot number 1 is free
