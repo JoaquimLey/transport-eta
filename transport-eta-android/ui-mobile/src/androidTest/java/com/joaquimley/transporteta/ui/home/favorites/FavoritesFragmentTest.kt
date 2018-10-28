@@ -34,6 +34,8 @@ import org.mockito.Mockito.*
 @RunWith(AndroidJUnit4::class)
 class FavoritesFragmentTest {
 
+    // http://robolectric.org/blog/2018/10/25/robolectric-4-0/
+
     // Rules
     @Rule @JvmField val activityRule = ActivityTestRule(TestFragmentActivity::class.java)
     @Rule @JvmField val instantTaskExecutorRule = InstantTaskExecutorRule()

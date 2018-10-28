@@ -23,7 +23,8 @@ class SharedPrefTransportMapperTest {
         val stubbedSharedPrefTransport = SharedPrefTransportFactory.makeSharedPrefTransport()
         val stringCounterPart = SharedPrefTransportFactory.makeSharedPrefTransportString(stubbedSharedPrefTransport.id, stubbedSharedPrefTransport.name,
                 stubbedSharedPrefTransport.code, stubbedSharedPrefTransport.latestEta, stubbedSharedPrefTransport.isFavorite,
-                stubbedSharedPrefTransport.type, stubbedSharedPrefTransport.lastUpdated, stubbedSharedPrefTransport.slot)
+                stubbedSharedPrefTransport.type, stubbedSharedPrefTransport.lastUpdated, stubbedSharedPrefTransport.slot?.name
+                ?: "")
         // Act
         val modelMappedFromString = mapper.fromCacheString(stringCounterPart)
 
@@ -37,10 +38,10 @@ class SharedPrefTransportMapperTest {
         val stubbedSharedPrefTransport = SharedPrefTransportFactory.makeSharedPrefTransport()
         val stringCounterPart = SharedPrefTransportFactory.makeSharedPrefTransportString(stubbedSharedPrefTransport.id, stubbedSharedPrefTransport.name,
                 stubbedSharedPrefTransport.code, stubbedSharedPrefTransport.latestEta, stubbedSharedPrefTransport.isFavorite,
-                stubbedSharedPrefTransport.type, stubbedSharedPrefTransport.lastUpdated, stubbedSharedPrefTransport.slot)
+                stubbedSharedPrefTransport.type, stubbedSharedPrefTransport.lastUpdated, stubbedSharedPrefTransport.slot?.name
+                ?: "")
         // Act
         val mappedString = mapper.toCacheString(stubbedSharedPrefTransport)
-
         // Assert
         assert(robot.areItemsTheSame(mappedString, stringCounterPart))
     }
