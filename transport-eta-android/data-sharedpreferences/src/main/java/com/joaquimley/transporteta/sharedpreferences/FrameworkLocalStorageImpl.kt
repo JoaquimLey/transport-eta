@@ -34,11 +34,21 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     }
 
     override fun deleteTransport(transportEntityId: String): Completable {
-        return Completable.complete()
+        return Completable.fromAction {
+            if (getTransportFromSharedPreferences(transportEntityId).not()) {
+                throw Throwable("No transport found")
+            }
+        }
     }
 
     override fun getTransport(transportEntityId: String): Single<TransportEntity> {
-        return Single.just(TransportEntity("hi", "mock", 2, "el", true, "bus"))
+        return Single.defer {
+
+            // TODO - Should this single return a nullable TransportEntity instead of Error?
+            Single.just(getFromSharedPrefs(transportEntityId)?.let { mapper.toEntity(it) }
+                    ?: throw Throwable("Not found transport with id $transportEntityId")
+            )
+        }
     }
 
     override fun getAll(): Single<List<TransportEntity>> {
@@ -51,57 +61,87 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     }
 
     override fun clearAll(): Completable {
-        return Completable.fromAction {
-
-        }
+        throw NotImplementedError()
+//        return Completable.fromAction {
+//
+//        }
     }
 
     private fun observeSharedPreferencesChanges() {
-        sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
-            if (key != SHARED_PREFERENCES_LAST_UPDATED) {
-                loadAll()
-            }
+        sharedPreferences.registerOnSharedPreferenceChangeListener { _, _ ->
+            loadAll()
         }
     }
 
     private fun loadAll() {
-        getFromSharedPrefs(Slot.ONE)?.let { data[Slot.ONE] = mapper.fromCacheString(it) }
-        getFromSharedPrefs(Slot.TWO)?.let { data[Slot.TWO] = mapper.fromCacheString(it) }
-        getFromSharedPrefs(Slot.THREE)?.let { data[Slot.THREE] = mapper.fromCacheString(it) }
+        getFromSharedPrefs(Slot.SAVE_SLOT_ONE)?.let { data[Slot.SAVE_SLOT_ONE] = mapper.fromCacheString(it) }
+        getFromSharedPrefs(Slot.SAVE_SLOT_TWO)?.let { data[Slot.SAVE_SLOT_TWO] = mapper.fromCacheString(it) }
+        getFromSharedPrefs(Slot.SAVE_SLOT_THREE)?.let { data[Slot.SAVE_SLOT_THREE] = mapper.fromCacheString(it) }
 
         sharedPreferencesObservable
                 .onNext(data.values.filterNotNull().map { mapper.toEntity(it) })
     }
 
     private fun saveToSharedPrefs(sharedPrefTransport: SharedPrefTransport): Boolean {
-        return getFreeSlot()?.let {
+        return getSlot()?.let {
             sharedPreferences.edit()
-                    .putString(it.slotName, mapper.toCacheString(sharedPrefTransport))
+                    .putString(it.name, mapper.toCacheString(sharedPrefTransport))
                     .apply()
             true
         } ?: false
     }
 
-    private fun getFreeSlot(): Slot? {
+    private fun getTransportFromSharedPreferences(transportEntityId: String): Boolean {
+        return getFromSharedPrefs(transportEntityId)?.let {
+            removeFromSharedPreferences(it.slot)
+            true
+        } ?: false
+    }
+
+    private fun removeFromSharedPreferences(slot: Slot?) {
+        slot?.let {
+            sharedPreferences.edit()
+                    .remove(it.name)
+                    .apply()
+        }
+    }
+
+    private fun getSlot(): Slot? {
+        // TODO Improve this, also check for updates
         return when {
-            getFromSharedPrefs(Slot.ONE) == null -> Slot.ONE
-            getFromSharedPrefs(Slot.TWO) == null -> Slot.TWO
-            getFromSharedPrefs(Slot.THREE) == null -> Slot.THREE
+            getFromSharedPrefs(Slot.SAVE_SLOT_ONE) == null -> Slot.SAVE_SLOT_ONE
+            getFromSharedPrefs(Slot.SAVE_SLOT_TWO) == null -> Slot.SAVE_SLOT_TWO
+            getFromSharedPrefs(Slot.SAVE_SLOT_THREE) == null -> Slot.SAVE_SLOT_THREE
             else -> null
         }
     }
 
     private fun getFromSharedPrefs(slot: Slot): String? {
-        return sharedPreferences.getString(slot.slotName, null)
+        return sharedPreferences.getString(slot.name, null)
     }
 
-    companion object {
-        private const val SHARED_PREFERENCES_LAST_UPDATED = "sharedpreferences.last_updated"
+    // TODO Improve this
+    private fun getFromSharedPrefs(transportId: String): SharedPrefTransport? {
+        val dataFromSlotOne = getFromSharedPrefs(Slot.SAVE_SLOT_ONE)?.let { mapper.fromCacheString(it) }
+        if (dataFromSlotOne?.id == transportId) {
+            return dataFromSlotOne
+        }
+
+        val dataFromSlotTwo = getFromSharedPrefs(Slot.SAVE_SLOT_TWO)?.let { mapper.fromCacheString(it) }
+        if (dataFromSlotTwo?.id == transportId) {
+            return dataFromSlotTwo
+        }
+
+        val dataFromSlotThree = getFromSharedPrefs(Slot.SAVE_SLOT_THREE)?.let { mapper.fromCacheString(it) }
+        if (dataFromSlotThree?.id == transportId) {
+            return dataFromSlotThree
+        }
+        return null
     }
 
-    enum class Slot(val slotName: String) {
-        ONE("transport_eta_fav_1"),
-        TWO("transport_eta_fav_2"),
-        THREE("transport_eta_fav_3"),
+    enum class Slot {
+        SAVE_SLOT_ONE,
+        SAVE_SLOT_TWO,
+        SAVE_SLOT_THREE,
     }
 }

@@ -19,7 +19,7 @@ class SharedPrefTransportMapper {
     }
 
     fun toSharedPref(from: TransportEntity): SharedPrefTransport {
-        return SharedPrefTransport(from.id, from.name, from.code, from.latestEta, from.isFavorite, from.type, 1312, "")
+        return SharedPrefTransport(from.id, from.name, from.code, from.latestEta, from.isFavorite, from.type, from.latestEta)
     }
 
     fun toEntity(from: List<SharedPrefTransport>): List<TransportEntity> {
