@@ -34,6 +34,7 @@ import org.mockito.Mockito.*
 @RunWith(AndroidJUnit4::class)
 class FavoritesFragmentTest {
 
+    // https://proandroiddev.com/one-rule-to-disable-them-all-d387da440318
     // http://robolectric.org/blog/2018/10/25/robolectric-4-0/
 
     // Rules
