@@ -196,7 +196,7 @@ class FavoritesFragmentTest {
             // Check item is displayed correctly
             onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(favoriteView.index)).check(matches(hasDescendant(withText(resultsList[favoriteView.index].code.toString()))))
             onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(favoriteView.index)).check(matches(hasDescendant(withText(resultsList[favoriteView.index].latestEta))))
-            onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(favoriteView.index)).check(matches(hasDescendant(withText(resultsList[favoriteView.index].originalText))))
+//            onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_view).atPosition(favoriteView.index)).check(matches(hasDescendant(withText(resultsList[favoriteView.index].originalText))))
         }
     }
 
