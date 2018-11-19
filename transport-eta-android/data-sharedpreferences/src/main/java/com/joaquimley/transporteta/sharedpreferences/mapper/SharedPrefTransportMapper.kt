@@ -7,11 +7,11 @@ import kotlinx.serialization.json.JSON
 class SharedPrefTransportMapper {
 
     fun toCacheString(from: SharedPrefTransport): String {
-        return JSON.stringify(from)
+        return JSON.stringify(SharedPrefTransport.serializer(), from)
     }
 
     fun fromCacheString(from: String): SharedPrefTransport {
-        return JSON.parse(from)
+        return JSON.parse(SharedPrefTransport.serializer(), from)
     }
 
     fun toSharedPref(from: List<TransportEntity>): List<SharedPrefTransport> {
