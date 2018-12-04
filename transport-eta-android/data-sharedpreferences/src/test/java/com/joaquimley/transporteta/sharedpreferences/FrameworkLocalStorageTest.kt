@@ -46,7 +46,7 @@ class FrameworkLocalStorageTest {
         robot.stubMapperFromStringToModel(modelStringThree)
 
         // Act
-        // Nothing <->xo
+        // Nothing <->
         // Assert
         verify(mockSharedPreferences, times(1)).getString(FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE.name, null)
         verify(mockSharedPreferences, times(1)).getString(FrameworkLocalStorageImpl.Slot.SAVE_SLOT_TWO.name, null)

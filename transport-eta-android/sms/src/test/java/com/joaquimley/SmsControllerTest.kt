@@ -3,6 +3,7 @@ package com.joaquimley
 import com.joaquimley.transporteta.sms.SmsBroadcastReceiver
 import com.joaquimley.transporteta.sms.SmsController
 import com.joaquimley.transporteta.sms.SmsControllerImpl
+import com.joaquimley.transporteta.sms.SmsSender
 import com.nhaarman.mockitokotlin2.atLeastOnce
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -16,13 +17,14 @@ class SmsControllerTest {
 
     private val robot = Robot()
     private val mockSmsBroadcastReceiver = mock<SmsBroadcastReceiver>()
+    private val mockSmsManager = mock<SmsSender>()
 
     private lateinit var smsController: SmsController
 
     @Before
     fun setup() {
         robot.stubSmsBroadcastReceiverSuccess()
-        smsController = SmsControllerImpl(mockSmsBroadcastReceiver)
+        smsController = SmsControllerImpl(mockSmsBroadcastReceiver, mockSmsManager)
     }
 
     @After

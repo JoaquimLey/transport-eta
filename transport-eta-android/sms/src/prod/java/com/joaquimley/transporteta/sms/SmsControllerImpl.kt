@@ -1,6 +1,5 @@
 package com.joaquimley.transporteta.sms
 
-import android.telephony.SmsManager
 import android.util.Log
 import com.joaquimley.transporteta.sms.model.SmsModel
 import io.reactivex.Single
@@ -12,7 +11,8 @@ import javax.inject.Singleton
 
 
 @Singleton
-class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: SmsBroadcastReceiver) : SmsController {
+class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: SmsBroadcastReceiver,
+                                            private val smsSender: SmsSender) : SmsController {
 
 
     // TODO build a queue for requests
@@ -44,7 +44,7 @@ class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: Sm
         }
 
         this.busStopCode = busStopCode
-        SmsManager.getDefault().sendTextMessage(smsBroadcastReceiver.serviceNumber, null, "C $busStopCode", null, null)
+        smsSender.send(smsBroadcastReceiver.serviceNumber, busStopCode)
         return Single.create<SmsModel> { emitter ->
             smsRequestDisposable = smsPublishSubject.subscribe({ sms ->
                 emitter.onSuccess(sms)

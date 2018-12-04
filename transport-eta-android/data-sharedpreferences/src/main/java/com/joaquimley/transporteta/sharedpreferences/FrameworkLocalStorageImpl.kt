@@ -107,7 +107,7 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     }
 
     private fun getSlot(): Slot? {
-        // TODO Improve this, also check for updates
+        // TODO Improve this
         return when {
             getFromSharedPrefs(Slot.SAVE_SLOT_ONE) == null -> Slot.SAVE_SLOT_ONE
             getFromSharedPrefs(Slot.SAVE_SLOT_TWO) == null -> Slot.SAVE_SLOT_TWO
