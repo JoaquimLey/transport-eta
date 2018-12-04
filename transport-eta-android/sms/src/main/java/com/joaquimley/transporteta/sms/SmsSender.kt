@@ -12,4 +12,4 @@ class SmsSender @Inject constructor(private val androidSmsManager: SmsManager) {
         androidSmsManager.sendTextMessage(serviceNumber, null, "C $busStopCode", null, null)
 
     }
-}gs
+}
