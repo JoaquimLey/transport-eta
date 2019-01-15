@@ -15,7 +15,7 @@ class SmsControllerImpl @Inject constructor(private val smsBroadcastReceiver: Sm
                                             private val smsSender: SmsSender) : SmsController {
 
 
-    // TODO build a queue for requests, use androidx.workmanager
+    // TODO build a queue for requests, use androidx.workmanager with intent data as key
 
     private var broadcastReceiverDisposable: Disposable? = null
     private var smsRequestDisposable: Disposable? = null
