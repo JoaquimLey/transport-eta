@@ -34,7 +34,8 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
 
     override fun deleteTransport(transportEntityId: String): Completable {
         return Completable.fromAction {
-            getFromSharedPrefs(transportEntityId)?.let { removeFromSharedPreferences(it.slot) } ?: throw Throwable("No transport found")
+            getFromSharedPrefs(transportEntityId)?.let { removeFromSharedPreferences(it.slot) }
+                    ?: throw Throwable("No transport found")
         }
     }
 
@@ -54,10 +55,11 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     }
 
     override fun clearAll(): Completable {
-        throw NotImplementedError()
-//        return Completable.fromAction {
-//
-//        }
+        return Completable.fromAction {
+            removeFromSharedPreferences(Slot.SAVE_SLOT_ONE)
+            removeFromSharedPreferences(Slot.SAVE_SLOT_TWO)
+            removeFromSharedPreferences(Slot.SAVE_SLOT_THREE)
+        }
     }
 
     private fun observeSharedPreferencesChanges() {
@@ -74,7 +76,7 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     }
 
     private fun saveToSharedPrefs(sharedPrefTransport: SharedPrefTransport): Boolean {
-        return getSlot()?.let {
+        return getAvailableSLot()?.let {
             sharedPreferences.edit()
                     .putString(it.name, mapper.toCacheString(sharedPrefTransport))
                     .apply()
@@ -90,7 +92,7 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
         }
     }
 
-    private fun getSlot(): Slot? {
+    private fun getAvailableSLot(): Slot? {
         // TODO Improve this
         return when {
             getFromSharedPrefs(Slot.SAVE_SLOT_ONE) == null -> Slot.SAVE_SLOT_ONE
