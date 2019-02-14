@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlinx-serialization'
-apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -9,7 +9,6 @@ android {
     defaultConfig {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-        testInstrumentationRunner "com.joaquimley.transporteta.ui.test.TestRunner"
     }
 
     testOptions {
@@ -97,8 +96,8 @@ dependencies {
     implementation deps.rx.android
     // Kotlin
     implementation deps.kotlin.rx
-    implementation deps.kotlin.serialization
     implementation deps.kotlin.stdlib
+    implementation deps.kotlin.serialization_runtime
 
     /***********
      * Testing *

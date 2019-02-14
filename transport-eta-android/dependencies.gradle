@@ -6,9 +6,8 @@ ext.deps = [:]
 def versions = [:]
 
 // Plugins
-versions.kotlin = "1.2.60"
-versions.kotlin_serialization = "0.6.1"
-versions.android_gradle_plugin = '3.3.0-alpha03'
+versions.kotlin = "1.3.10"
+versions.android_gradle_plugin = '3.3.1'
 
 // Javax
 versions.javax_inject = "1"
@@ -23,6 +22,7 @@ versions.rx_android = "2.0.1"
 
 // Kotlin
 versions.kotlin_rx = "2.1.0"
+versions.kotlin_serialization_runtime = "0.9.0"
 
 // AndroidX
 versions.slice = "1.0.0-alpha2"
@@ -163,9 +163,9 @@ kotlin.rx = "io.reactivex.rxjava2:rxkotlin:$versions.kotlin_rx"
 kotlin.test = "org.jetbrains.kotlin:kotlin-test:$versions.kotlin"
 kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
 kotlin.junit = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
-kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
-kotlin.serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions.kotlin_serialization"
-kotlin.serialization_plugin = "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$versions.kotlin_serialization"
+kotlin.gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+kotlin.serialization_runtime = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions.kotlin_serialization_runtime"
+kotlin.serialization_plugin = "org.jetbrains.kotlin:kotlin-serialization:$versions.kotlin"
 deps.kotlin = kotlin
 
 def rx = [:]

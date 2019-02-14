@@ -11,6 +11,8 @@ import com.nhaarman.mockitokotlin2.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyString
+import kotlin.test.assertEquals
 
 class FrameworkLocalStorageTest {
 
@@ -46,7 +48,7 @@ class FrameworkLocalStorageTest {
         robot.stubMapperFromStringToModel(modelStringThree)
 
         // Act
-        // Nothing <->xo
+        // Nothing <->
         // Assert
         verify(mockSharedPreferences, times(1)).getString(FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE.name, null)
         verify(mockSharedPreferences, times(1)).getString(FrameworkLocalStorageImpl.Slot.SAVE_SLOT_TWO.name, null)
@@ -63,6 +65,116 @@ class FrameworkLocalStorageTest {
 
         // Assert
         verify(mockSharedPreferences, times(1)).registerOnSharedPreferenceChangeListener(any())
+    }
+
+
+    @Test
+    fun getTransportByIdFindsTheCorrectDataOnSlotOne() {
+        // Assemble
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_TWO)
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_THREE)
+
+        val dataString = robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE)
+        val stubModel = robot.stubMapperFromStringToModel(dataString)
+        val stubEntity = robot.stubMapperFromModelToEntity(stubModel)
+        // Act
+        val testObserver = frameworkLocalStorage.getTransport(stubModel.id).test()
+        // Assert
+        testObserver.assertValue { it == stubEntity }
+    }
+
+    @Test
+    fun getTransportByIdFindsTheCorrectDataOnSlotTwo() {
+        // Assemble
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE)
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_THREE)
+
+        val dataString = robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_TWO)
+        val stubModel = robot.stubMapperFromStringToModel(dataString)
+        val stubEntity = robot.stubMapperFromModelToEntity(stubModel)
+        // Act
+        val testObserver = frameworkLocalStorage.getTransport(stubModel.id).test()
+        // Assert
+        testObserver.assertValue { it == stubEntity }
+    }
+
+    @Test
+    fun getTransportByIdFindsTheCorrectDataOnSlotThree() {
+        // Assemble
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE)
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_TWO)
+
+        val dataString = robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_THREE)
+        val stubModel = robot.stubMapperFromStringToModel(dataString)
+        val stubEntity = robot.stubMapperFromModelToEntity(stubModel)
+        // Act
+        val testObserver = frameworkLocalStorage.getTransport(stubModel.id).test()
+        // Assert
+        testObserver.assertValue { it == stubEntity }
+    }
+
+    @Test
+    fun getTransportByIdThrowsErrorWhenNoDataIsFound() {
+        // TODO - Should this single return a nullable TransportEntity instead of Error?
+
+        // Assemble
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE)
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_TWO)
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_THREE)
+
+        // Act
+        val testObserver = frameworkLocalStorage.getTransport("This will never be an id").test()
+        // Assert
+        testObserver.assertFailure(Throwable::class.java)
+    }
+
+    @Test
+    fun getAllTransportsCompletes() {
+        // Assemble
+        // <-> Nothing
+        // Act
+        val testObserver = frameworkLocalStorage.getAll().test()
+        // Assert
+        testObserver.assertComplete()
+    }
+
+    @Test
+    fun getAllTransportsReturnsEmptyListWhenThereIsNoData() {
+        // Assemble
+        robot.stubSharedPrefGetFromSlotIsEmpty(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE)
+        robot.stubSharedPrefGetFromSlotIsEmpty(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_TWO)
+        robot.stubSharedPrefGetFromSlotIsEmpty(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_THREE)
+        // Act
+        val testObserver = frameworkLocalStorage.getAll().test()
+        // Assert
+        testObserver.assertValue { it.isEmpty() }
+    }
+
+    @Test
+    fun getAllTransportsReturnsCorrectData() {
+        // Assemble
+        val dataString1 = robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE)
+        val dataString2 = robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_TWO)
+        val dataString3 = robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_THREE)
+
+        val stubModel1 = robot.stubMapperFromStringToModel(dataString1)
+        val stubModel2 = robot.stubMapperFromStringToModel(dataString2)
+        val stubModel3 = robot.stubMapperFromStringToModel(dataString3)
+
+        val stubEntity1 = robot.stubMapperFromModelToEntity(stubModel1)
+        val stubEntity2 = robot.stubMapperFromModelToEntity(stubModel2)
+        val stubEntity3 = robot.stubMapperFromModelToEntity(stubModel3)
+
+        val list = mutableListOf<TransportEntity>().apply {
+            add(stubEntity1)
+            add(stubEntity2)
+            add(stubEntity3)
+        }
+
+        // Act
+        val testObserver = frameworkLocalStorage.getAll().test()
+        // Assert
+        assertEquals(testObserver.values()[0].sortedBy { it.id }, list.sortedBy { it.id })
     }
 
     @Test
@@ -110,24 +222,6 @@ class FrameworkLocalStorageTest {
         frameworkLocalStorage.saveTransport(stubEntity).test()
         // Assert
         verify(mockSharedPreferencesEditor, times(1)).putString(FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE.name, stubString)
-    }
-
-    @Test
-    fun saveTransportSavesToCorrectToSlotOneWhenAllSlotsAreFree() {
-        // Assemble
-        // All Slots are free
-        robot.stubSharedPrefGetFromSlotIsEmpty(slot = FrameworkLocalStorageImpl.Slot.ONE)
-        robot.stubSharedPrefGetFromSlotIsEmpty(slot = FrameworkLocalStorageImpl.Slot.TWO)
-        robot.stubSharedPrefGetFromSlotIsEmpty(slot = FrameworkLocalStorageImpl.Slot.THREE)
-
-        val stubEntity = SharedPrefTransportFactory.makeTransportEntity()
-        val stubModel = robot.stubMapperFromEntityToModel(stubEntity)
-        val stubString = robot.stubMapperFromModelToString(stubModel)
-        robot.stubSharedPrefSaveToSlotSuccess(stubString, FrameworkLocalStorageImpl.Slot.ONE)
-        // Act
-        frameworkLocalStorage.saveTransport(stubEntity).test()
-        // Assert
-        verify(mockSharedPreferencesEditor, times(1)).putString(FrameworkLocalStorageImpl.Slot.ONE.slotName, stubString)
     }
 
     @Test
@@ -207,7 +301,6 @@ class FrameworkLocalStorageTest {
         testObserver.assertFailure(Throwable::class.java)
     }
 
-
     @Test
     fun deleteTransportCompletes() {
         // Assemble
@@ -235,8 +328,7 @@ class FrameworkLocalStorageTest {
         // Act
         frameworkLocalStorage.deleteTransport(stubModel.id).test()
         // Assert
-        verify(mockSharedPreferences, times(1)).edit()
-        verify(mockSharedPreferencesEditor, times(1)).remove(stubModel.slot?.name)
+        verify(mockSharedPreferencesEditor, atLeastOnce()).remove(stubModel.slot?.name)
     }
 
     @Test
@@ -268,19 +360,31 @@ class FrameworkLocalStorageTest {
         testObserver.assertFailure(Throwable::class.java)
     }
 
-    @Test
-    fun getTransportCompletes() {
-        // Assemble
-        val stubModel = robot.stubMapperFromEntityToModel()
-        val stubString = robot.stubMapperFromModelToString(stubModel)
-        robot.stubSharedPrefGetFromSlotHasData(FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE, stubString)
-        robot.stubMapperFromStringToModel(stubString, stubModel)
 
-        robot.stubMapperFromModelToEntity(stubModel)
+    @Test
+    fun clearAllCompletes() {
+        // Assemble
+        robot.stubSharedPrefDeleteTransportSuccess(anyString())
         // Act
-        val testObserver = frameworkLocalStorage.getTransport(stubModel.id).test()
+        val testObserver = frameworkLocalStorage.clearAll().test()
         // Assert
         testObserver.assertComplete()
+    }
+
+    @Test
+    fun clearAllRemovesAllData() {
+        // Assemble
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE)
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_TWO)
+        robot.stubSharedPrefGetFromSlotHasData(slot = FrameworkLocalStorageImpl.Slot.SAVE_SLOT_THREE)
+
+        robot.stubSharedPrefDeleteTransportSuccess(anyString())
+        // Act
+        frameworkLocalStorage.clearAll().test()
+        // Assert
+        verify(mockSharedPreferencesEditor, atLeastOnce()).remove(FrameworkLocalStorageImpl.Slot.SAVE_SLOT_ONE.name)
+        verify(mockSharedPreferencesEditor, atLeastOnce()).remove(FrameworkLocalStorageImpl.Slot.SAVE_SLOT_TWO.name)
+        verify(mockSharedPreferencesEditor, atLeastOnce()).remove(FrameworkLocalStorageImpl.Slot.SAVE_SLOT_THREE.name)
     }
 
 
@@ -294,6 +398,7 @@ class FrameworkLocalStorageTest {
 
         fun stubSharedPrefDeleteTransportSuccess(slotName: String) {
             whenever(mockSharedPreferencesEditor.remove(slotName)).then { mockSharedPreferencesEditor }
+            whenever(mockSharedPreferencesEditor.apply()).then { mockSharedPreferencesEditor }
         }
 
         fun stubSharedPrefGetFromSlotHasData(slot: FrameworkLocalStorageImpl.Slot, sharedPrefTransportString: String = SharedPrefTransportFactory.makeSharedPrefTransportString(slot = slot.name)): String {

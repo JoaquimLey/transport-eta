@@ -1,9 +1,7 @@
 package com.joaquimley.transporteta.ui.di.module
 
-import com.joaquimley.transporteta.sms.SmsBroadcastReceiver
-import com.joaquimley.transporteta.sms.SmsBroadcastReceiverImpl
-import com.joaquimley.transporteta.sms.SmsController
-import com.joaquimley.transporteta.sms.SmsControllerImpl
+import android.telephony.SmsManager
+import com.joaquimley.transporteta.sms.*
 import com.joaquimley.transporteta.ui.di.qualifier.SmsServiceInfo
 import com.joaquimley.transporteta.ui.di.scope.PerApplication
 import dagger.Module
@@ -40,7 +38,13 @@ class SmsControllerModule {
 
     @Provides
     @PerApplication
-    internal fun provideSmsController(smsBroadcastReceiver: SmsBroadcastReceiver): SmsController {
-        return SmsControllerImpl(smsBroadcastReceiver)
+    internal fun provideSmsSender(): com.joaquimley.transporteta.sms.SmsSender {
+        return SmsSender(SmsManager.getDefault())
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideSmsController(smsBroadcastReceiver: SmsBroadcastReceiver, smsSender: SmsSender): SmsController {
+        return SmsControllerImpl(smsBroadcastReceiver, smsSender)
     }
 }
