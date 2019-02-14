@@ -17,7 +17,6 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
 
 
     private val data = HashMap<Slot, SharedPrefTransport?>()
-
     private val sharedPreferencesObservable: PublishSubject<List<TransportEntity>> = PublishSubject.create()
 
     init {
@@ -35,29 +34,23 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
 
     override fun deleteTransport(transportEntityId: String): Completable {
         return Completable.fromAction {
-            if (getTransportFromSharedPreferences(transportEntityId).not()) {
-                throw Throwable("No transport found")
-            }
+            getFromSharedPrefs(transportEntityId)?.let { removeFromSharedPreferences(it.slot) } ?: throw Throwable("No transport found")
         }
     }
 
     override fun getTransport(transportEntityId: String): Single<TransportEntity> {
         return Single.defer {
-
             // TODO - Should this single return a nullable TransportEntity instead of Error?
             Single.just(getFromSharedPrefs(transportEntityId)?.let { mapper.toEntity(it) }
-                    ?: throw Throwable("Not found transport with id $transportEntityId")
+                    ?: throw Throwable("Transport with id $transportEntityId not found")
             )
         }
     }
 
     override fun getAll(): Single<List<TransportEntity>> {
-        val list = mutableListOf<TransportEntity>()
-        list.add(TransportEntity("hi", "mock", 2, "latestEta 12324", true, "bus"))
-        list.add(TransportEntity("there", "mock", 23, "latestEta 123", true, "bus"))
-        list.add(TransportEntity("world", "mock", 25, "latestEta 12454", true, "bus"))
-        list.add(TransportEntity("sup", "mock", 29, "latestEta 675", true, "bus"))
-        return Single.just(list)
+        return Single.defer {
+            Single.just(loadAll())
+        }
     }
 
     override fun clearAll(): Completable {
@@ -69,17 +62,15 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
 
     private fun observeSharedPreferencesChanges() {
         sharedPreferences.registerOnSharedPreferenceChangeListener { _, _ ->
-            loadAll()
+            sharedPreferencesObservable.onNext(loadAll())
         }
     }
 
-    private fun loadAll() {
+    private fun loadAll(): List<TransportEntity> {
         getFromSharedPrefs(Slot.SAVE_SLOT_ONE)?.let { data[Slot.SAVE_SLOT_ONE] = mapper.fromCacheString(it) }
         getFromSharedPrefs(Slot.SAVE_SLOT_TWO)?.let { data[Slot.SAVE_SLOT_TWO] = mapper.fromCacheString(it) }
         getFromSharedPrefs(Slot.SAVE_SLOT_THREE)?.let { data[Slot.SAVE_SLOT_THREE] = mapper.fromCacheString(it) }
-
-        sharedPreferencesObservable
-                .onNext(data.values.filterNotNull().map { mapper.toEntity(it) })
+        return data.values.filterNotNull().map { mapper.toEntity(it) }
     }
 
     private fun saveToSharedPrefs(sharedPrefTransport: SharedPrefTransport): Boolean {
@@ -87,13 +78,6 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
             sharedPreferences.edit()
                     .putString(it.name, mapper.toCacheString(sharedPrefTransport))
                     .apply()
-            true
-        } ?: false
-    }
-
-    private fun getTransportFromSharedPreferences(transportEntityId: String): Boolean {
-        return getFromSharedPrefs(transportEntityId)?.let {
-            removeFromSharedPreferences(it.slot)
             true
         } ?: false
     }
