@@ -39,9 +39,11 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
         }
     }
 
+    /**
+     * TODO - Should this single return a nullable TransportEntity instead of Error?
+     */
     override fun getTransport(transportEntityId: String): Single<TransportEntity> {
         return Single.defer {
-            // TODO - Should this single return a nullable TransportEntity instead of Error?
             Single.just(getFromSharedPrefs(transportEntityId)?.let { mapper.toEntity(it) }
                     ?: throw Throwable("Transport with id $transportEntityId not found")
             )
@@ -92,8 +94,10 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
         }
     }
 
+    /**
+     * TODO should improve this with coroutines
+     */
     private fun getAvailableSLot(): Slot? {
-        // TODO Improve this
         return when {
             getFromSharedPrefs(Slot.SAVE_SLOT_ONE) == null -> Slot.SAVE_SLOT_ONE
             getFromSharedPrefs(Slot.SAVE_SLOT_TWO) == null -> Slot.SAVE_SLOT_TWO
@@ -106,7 +110,9 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
         return sharedPreferences.getString(slot.name, null)
     }
 
-    // TODO Improve this
+    /**
+     * TODO should improve this with coroutines
+     */
     private fun getFromSharedPrefs(transportId: String): SharedPrefTransport? {
         val dataFromSlotOne = getFromSharedPrefs(Slot.SAVE_SLOT_ONE)?.let { mapper.fromCacheString(it) }
         if (dataFromSlotOne?.id == transportId) {
