@@ -1,15 +1,14 @@
 package com.joaquimley.transporteta.ui.home
 
 import android.Manifest
-import androidx.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.joaquimley.transporteta.R
-import com.joaquimley.transporteta.presentation.home.HomeViewModel
 import com.joaquimley.transporteta.presentation.home.HomeViewModelImpl
 import com.joaquimley.transporteta.ui.home.favorite.FavoritesFragment
 import dagger.android.AndroidInjection
@@ -20,14 +19,13 @@ import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector/*, BottomNavigationView.OnNavigationItemSelectedListener*/ {
 
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel by lazy {ViewModelProviders.of(this)[HomeViewModelImpl::class.java]}
     private val favouritesFragment = FavoritesFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        setupViewModel()
         if (hasReadSmsPermission().not()) {
             requestReadAndSendSmsPermission()
         }
@@ -40,11 +38,6 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector/*, BottomNa
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(R.id.fragment_container, fragment)
                 .commit()
-    }
-
-    private fun setupViewModel() {
-        // Create a HomeViewModelFactory to abstract the HomeViewModelImpl class
-        viewModel = ViewModelProviders.of(this).get(HomeViewModelImpl::class.java)
     }
 
     /**

@@ -15,10 +15,10 @@ import dagger.android.support.AndroidSupportInjectionModule
     AndroidSupportInjectionModule::class,
     MapperModule::class,
     ViewModelModule::class,
+    SmsControllerModule::class,
     RepositoryModule::class,
     DataStoreModule::class,
-    DataSourceModule::class,
-    SmsControllerModule::class
+    DataSourceModule::class
 ])
 interface AppComponent {
 

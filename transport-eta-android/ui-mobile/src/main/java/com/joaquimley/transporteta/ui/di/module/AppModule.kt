@@ -19,10 +19,10 @@ import dagger.Provides
  * Module used to provide application-level dependencies.
  */
 @Module(subcomponents = [
-    ControllerSubComponent::class,
-    DataSubComponent::class,
-    RepositorySubComponent::class,
-    ViewModelSubComponent::class
+//    ControllerSubComponent::class,
+//    DataSubComponent::class,
+//    RepositorySubComponent::class,
+//    ViewModelSubComponent::class
 ])
 class AppModule {
 

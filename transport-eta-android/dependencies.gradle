@@ -14,7 +14,7 @@ versions.javax_inject = "1"
 versions.javax_annotation = "1.0"
 
 // DI
-versions.dagger = "2.16"
+versions.dagger = "2.21"
 
 // Rx
 versions.rxjava2 = "2.1.3"
