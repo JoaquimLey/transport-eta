@@ -18,6 +18,6 @@ class PresentationTransportMapper {
     }
 
     fun toModel(from: TransportView): Transport {
-        return Transport(from.id, "", from.code, from.latestEta, from.isFavorite, from.type.name.toLowerCase())
+        return Transport(from.id ?: "", "", from.code, from.latestEta, from.isFavorite, from.type.name.toLowerCase())
     }
 }

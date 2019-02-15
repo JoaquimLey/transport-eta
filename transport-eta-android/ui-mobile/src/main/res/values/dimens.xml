@@ -6,7 +6,7 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="app_bar_height">220dp</dimen>
     <dimen name="list_bottom_padding_fab">80dp</dimen>
-    <dimen name="progress_bar_dimensions">220dp</dimen>
+    <dimen name="progress_bar_dimensions">80dp</dimen>
     <dimen name="default_dialog_corners">8dp</dimen>
 
     <!-- Bottom Navigation View -->

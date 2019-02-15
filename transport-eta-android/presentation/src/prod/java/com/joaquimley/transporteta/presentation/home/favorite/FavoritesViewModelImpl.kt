@@ -116,7 +116,7 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
 
     private fun fetchFavorites() {
         compositeDisposable.add(
-                getFavoritesUseCase.execute(null)
+                getFavoritesUseCase.execute()
                         .doOnSubscribe { favouritesLiveData.loading() }
                         .subscribe({
                             favouritesLiveData.success(mapper.toView(it))
