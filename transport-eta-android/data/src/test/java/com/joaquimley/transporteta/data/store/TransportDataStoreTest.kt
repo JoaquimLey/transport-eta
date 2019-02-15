@@ -9,6 +9,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 class TransportDataStoreTest {
@@ -29,23 +30,44 @@ class TransportDataStoreTest {
     }
 
     @Test
-    fun markAsFavoriteThrowsNotYetImplemented() {
+    fun markAsFavoriteCompletes() {
         // Assemble
-
+        val data = robot.stubFrameworkLocalStorageSaveTransportSuccess()
         // Act
-        val result = transportDataStore.markAsFavorite(TransportFactory.makeTransportEntity()).test()
+        val result = transportDataStore.markAsFavorite(data).test()
         // Assert
-        result.assertError(NotImplementedError::class.java)
+        result.assertComplete()
     }
 
     @Test
-    fun removeAsFavoriteThrowsNotYetImplemented() {
+    fun markAsFavoriteCorrectMethodOnSharedPreferences() {
         // Assemble
-
+        val data = robot.stubFrameworkLocalStorageSaveTransportSuccess()
         // Act
-        val result = transportDataStore.removeAsFavorite(TransportFactory.makeTransportEntity()).test()
+        transportDataStore.markAsFavorite(data).test()
         // Assert
-        result.assertError(NotImplementedError::class.java)
+        verify(mockFrameworkLocalStorage, atLeastOnce()).saveTransport(data)
+    }
+
+    @Test
+    fun removeAsFavoriteCompletes() {
+        // Assemble
+        val id = robot.stubFrameworkLocalStorageDeleteTransportSuccess()
+        // Act
+        val result = transportDataStore.removeAsFavorite(TransportFactory.makeTransportEntity(id = id)).test()
+        // Assert
+        result.assertComplete()
+    }
+
+
+    @Test
+    fun removeAsFavoriteCorrectMethodOnSharedPreferences() {
+        // Assemble
+        val id = robot.stubFrameworkLocalStorageDeleteTransportSuccess()
+        // Act
+        transportDataStore.removeAsFavorite(TransportFactory.makeTransportEntity(id = id)).test()
+        // Assert
+        verify(mockFrameworkLocalStorage, atLeastOnce()).deleteTransport(id)
     }
 
     @Test
@@ -100,14 +122,28 @@ class TransportDataStoreTest {
     }
 
 
-    @Test
-    fun clearAllFavoritesThrowsNotYetImplemented() {
-        // Assemble
 
+    @Test
+    fun clearAllFavoritesCompletes() {
+        // Assemble
+        robot.stubFrameworkLocalStorageClearAllTransportSuccess()
         // Act
-        val result = transportDataStore.clearAllFavorites().test()
+        val testObserver = transportDataStore.clearAllFavorites().test()
         // Assert
-        result.assertError(NotImplementedError::class.java)
+        testObserver.assertComplete()
+    }
+
+    /**
+     * Should use SharedPreferences for v1.0 only
+     */
+    @Test
+    fun clearAllFavoritesCorrectMethodOnFrameworkLocalStorage() {
+        // Assemble
+        robot.stubFrameworkLocalStorageClearAllTransportSuccess()
+        // Act
+        transportDataStore.clearAllFavorites().test()
+        // Assert
+        verify(mockFrameworkLocalStorage, times(1)).clearAll()
     }
 
     @Test
@@ -367,7 +403,16 @@ class TransportDataStoreTest {
             val throwable = Throwable(message)
             whenever(mockFrameworkLocalStorage.deleteTransport(any())).then { Completable.error(throwable) }
             return throwable
+        }
 
+        fun stubFrameworkLocalStorageClearAllTransportSuccess() {
+            whenever(mockFrameworkLocalStorage.clearAll()).then { Completable.complete() }
+        }
+
+        fun stubFrameworkLocalStorageClearAllTransportFails(message: String = DataFactory.randomUuid()): Throwable {
+            val throwable = Throwable(message)
+            whenever(mockFrameworkLocalStorage.clearAll()).then { Completable.error(throwable) }
+            return throwable
         }
     }
 
