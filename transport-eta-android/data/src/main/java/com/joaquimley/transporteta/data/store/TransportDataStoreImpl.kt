@@ -23,7 +23,7 @@ class TransportDataStoreImpl @Inject constructor(private val frameworkLocalStora
     }
 
     override fun getAllFavorites(): Flowable<List<TransportEntity>> {
-        return frameworkLocalStorage.getAll().toFlowable()
+        return frameworkLocalStorage.getAll()
     }
 
     override fun clearAllFavorites(): Completable {

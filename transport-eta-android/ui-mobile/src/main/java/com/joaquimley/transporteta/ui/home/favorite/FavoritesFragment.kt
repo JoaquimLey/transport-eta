@@ -176,7 +176,7 @@ class FavoritesFragment : Fragment() {
             val dialog = builder.create()
             dialog.show()
 
-//            val busStopTitleEditText: com.google.android.material.textfield.TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
+            val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
             val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
             busStopCodeEditText?.onChange { currentText ->
                 if (!TextUtils.isEmpty(currentText)) {
@@ -188,7 +188,7 @@ class FavoritesFragment : Fragment() {
                 if (TextUtils.isEmpty(busStopCodeEditText?.text)) {
                     busStopCodeEditText?.error = getString(R.string.error_create_favorite_code_required)
                 } else {
-                    viewModel.onMarkAsFavorite(TransportView(code = Integer.valueOf(busStopCodeEditText?.text.toString()), isFavorite = true), true)
+                    viewModel.onMarkAsFavorite(TransportView(id = System.currentTimeMillis().toString(), name = busStopTitleEditText?.text.toString(),  code = Integer.valueOf(busStopCodeEditText?.text.toString()), isFavorite = true), true)
                     dialog.dismiss()
                 }
             }

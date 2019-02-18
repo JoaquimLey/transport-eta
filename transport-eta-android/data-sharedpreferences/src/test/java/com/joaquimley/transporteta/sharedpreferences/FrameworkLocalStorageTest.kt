@@ -16,6 +16,13 @@ import kotlin.test.assertEquals
 
 class FrameworkLocalStorageTest {
 
+    // TODO -> These tests are missing
+    // Changes aren't being reactively sent
+    // DELETE Transport -> Slot is null so there is never a transport to be deleted
+    // DELETE Transport -> Save Transport is doesn't have a slot:facepalm:
+    // DELETE Transport -> Save Transport is saved with the FOUND slot
+
+
     private val robot = Robot()
 
     private val mockSharedPreferencesEditor = mock<SharedPreferences.Editor>()

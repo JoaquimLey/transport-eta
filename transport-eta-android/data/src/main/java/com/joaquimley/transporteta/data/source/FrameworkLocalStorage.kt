@@ -2,6 +2,7 @@ package com.joaquimley.transporteta.data.source
 
 import com.joaquimley.transporteta.data.model.TransportEntity
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Single
 
 interface FrameworkLocalStorage {
@@ -12,7 +13,7 @@ interface FrameworkLocalStorage {
 
     fun getTransport(transportEntityId: String): Single<TransportEntity>
 
-    fun getAll(): Single<List<TransportEntity>>
+    fun getAll(): Flowable<List<TransportEntity>>
 
     fun clearAll(): Completable
 }

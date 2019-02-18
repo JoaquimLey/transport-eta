@@ -5,9 +5,11 @@ import com.joaquimley.transporteta.data.model.TransportEntity
 import com.joaquimley.transporteta.data.source.FrameworkLocalStorage
 import com.joaquimley.transporteta.sharedpreferences.mapper.SharedPrefTransportMapper
 import com.joaquimley.transporteta.sharedpreferences.model.SharedPrefTransport
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,18 +17,27 @@ import javax.inject.Singleton
 class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreferences: SharedPreferences,
                                                     private val mapper: SharedPrefTransportMapper) : FrameworkLocalStorage {
 
+    private val data: BehaviorSubject<List<TransportEntity>> = BehaviorSubject.create()
 
-    private val data = HashMap<Slot, SharedPrefTransport?>()
-    private val sharedPreferencesObservable: PublishSubject<List<TransportEntity>> = PublishSubject.create()
+//        observeSharedPreferencesChanges()
+//    private fun observeSharedPreferencesChanges() {
+//        val sharedPreferencesObserver = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+//            Log.e("loadAll", "something changed on $key")
+//            emitLatestData()
+//        }
+//
+//        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferencesObserver)
+//    }
 
     init {
-        loadAll()
-        observeSharedPreferencesChanges()
+        emitLatestData()
     }
 
     override fun saveTransport(transportEntity: TransportEntity): Completable {
         return Completable.fromAction {
-            if (saveToSharedPrefs(mapper.toSharedPref(transportEntity)).not()) {
+            if (saveToSharedPrefs(mapper.toSharedPref(transportEntity))) {
+                emitLatestData()
+            } else {
                 throw Throwable("All slots filled")
             }
         }
@@ -34,8 +45,13 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
 
     override fun deleteTransport(transportEntityId: String): Completable {
         return Completable.fromAction {
-            getFromSharedPrefs(transportEntityId)?.let { removeFromSharedPreferences(it.slot) }
-                    ?: throw Throwable("No transport found")
+            getFromSharedPrefs(transportEntityId)?.let {
+                if (removeFromSharedPreferences(it.slot)) {
+                    emitLatestData()
+                }
+            } ?: run {
+                throw Throwable("No transport found with id $transportEntityId")
+            }
         }
     }
 
@@ -50,10 +66,8 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
         }
     }
 
-    override fun getAll(): Single<List<TransportEntity>> {
-        return Single.defer {
-            Single.just(loadAll())
-        }
+    override fun getAll(): Flowable<List<TransportEntity>> {
+        return data.toFlowable(BackpressureStrategy.LATEST)
     }
 
     override fun clearAll(): Completable {
@@ -64,34 +78,41 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
         }
     }
 
-    private fun observeSharedPreferencesChanges() {
-        sharedPreferences.registerOnSharedPreferenceChangeListener { _, _ ->
-            sharedPreferencesObservable.onNext(loadAll())
-        }
+    private fun emitLatestData() {
+        data.onNext(loadDataFromSharedPreferences())
     }
 
-    private fun loadAll(): List<TransportEntity> {
-        getFromSharedPrefs(Slot.SAVE_SLOT_ONE)?.let { data[Slot.SAVE_SLOT_ONE] = mapper.fromCacheString(it) }
-        getFromSharedPrefs(Slot.SAVE_SLOT_TWO)?.let { data[Slot.SAVE_SLOT_TWO] = mapper.fromCacheString(it) }
-        getFromSharedPrefs(Slot.SAVE_SLOT_THREE)?.let { data[Slot.SAVE_SLOT_THREE] = mapper.fromCacheString(it) }
-        return data.values.filterNotNull().map { mapper.toEntity(it) }
+    private fun loadDataFromSharedPreferences(): List<TransportEntity> {
+        return mutableListOf<TransportEntity>().apply {
+            getFromSharedPrefs(Slot.SAVE_SLOT_ONE)?.let { mapper.fromCacheString(it) }?.let {
+                add(mapper.toEntity(it))
+            }
+            getFromSharedPrefs(Slot.SAVE_SLOT_TWO)?.let { mapper.fromCacheString(it) }?.let {
+                add(mapper.toEntity(it))
+            }
+
+            getFromSharedPrefs(Slot.SAVE_SLOT_THREE)?.let { mapper.fromCacheString(it) }?.let {
+                add(mapper.toEntity(it))
+            }
+        }
     }
 
     private fun saveToSharedPrefs(sharedPrefTransport: SharedPrefTransport): Boolean {
         return getAvailableSLot()?.let {
             sharedPreferences.edit()
-                    .putString(it.name, mapper.toCacheString(sharedPrefTransport))
+                    .putString(it.name, mapper.toCacheString(sharedPrefTransport.apply { slot = it }))
                     .apply()
             true
         } ?: false
     }
 
-    private fun removeFromSharedPreferences(slot: Slot?) {
-        slot?.let {
+    private fun removeFromSharedPreferences(slot: Slot?): Boolean {
+        return slot?.let {
             sharedPreferences.edit()
                     .remove(it.name)
                     .apply()
-        }
+            true
+        } ?: false
     }
 
     /**

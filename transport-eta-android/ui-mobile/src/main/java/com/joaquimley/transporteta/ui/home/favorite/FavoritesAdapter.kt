@@ -62,9 +62,8 @@ class FavoritesAdapter(val listener: Listener)
 //                itemView.eta_button.alpha = if (it) 1.0f else 0.3f
 //            }
 
-            itemView.setOnLongClickListener {
-                listener.onLongClick(transportView)
-                true
+            itemView.card_view.setOnLongClickListener {
+                listener.onLongClick(transportView);true
             }
 
             itemView.eta_button.setOnClickListener {

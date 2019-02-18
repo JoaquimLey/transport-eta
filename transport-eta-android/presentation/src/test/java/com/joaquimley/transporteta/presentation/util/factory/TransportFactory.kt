@@ -29,7 +29,7 @@ object TransportFactory {
 
 
     fun makeTransportView(isFavorite: Boolean = false, type: TransportView.Type = TransportView.Type.BUS): TransportView {
-        return TransportView(randomUuid(), randomInt(), randomUuid(), isFavorite, type)
+        return TransportView(randomUuid(), randomUuid(), randomInt(), randomUuid(), isFavorite, type)
     }
 
     fun makeTransportViewList(count: Int, isFavorite: Boolean = false, type: TransportView.Type = TransportView.Type.BUS): List<TransportView> {
