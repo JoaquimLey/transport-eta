@@ -13,19 +13,22 @@ class TransportDataStoreImpl @Inject constructor(private val frameworkLocalStora
     : TransportDataStore {
 
     override fun markAsFavorite(transportEntity: TransportEntity): Completable {
-        return Completable.error(NotImplementedError("Won't be ready for v1.0"))
+//        return Completable.error(NotImplementedError("Won't be ready for v1.0"))
+        return saveTransport(transportEntity)
     }
 
     override fun removeAsFavorite(transportEntity: TransportEntity): Completable {
-        return Completable.error(NotImplementedError("Won't be ready for v1.0"))
+//        return Completable.error(NotImplementedError("Won't be ready for v1.0"))
+        return deleteTransport(transportEntity.id)
     }
 
     override fun getAllFavorites(): Flowable<List<TransportEntity>> {
-        return frameworkLocalStorage.getAll().toFlowable()
+        return frameworkLocalStorage.getAll()
     }
 
     override fun clearAllFavorites(): Completable {
-        return Completable.error(NotImplementedError("Won't be ready for v1.0"))
+//        return Completable.error(NotImplementedError("Won't be ready for v1.0"))
+        return frameworkLocalStorage.clearAll()
     }
 
     override fun saveTransport(transportEntity: TransportEntity): Completable {
@@ -41,7 +44,7 @@ class TransportDataStoreImpl @Inject constructor(private val frameworkLocalStora
     }
 
     override fun getAll(): Flowable<List<TransportEntity>> {
-        return frameworkLocalStorage.getAll().toFlowable()
+        return getAllFavorites()
     }
 
     // TODO Should these be in the [SmSController] instead?  [RequestEtaUseCase]

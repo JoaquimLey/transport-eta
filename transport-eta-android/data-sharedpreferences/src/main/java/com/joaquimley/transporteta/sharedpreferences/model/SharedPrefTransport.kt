@@ -6,4 +6,4 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SharedPrefTransport(val id: String, val name: String, val code: Int, val latestEta: String,
                                val isFavorite: Boolean = false, val type: String, val lastUpdated: String,
-                               val slot: FrameworkLocalStorageImpl.Slot? = null)
+                               var slot: FrameworkLocalStorageImpl.Slot? = null)

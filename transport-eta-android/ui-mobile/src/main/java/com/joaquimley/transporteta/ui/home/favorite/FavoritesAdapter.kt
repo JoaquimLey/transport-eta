@@ -11,7 +11,7 @@ import com.joaquimley.transporteta.presentation.model.TransportView
 import com.joaquimley.transporteta.ui.util.extensions.load
 import kotlinx.android.synthetic.main.item_favorite.view.*
 
-class FavoritesAdapter(private val clickListener: (TransportView) -> Unit)
+class FavoritesAdapter(val listener: Listener)
     : ListAdapter<TransportView, androidx.recyclerview.widget.RecyclerView.ViewHolder>(FavoriteViewDiffCallback()) {
 
     override fun getItemViewType(position: Int): Int {
@@ -62,8 +62,12 @@ class FavoritesAdapter(private val clickListener: (TransportView) -> Unit)
 //                itemView.eta_button.alpha = if (it) 1.0f else 0.3f
 //            }
 
+            itemView.card_view.setOnLongClickListener {
+                listener.onLongClick(transportView);true
+            }
+
             itemView.eta_button.setOnClickListener {
-                clickListener(transportView)
+                listener.onRequestSmsButtonTapped(transportView)
             }
         }
     }
@@ -81,5 +85,10 @@ class FavoritesAdapter(private val clickListener: (TransportView) -> Unit)
         override fun areContentsTheSame(oldItem: TransportView, newItem: TransportView): Boolean {
             return oldItem == newItem
         }
+    }
+
+    interface Listener{
+        fun onRequestSmsButtonTapped(transportView: TransportView)
+        fun onLongClick(transportView: TransportView)
     }
 }

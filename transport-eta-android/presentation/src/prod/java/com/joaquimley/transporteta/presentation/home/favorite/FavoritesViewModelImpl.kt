@@ -73,7 +73,6 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
                             acceptingRequestsLiveData.postValue(true)
                         }, {
                             // TODO handle request error
-
                             acceptingRequestsLiveData.postValue(true)
                         })
         )
@@ -99,6 +98,7 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
         } else {
             markTransportAsNoFavoriteUseCase.execute(mapper.toModel(transportView))
         }.subscribe({
+
             // TODO Do something when done, update uiModel or should the repository do that?
         }, {
             // TODO Handle error
@@ -116,7 +116,7 @@ internal class FavoritesViewModelImpl(getFavoritesUseCase: GetFavoritesUseCase,
 
     private fun fetchFavorites() {
         compositeDisposable.add(
-                getFavoritesUseCase.execute(null)
+                getFavoritesUseCase.execute()
                         .doOnSubscribe { favouritesLiveData.loading() }
                         .subscribe({
                             favouritesLiveData.success(mapper.toView(it))

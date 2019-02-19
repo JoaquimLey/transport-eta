@@ -69,6 +69,7 @@ class PresentationTransportMapperTest {
 
         fun areItemsTheSame(transport: Transport, transportView: TransportView): Boolean {
             return transport.id == transportView.id &&
+                    transport.name == transportView.name &&
                     transport.code == transportView.code &&
                     transport.latestEta == transportView.latestEta &&
                     transport.isFavorite == transportView.isFavorite &&

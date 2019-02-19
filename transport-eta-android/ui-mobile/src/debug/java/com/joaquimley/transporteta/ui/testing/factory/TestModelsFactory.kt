@@ -7,7 +7,7 @@ import com.joaquimley.transporteta.presentation.model.TransportView
 object TestModelsFactory {
 
     fun generateFavoriteView(busStopCode: Int? = null): TransportView {
-        return TransportView(DataFactory.randomString(), busStopCode  ?: DataFactory.randomInt(),
+        return TransportView(DataFactory.randomString(), DataFactory.randomString(), busStopCode  ?: DataFactory.randomInt(),
                 DataFactory.randomString(), true, TransportView.Type.BUS)
     }
 

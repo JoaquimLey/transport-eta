@@ -44,7 +44,7 @@ class FavoritesFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?):
-            // TODO Inspiration for UI https://www.behance.net/gallery/69860023/Bust-app
+    // TODO Inspiration for UI https://www.behance.net/gallery/69860023/Bust-app
             View = inflater.inflate(R.layout.fragment_favourites, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,8 +70,8 @@ class FavoritesFragment : Fragment() {
 
     private fun observeFavourites() {
         viewModel.getFavorites().observe(this,
-                Observer { transportList ->
-                    transportList?.let { handleDataState(it.status, it.data, it.message) }
+                Observer { data ->
+                    data?.let { handleDataState(it.status, it.data, it.message) }
                 })
     }
 
@@ -119,8 +119,8 @@ class FavoritesFragment : Fragment() {
             message_view?.setVisible(true)
         } else {
             message?.let {
-                com.google.android.material.snackbar.Snackbar.make(favorites_fragment_container, it, LENGTH_LONG)
-                        .setAction(R.string.action_retry) { _ -> viewModel.onRefresh() }
+                Snackbar.make(favorites_fragment_container, it, LENGTH_LONG)
+                        .setAction(R.string.action_retry) { viewModel.onRefresh() }
                         .show()
             }
         }
@@ -137,11 +137,20 @@ class FavoritesFragment : Fragment() {
     private fun setupRecyclerView() {
         recycler_view?.setHasFixedSize(true)
         recycler_view?.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        adapter = FavoritesAdapter { viewModel.onEtaRequested(it) }
+        adapter = FavoritesAdapter(object : FavoritesAdapter.Listener {
+            override fun onRequestSmsButtonTapped(transportView: TransportView) {
+                viewModel.onEtaRequested(transportView)
+            }
+
+            override fun onLongClick(transportView: TransportView) {
+                viewModel.onMarkAsFavorite(transportView, false)
+            }
+        })
+
         recycler_view?.adapter = adapter
         recycler_view?.addBottomPaddingDecoration()
-        recycler_view.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
+        recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 when (newState) {
                     RecyclerView.SCROLL_STATE_DRAGGING -> fab.hide()
@@ -167,7 +176,7 @@ class FavoritesFragment : Fragment() {
             val dialog = builder.create()
             dialog.show()
 
-//            val busStopTitleEditText: com.google.android.material.textfield.TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
+            val busStopTitleEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_title_edit_text)
             val busStopCodeEditText: TextInputEditText? = dialog.findViewById(R.id.favorite_code_edit_text)
             busStopCodeEditText?.onChange { currentText ->
                 if (!TextUtils.isEmpty(currentText)) {
@@ -178,6 +187,9 @@ class FavoritesFragment : Fragment() {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { _ ->
                 if (TextUtils.isEmpty(busStopCodeEditText?.text)) {
                     busStopCodeEditText?.error = getString(R.string.error_create_favorite_code_required)
+                } else {
+                    viewModel.onMarkAsFavorite(TransportView(id = System.currentTimeMillis().toString(), name = busStopTitleEditText?.text.toString(),  code = Integer.valueOf(busStopCodeEditText?.text.toString()), isFavorite = true), true)
+                    dialog.dismiss()
                 }
             }
 

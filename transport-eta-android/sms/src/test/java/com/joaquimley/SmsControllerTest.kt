@@ -17,14 +17,14 @@ class SmsControllerTest {
 
     private val robot = Robot()
     private val mockSmsBroadcastReceiver = mock<SmsBroadcastReceiver>()
-    private val mockSmsManager = mock<SmsSender>()
+    private val mockSmsSender = mock<SmsSender>()
 
     private lateinit var smsController: SmsController
 
     @Before
     fun setup() {
         robot.stubSmsBroadcastReceiverSuccess()
-        smsController = SmsControllerImpl(mockSmsBroadcastReceiver, mockSmsManager)
+        smsController = SmsControllerImpl(mockSmsBroadcastReceiver, mockSmsSender)
     }
 
     @After

@@ -10,7 +10,7 @@ class PresentationTransportMapper {
     }
 
     fun toView(from: Transport): TransportView {
-        return TransportView(from.id, from.code, from.latestEta, from.isFavorite, TransportView.Type.valueOf(from.type.toUpperCase()))
+        return TransportView(from.id, from.name, from.code, from.latestEta, from.isFavorite, TransportView.Type.valueOf(from.type.toUpperCase()))
     }
 
     fun toModel(from: List<TransportView>): List<Transport> {
@@ -18,6 +18,6 @@ class PresentationTransportMapper {
     }
 
     fun toModel(from: TransportView): Transport {
-        return Transport(from.id, "", from.code, from.latestEta, from.isFavorite, from.type.name.toLowerCase())
+        return Transport(from.id ?: "", from.name ?: "", from.code, from.latestEta, from.isFavorite, from.type.name.toLowerCase())
     }
 }
