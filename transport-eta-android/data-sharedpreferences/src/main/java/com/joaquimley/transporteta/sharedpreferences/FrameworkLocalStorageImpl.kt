@@ -13,6 +13,12 @@ import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Attention any one looking at this from GitHub! This code needs to be cleaned up/refactored the
+ * functionality to external consumers will remain the same but there's still a lot of experimentation
+ * being done, fixing tests etc.
+ * After this implementation is stable I'll remove this notice.
+ */
 @Singleton
 class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreferences: SharedPreferences,
                                                     private val mapper: SharedPrefTransportMapper) : FrameworkLocalStorage {
@@ -67,6 +73,7 @@ class FrameworkLocalStorageImpl @Inject constructor(private val sharedPreference
     }
 
     override fun getAll(): Flowable<List<TransportEntity>> {
+        emitLatestData()
         return data.toFlowable(BackpressureStrategy.LATEST)
     }
 

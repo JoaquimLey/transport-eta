@@ -6,6 +6,7 @@ import com.joaquimley.transporteta.data.model.TransportEntity
 import com.joaquimley.transporteta.data.source.FrameworkLocalStorage
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Single
 import org.junit.After
 import org.junit.Before
@@ -362,13 +363,13 @@ class TransportDataStoreTest {
     inner class Robot {
 
         fun stubFrameworkLocalStorageGetAllSuccess(transportEntityList: List<TransportEntity> = TransportFactory.makeTransportEntityList(5)): List<TransportEntity> {
-            whenever(mockFrameworkLocalStorage.getAll()).then { Single.just(transportEntityList) }
+            whenever(mockFrameworkLocalStorage.getAll()).then { Flowable.just(transportEntityList) }
             return transportEntityList
         }
 
         fun stubFrameworkLocalStorageGetAllFails(message: String = DataFactory.randomUuid()): Throwable {
             val throwable = Throwable(message)
-            whenever(mockFrameworkLocalStorage.getAll()).then { Single.error<Throwable>(throwable) }
+            whenever(mockFrameworkLocalStorage.getAll()).then { Flowable.error<Throwable>(throwable) }
             return throwable
         }
 
