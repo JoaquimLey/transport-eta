@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'jacoco-android'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
@@ -36,10 +37,14 @@ android {
         }
     }
 
-    // Always show the result of every unit test, even if it passes.
     testOptions {
         execution 'ANDROID_TEST_ORCHESTRATOR'
         unitTests.all {
+            //Enable the coverage report for unit test
+            jacoco {
+                includeNoLocationClasses = true
+            }
+            // Always show the result of every unit test, even if it passes.
             testLogging {
                 events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
             }
