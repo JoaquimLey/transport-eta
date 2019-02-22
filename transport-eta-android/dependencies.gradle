@@ -7,8 +7,8 @@ def versions = [:]
 
 // Plugins
 versions.kotlin = "1.3.10"
+versions.jacoco_version = '0.8.3'
 versions.android_gradle_plugin = '3.3.1'
-versions.jacoco_android_version = '0.1.2'
 
 // Javax
 versions.javax_inject = "1"
@@ -68,8 +68,8 @@ versions.dexmaker_linkedin_inline = "2.19.0"
 
 def deps = [:]
 
+deps.jacoco_plugin = "org.jacoco:org.jacoco.core:$versions.jacoco_version"
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
-deps.jacoco_android_plugin = "com.dicedmelon.gradle:jacoco-android:$versions.jacoco_android_version"
 
 def androidx = [:]
 androidx.slice = "androidx.slice:slice-view:$versions.slice"

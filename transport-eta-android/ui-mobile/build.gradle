@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco-android'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'androidx.navigation.safeargs'
+
+apply from: '../config/jacoco.gradle'
 
 android {
     compileSdkVersion build_versions.compile_sdk
@@ -39,11 +39,9 @@ android {
 
     testOptions {
         execution 'ANDROID_TEST_ORCHESTRATOR'
+        animationsDisabled true
+
         unitTests.all {
-            //Enable the coverage report for unit test
-            jacoco {
-                includeNoLocationClasses = true
-            }
             // Always show the result of every unit test, even if it passes.
             testLogging {
                 events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
