@@ -14,8 +14,8 @@ import dagger.android.support.AndroidSupportInjectionModule
 
 @Component(modules = [
     TestAppModule::class,
-    TestActivityBindingModule::class,
     SmsControllerModule::class,
+    TestActivityBindingModule::class,
     AndroidSupportInjectionModule::class
 ])
 @PerApplication

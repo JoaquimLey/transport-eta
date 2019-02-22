@@ -1,16 +1,13 @@
-<img alt="Icon" src="art/readme_logo.png?raw=true" align="left" hspace="1" vspace="1">
+<img alt="Icon" href='#' src="art/readme_logo.png?raw=true" align="left" hspace="1" vspace="1">
 
-<a alt='Watch the Stream' href='https://discordapp.com/invite/yJuJ6mB' target='_blank' align='left'><img align='right' height='50' style='border:0px;height:50px;' src='art/follow_me_twitch_badge.png?v=0' border='0' /></a>
+<a alt='Watch the Stream' href='https://discord.gg/zsTQjGx' target='_blank' align='left'><img align='right' height='50' style='border:0px;height:50px;' src='art/follow_me_twitch_badge.png?v=0' border='0' /></a>
 
 <a alt='Watch the Stream' href='https://twitch.tv/joaquimley' target='_blank' align='left'><img align='right' height='50' style='border:0px;height:50px;' src='art/join_discord.png?v=0' border='0' /></a>
-
-<a alt='Available soon' align='left'><img align='right' height='36' style='border:0px;height:36px;' src='art/googleplay_soon.png?v=0' border='0' /></a>
 
 # Transport ETA
 
 ![compileSdkVersion 28](https://img.shields.io/badge/compileSdkVersion-28-green.svg?style=true)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/89cabee449d648929f147e30815366b9)](https://www.codacy.com/app/joaquimley_3319/transport-eta?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JoaquimLey/transport-eta&amp;utm_campaign=Badge_Grade)
-[![codecov](https://codecov.io/gh/JoaquimLey/transport-eta/branch/develop/graph/badge.svg)](https://codecov.io/gh/JoaquimLey/transport-eta)
 [![Build Status](https://app.bitrise.io/app/f75916759d698e6e/status.svg?token=nCaNQBZcMNPMckWWwn8Gxg&branch=develop)](https://app.bitrise.io/app/f75916759d698e6e)
 
 An utility app using an SMS based service (or the web) to request a more precise ETA of a publc-transport (Bus, Metro etc.) to a specific station, currently implementing for Lisbon 🇵🇹, but the idea is to scale up to any other cities around the world that provide the same kind of service(s).

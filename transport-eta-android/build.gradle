@@ -3,7 +3,7 @@ buildscript {
     apply from: './dependencies.gradle'
     addRepos(repositories)
     dependencies {
-        classpath deps.jacoco_plugin
+//        classpath deps.jacoco_plugin
         classpath deps.kotlin.gradle_plugin
         classpath deps.android_gradle_plugin
         classpath deps.kotlin.serialization_plugin
