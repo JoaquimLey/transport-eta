@@ -1,8 +1,8 @@
 <img alt="Icon" href='#' src="art/readme_logo.png?raw=true" align="left" hspace="1" vspace="1">
 
-<a alt='Watch the Stream' href='https://discord.gg/zsTQjGx' target='_blank' align='left'><img align='right' height='50' style='border:0px;height:50px;' src='art/follow_me_twitch_badge.png?v=0' border='0' /></a>
+<a alt='Watch the Stream' href='https://twitch.tv/joaquimley' target='_blank' align='left'><img align='right' height='50' style='border:0px;height:50px;' src='art/follow_me_twitch_badge.png?v=0' border='0' /></a>
 
-<a alt='Watch the Stream' href='https://twitch.tv/joaquimley' target='_blank' align='left'><img align='right' height='50' style='border:0px;height:50px;' src='art/join_discord.png?v=0' border='0' /></a>
+<a alt='Watch the Stream' href='https://discord.gg/zsTQjGx' target='_blank' align='left'><img align='right' height='50' style='border:0px;height:50px;' src='art/join_discord.png?v=0' border='0' /></a>
 
 # Transport ETA
 
