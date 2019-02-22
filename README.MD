@@ -8,10 +8,10 @@
 
 # Transport ETA
 
-![latest release](https://img.shields.io/badge/playstore-unreleased-lightgrey.svg?style=true)
 ![compileSdkVersion 28](https://img.shields.io/badge/compileSdkVersion-28-green.svg?style=true)
-[![Build Status](https://app.bitrise.io/app/f75916759d698e6e/status.svg?token=nCaNQBZcMNPMckWWwn8Gxg&branch=develop)](https://app.bitrise.io/app/f75916759d698e6e)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/89cabee449d648929f147e30815366b9)](https://www.codacy.com/app/joaquimley_3319/transport-eta?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JoaquimLey/transport-eta&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/JoaquimLey/transport-eta/branch/develop/graph/badge.svg)](https://codecov.io/gh/JoaquimLey/transport-eta)
+[![Build Status](https://app.bitrise.io/app/f75916759d698e6e/status.svg?token=nCaNQBZcMNPMckWWwn8Gxg&branch=develop)](https://app.bitrise.io/app/f75916759d698e6e)
 
 An utility app using an SMS based service (or the web) to request a more precise ETA of a publc-transport (Bus, Metro etc.) to a specific station, currently implementing for Lisbon 🇵🇹, but the idea is to scale up to any other cities around the world that provide the same kind of service(s).
 
